@@ -100,6 +100,21 @@
     </java>
   </target>
 
+  <target name="test-auth" depends="compile-sample" description="Run the authentication tester">
+    <java classname="com.google.orkut.client.sample.TestOrkutAuth">
+      <arg value="${path.sample}/oauth.properties"/>
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
   <target name="run-all-samples" depends="compile-sample" description="Run the sample app for all APIs. Needs whitelisting.">
     <java classname="com.google.orkut.client.sample.OrkutSample">
       <arg value="${path.sample}/oauth.properties"/>
