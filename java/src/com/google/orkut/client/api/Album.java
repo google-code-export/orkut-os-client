@@ -316,4 +316,12 @@ public class Album {
   JSONObject getJson() {
     return json;
   }
+
+  void setNumPhotos(int count) {
+    Util.putJsonValue(json, Fields.MEDIA_ITEM_COUNT, count);
+  }
+
+  void setThumbnailUrl(String url) {
+    Util.putJsonValue(json, Fields.THUMBNAIL_URL, url);
+  }
 }

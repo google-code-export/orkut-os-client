@@ -142,16 +142,20 @@
 
   <target name="test" depends="compile" description="Run JUnit test suites">
     <junit printsummary="false" haltonfailure="true">
-      <formatter type="brief" usefile="false" />
-      <batchtest>
-        <fileset dir="${path.build}" includes="**/*Test.class" />
-      </batchtest>
+      <formatter type="brief" usefile="false" />    	
       <classpath>
+        <pathelement path="${path.build}"/>
         <fileset dir="${path.lib}">
           <include name="*.jar"/>
         </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
       </classpath>
       <classpath location="${path.build}"/>
+      <batchtest>
+        <fileset dir="${path.build}" includes="**/*Test.class" />
+      </batchtest>
     </junit>
   </target>
 
