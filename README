@@ -1,0 +1,88 @@
+Orkut Client Library
+--------------------
+
+The orkut client library allows access to read and update orkut's social data. The client library is "experimental" at present and may change in the future.
+You can download the latest version of the client library from http://code.google.com/p/orkut-os-client/
+Checkout the latest javadoc for this project at http://orkut-os-client.googlecode.com/hg/java/doc
+
+
+Requirements
+------------
+* ant
+  If typing ant on the command-line throws errors, try:
+  sudo apt-get install ant  # (on debian systems)
+  or get the latest version of ant from http://ant.apache.org/
+* java development kit (JDK)
+  This library has been built and run on Java 1.5 (J2SE 5.0) and
+  on Java 1.6 (JDK 6). YMMV across different Java versions. You can
+  get the latest and greatest versions of JDK from http://java.sun.com/
+
+Steps to Build
+--------------
+  # (Only if you don't have ant)
+  sudo apt-get install ant
+
+  cd java/
+  ant
+
+  make sure there are no build error.s
+
+Steps to run sample app
+-----------------------
+  cd java/ # if you're not in java/ already from the build steps
+  ant run-sample
+
+  The sample app should open a browser window where it'll ask your permission
+  to allow access to orkut data. Following this, the sample app with request
+  and print a list of orkut friends.
+
+Where to get oauth keys?
+------------------------
+http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
+
+Once you register your site you will get a consumer key and a consumer secret.
+The consumer key is usually your site url, e.g. "my.site.com", while the
+consume secret is a cryptographically secure random string e.g. "Masdsadl213mzza0Y/l"
+
+Where to configure those keys for the samples?
+----------------------------------------------
+  The oauth related details are stored in file java/sample/oauth.properties
+
+  Edit the file and enter the consumer key and secret in there. Leave everything
+  else untouched.
+
+  consumerSecret=<your-app-consumer-secret>
+  consumerKey=<your-app-consumer-key>
+
+  Now if you run the samples again it should use your applications credentials.
+
+More sample apps
+----------------
+Take a look at code in java/sample/sample-src/com/google/orkut/client/sample/
+
+Note: For the moment, you need to be whitelisted to run the sample apps.
+Go to http://code.google.com/p/orkut-os-client/ for more info. You may run the
+other samples after updating java/sample/oauth.properties by:
+  ant run-all-samples
+
+Building Documentation
+----------------------
+
+In java/ directory, issue the command
+
+  ant javadoc
+
+Documentation will be generated in java/doc.
+
+Building the client library jar
+-------------------------------
+
+In java/ directory, issue the command
+
+  ant dist
+
+This builds the client library in java/dist/lib/.
+
+Enjoy!
+The orkut team
+
