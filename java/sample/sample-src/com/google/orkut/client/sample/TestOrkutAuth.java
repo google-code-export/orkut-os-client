@@ -40,7 +40,7 @@ public class TestOrkutAuth {
     if (!answerCaptcha.hasError()) {
       System.out.println("*** Authentication PASSED ***");
     } else {
-      System.out.println("FAILED");
+      System.out.println("Operation FAILED");
     }
   }
   
@@ -52,7 +52,7 @@ public class TestOrkutAuth {
     try {
       new TestOrkutAuth(args[0]).run();
     } catch (Exception ope) {
-      System.out.println("Authentical FAILED");
+      System.out.println("Authentication FAILED");
       throw ope;
     }
   }
