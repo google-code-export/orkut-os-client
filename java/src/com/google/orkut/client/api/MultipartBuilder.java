@@ -18,14 +18,16 @@ package com.google.orkut.client.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
 
 /**
+ * Builds a multi-part HTTP request.
  * 
  * @author Sachin Shenoy
  */
 class MultipartBuilder {
 
+  private static final String UTF_8 = "UTF-8";
   private static final String MULTIPART_FORM_DATA = "multipart/form-data; boundary=";
   private static final byte[] FIELD_PARAM = getUtf8("Content-Disposition: form-data; name=");
   private static final byte[] FILE_PARAM = getUtf8("; filename=");
@@ -46,7 +48,12 @@ class MultipartBuilder {
   }
 
   private static byte[] getUtf8(String value) {
-    return value.getBytes(Charset.forName("UTF-8"));
+    try {
+      return value.getBytes(UTF_8);
+    } catch (UnsupportedEncodingException e) {
+      // cannot encode this as utf8? - this should not happen!
+      throw new RuntimeException("Cannot convert string to UTF8", e);
+    }
   }
 
   public MultipartBuilder addField(String name, String value) throws IOException {
