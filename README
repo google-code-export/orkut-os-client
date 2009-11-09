@@ -26,7 +26,7 @@ Checkout the latest javadoc for this project at http://orkut-os-client.googlecod
   cd java/
   ant
 
-  make sure there are no build error.s
+  make sure there are no build errors.
 
 3. Get OAuth keys for your app 
 ------------------------------
@@ -38,7 +38,7 @@ Checkout the latest javadoc for this project at http://orkut-os-client.googlecod
   http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
 
   The consumer key is usually your site url, e.g. "my.site.com", while the
-  consume secret is a cryptographically secure random string e.g. "Masdsadl213mzza0Y/l"
+  consumer secret is a cryptographically secure random string e.g. "Masdsadl213mzza0Y/l"
 
 4. Install the keys for use by sample app 
 -----------------------------------------
@@ -50,20 +50,20 @@ Checkout the latest javadoc for this project at http://orkut-os-client.googlecod
   consumerSecret=<your-app-consumer-secret>
   consumerKey=<your-app-consumer-key>
 
-  to test if your keys are valid, and every thing is fine run the following
+  to test if your keys are valid and everything is fine, run the following
   command from your console.
 
   cd java/
   ant test-auth
 
-  This would open an OAuth flow, by opening a browser window. Once you are through
-  that flow, you should see this messsage on the consule.
+  This would open an OAuth flow, by opening a browser window. Once you are
+  through that flow, you should see this messsage on the consule.
 
   "*** Authentication PASSED ***"
 
-  If you see that then you are ready to run other samples. On the other hand, if
-  you see a stack trace, or some other error message, then 3-legged oauth
-  authentication failed.
+  If you see the above message, then you are ready to run other samples. On the
+  other hand, if you see a stack trace, or some other error message, then
+  3-legged oauth authentication failed.
 
 5. Steps to run sample app
 --------------------------
@@ -76,7 +76,7 @@ Checkout the latest javadoc for this project at http://orkut-os-client.googlecod
   ant run-sample
 
   The sample app should open a browser window where it'll ask your permission
-  to allow access to orkut data. Following this, the sample app with request
+  to allow access to orkut data. Following this, the sample app will request
   and print a list of orkut friends.
 
 6. More sample apps
