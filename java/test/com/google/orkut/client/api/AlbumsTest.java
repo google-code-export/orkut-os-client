@@ -22,27 +22,41 @@ public class AlbumsTest extends TestCase {
   private static final String OAUTH_PROPS_FILE = "sample/oauth.properties";
 
   private AlbumsTxFactory factory;
-  private Map<String, Album> fixedAlbumsMap;
+  private Map<String, Album> selfAlbumsMap;
+  private Map<String, Album> johnsAlbumsMap;
 
   private Transport transport;
+  private static final String ID_JOHN_DOE = "12658990920245756486";
 
   public void testGetPhotos() throws Exception {
     GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
-    assertEquals(fixedAlbumsMap.size(), albumsTx.getAlbumCount());
+    assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
 
     for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
       Album album = albumsTx.getAlbum(i);
-      assertAlbumEquals(album, fixedAlbumsMap.get(album.getId()));
+      assertAlbumEquals(album, selfAlbumsMap.get(album.getId()));
+    }
+  }
+
+  public void testGetPhotosOfJohn() throws Exception {
+    GetAlbumsTx albumsTx = factory.getAlbums(ID_JOHN_DOE);
+    albumsTx.setCount(MAX_COUNT);
+    transport.add(albumsTx).run();
+    assertEquals(johnsAlbumsMap.size(), albumsTx.getAlbumCount());
+
+    for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
+      Album album = albumsTx.getAlbum(i);
+      assertAlbumEquals(album, johnsAlbumsMap.get(album.getId()));
     }
   }
 
   public void testGetPhotosPagination() throws Exception {
     GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
-    albumsTx.setCount(fixedAlbumsMap.size());
+    albumsTx.setCount(selfAlbumsMap.size());
     transport.add(albumsTx).run();
-    assertEquals(fixedAlbumsMap.size(), albumsTx.getAlbumCount());
+    assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
 
     List<Album> albums = new ArrayList<Album>();
     for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
@@ -70,7 +84,8 @@ public class AlbumsTest extends TestCase {
     transport = new Transport(OAUTH_PROPS_FILE);
     transport.init();
 
-    fixedAlbumsMap = getFixedAlbums();
+    selfAlbumsMap = getFixedAlbums();
+    johnsAlbumsMap = getJohnsExpectedAlbums();
     factory = new AlbumsTxFactory();
   }
 
@@ -116,6 +131,36 @@ public class AlbumsTest extends TestCase {
     album.setDescription("Photos from Sri Lanka");
     album.setNumPhotos(9);
     album.setThumbnailUrl("orkut.com/images/milieu/1257482160/1257484285208/543695944/ep/Z1v9lgja.jpg");
+    map.put(album.getId(), album);
+
+    return map;
+  }
+
+  private Map<String, Album> getJohnsExpectedAlbums() {
+    Map<String, Album> map = new HashMap<String, Album>();
+
+    // A Personal album
+    Album album = new Album("12658990920245756486", "5401957841067442512");
+    album.setTitle("Personal");
+    album.setDescription("");
+    album.setNumPhotos(1);
+    album.setThumbnailUrl("orkut.com/images/milieu/1257741321/1257741325124/544604496/ep/Z1a4z22k.jpg");
+    map.put(album.getId(), album);
+
+    // Jungle Trip
+    album = new Album("12658990920245756486", "5401957235477053776");
+    album.setTitle("Jungle Trip");
+    album.setDescription("a trip through the jungles");
+    album.setNumPhotos(8);
+    album.setThumbnailUrl("orkut.com/images/milieu/1257741180/1257741180472/544604496/ep/Z1sj4d6r.jpg");
+    map.put(album.getId(), album);
+
+    // Hyderabad
+    album = new Album("12658990920245756486", "5401956831750127952");
+    album.setTitle("Hyderabad");
+    album.setDescription("random shots from hyderabad");
+    album.setNumPhotos(5);
+    album.setThumbnailUrl("orkut.com/images/milieu/1257741086/1257741086970/544604496/ep/Zb2gvr.jpg");
     map.put(album.getId(), album);
 
     return map;
