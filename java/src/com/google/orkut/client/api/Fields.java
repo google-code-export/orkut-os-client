@@ -44,11 +44,14 @@ class Fields {
   static final String CREATED = "created";
   static final String DESCRIPTION = "description";
   static final String DISPLAY_NAME = "displayName";
+  static final String EMAILS = "emails";
+
   /** The list of entries in an ACL */
   static final String ENTRIES = "entries";
   static final String ERROR_TYPE = "errorType";
   static final String FROM_USER_ID = "fromUserId";
   static final String FROM_USER_PROFILE = "fromUserProfile";
+  static final String GENDER = "gender";
   static final String ID = "id";
   /** the json field for location */
   static final String LOCATION = "location";

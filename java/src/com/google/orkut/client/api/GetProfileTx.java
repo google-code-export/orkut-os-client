@@ -37,6 +37,21 @@ public class GetProfileTx extends Transaction {
     request.setUserId(userId).setGroupId(Group.SELF);
   }
 
+  public GetProfileTx alsoGetStatus() {
+    request.addFieldIfNotPresent(Fields.STATUS);
+    return this;
+  }
+
+  public GetProfileTx alsoGetEmails() {
+    request.addFieldIfNotPresent(Fields.EMAILS);
+    return this;
+  }
+
+  public GetProfileTx alsoGetGender() {
+    request.addFieldIfNotPresent(Fields.GENDER);
+    return this;
+  }
+
   protected void setResponseData(JSONObject response) {
     orkutPerson = new OrkutPerson(response);
   }
