@@ -34,6 +34,13 @@ public class Photo {
     this.json = json;
   }
 
+  Photo(String ownerId, String albumId, String photoId) {
+    json = new JSONObject();
+    setOwnerId(ownerId);
+    setAlbumId(albumId);
+    setId(photoId);
+  }
+
   public String getId() {
     return json.optString(Fields.ID);
   }
@@ -68,5 +75,21 @@ public class Photo {
 
   void setOwnerId(String ownerId) {
     Util.putJsonValue(json, Params.OWNER_ID, ownerId);
+  }
+
+  void setAlbumId(String albumId) {
+    Util.putJsonValue(json, Params.ALBUM_ID, albumId);
+  }
+
+  void setId(String id) {
+    Util.putJsonValue(json, Fields.ID, id);
+  }
+
+  void setThumbnailUrl(String thumbnailUrl) {
+    Util.putJsonValue(json, Fields.THUMBNAIL_URL, thumbnailUrl);
+  }
+
+  void setUrl(String url) {
+    Util.putJsonValue(json, Fields.URL, url);
   }
 }
