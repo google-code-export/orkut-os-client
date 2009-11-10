@@ -27,7 +27,7 @@ import org.json.me.JSONObject;
 import junit.framework.TestCase;
 
 /**
- * @author harisasidharan@google.com (Hari S)
+ * @author Hari S
  */
 public class BatchTransactionTest extends TestCase {
 
