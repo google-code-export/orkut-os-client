@@ -18,12 +18,13 @@ package com.google.orkut.client.api;
 
 import com.google.orkut.client.sample.Transport;
 
-import junit.framework.TestCase;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 /**
  * Integration tests for Albums API.
@@ -42,7 +43,77 @@ public class AlbumsTest extends TestCase {
   private Transport transport;
   private static final String ID_JOHN_DOE = "12658990920245756486";
 
-  public void testGetPhotos() throws Exception {
+  private static final String NEW_ALBUM_TITLE = "A New Album";
+  private static final String NEW_ALBUM_DESCRIPTION = "This is the description of the new album!";
+  private static final String UPDATED_ALBUM_TITLE = "Updated Album";
+  private static final String UPDATED_ALBUM_DESCRIPTION = "Updated Description";
+
+  public void testCreateUpdateAndDeleteAlbums() throws Exception {
+    deleteAllUnknownAlbums();
+
+    // create a new album
+    CreateAlbumTx createAlbumTx = factory.createAlbum(NEW_ALBUM_TITLE, NEW_ALBUM_DESCRIPTION);
+    transport.add(createAlbumTx).run();
+    assertFalse(createAlbumTx.hasError());
+
+    String newAlbumId = createAlbumTx.getAlbum().getId();
+
+    // fetch the new album from server
+    GetAlbumsTx getAlbumsTx = factory.getAlbum(Constants.USERID_ME, newAlbumId);
+    transport.add(getAlbumsTx).run();
+    assertFalse(getAlbumsTx.hasError());
+
+    Album album = getAlbumsTx.getAlbum();
+    assertEquals(NEW_ALBUM_TITLE, album.getTitle());
+    assertEquals(NEW_ALBUM_DESCRIPTION, album.getDescription());
+
+    // update the album
+    album.setTitle(UPDATED_ALBUM_TITLE);
+    album.setDescription(UPDATED_ALBUM_DESCRIPTION);
+    UpdateAlbumTx updateAlbumTx = factory.updateAlbum(album);
+    transport.add(updateAlbumTx).run();
+
+    assertFalse(updateAlbumTx.hasError());
+
+    // fetch the updated album from server
+    getAlbumsTx = factory.getAlbum(Constants.USERID_ME, newAlbumId);
+    transport.add(getAlbumsTx).run();
+    assertFalse(getAlbumsTx.hasError());
+
+    album = getAlbumsTx.getAlbum();
+    assertEquals(UPDATED_ALBUM_TITLE, album.getTitle());
+    assertEquals(UPDATED_ALBUM_DESCRIPTION, album.getDescription());
+
+    // delete the album
+    DeleteAlbumTx deleteAlbumTx = factory.deleteAlbum(newAlbumId);
+    transport.add(deleteAlbumTx).run();
+
+    // verify that delete was successful
+    GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
+    albumsTx.setCount(MAX_COUNT);
+    transport.add(albumsTx).run();
+
+    // only expected albums are present and the created album is gone
+    assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
+  }
+
+  private void deleteAllUnknownAlbums() throws IOException {
+    GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
+    albumsTx.setCount(MAX_COUNT);
+    transport.add(albumsTx).run();
+
+    for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
+      Album album = albumsTx.getAlbum(i);
+      if (selfAlbumsMap.containsKey(album.getId())) {
+        continue;
+      }
+
+      DeleteAlbumTx deleteAlbumTx = factory.deleteAlbum(album.getId());
+      transport.add(deleteAlbumTx).run();
+    }
+  }
+
+  public void testGetAlbums() throws Exception {
     GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
@@ -54,7 +125,7 @@ public class AlbumsTest extends TestCase {
     }
   }
 
-  public void testGetPhotosOfJohn() throws Exception {
+  public void testGetAlbumsOfJohn() throws Exception {
     GetAlbumsTx albumsTx = factory.getAlbums(ID_JOHN_DOE);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
@@ -66,7 +137,7 @@ public class AlbumsTest extends TestCase {
     }
   }
 
-  public void testGetPhotosPagination() throws Exception {
+  public void testGetAlbumsPagination() throws Exception {
     GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
     albumsTx.setCount(selfAlbumsMap.size());
     transport.add(albumsTx).run();
@@ -98,7 +169,7 @@ public class AlbumsTest extends TestCase {
     transport = new Transport(OAUTH_PROPS_FILE);
     transport.init();
 
-    selfAlbumsMap = getFixedAlbums();
+    selfAlbumsMap = getSelfAlbums();
     johnsAlbumsMap = getJohnsExpectedAlbums();
     factory = new AlbumsTxFactory();
   }
@@ -112,7 +183,7 @@ public class AlbumsTest extends TestCase {
     assertEquals(fromServer.getOwnerId(), expected.getOwnerId());
   }
 
-  private Map<String, Album> getFixedAlbums() {
+  private Map<String, Album> getSelfAlbums() {
     Map<String, Album> map = new HashMap<String, Album>();
 
     // Empty Album
