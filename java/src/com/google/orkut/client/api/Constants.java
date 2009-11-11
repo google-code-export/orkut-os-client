@@ -60,4 +60,6 @@ public class Constants {
   }
 
   public static final String USERID_ME = "@me";
+  public static final String GENDER_FEMALE = "female";
+  public static final String GENDER_MALE = "male";
 }

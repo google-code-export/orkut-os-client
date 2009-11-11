@@ -17,6 +17,7 @@
 package com.google.orkut.client.api;
 
 
+import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
 /**
@@ -54,6 +55,66 @@ public class OrkutPerson {
   /** Returns thumbnail-url or null if the field was not present in the response */
   public String getThumbnailUrl() {
     return json.optString(Fields.THUMBNAIL_URL, null);
+  }
+
+  /** Returns the status, or null if not present */
+  public String getStatus() {
+    return json.optString(Fields.STATUS, null);
+  }
+
+  /** Returns the number of email entries present */
+  public int getEmailCount() {
+    JSONArray emailsArray = json.optJSONArray(Fields.EMAILS);
+    if (emailsArray == null) {
+      return 0;
+    }
+    return emailsArray.length();
+  }
+
+  /** Returns the email address at the given index */
+  public String getEmail(int index) {
+    JSONArray emailsArray = json.optJSONArray(Fields.EMAILS);
+    if (emailsArray == null) {
+      return null;
+    }
+    return emailsArray.optJSONObject(index).optString(Fields.VALUE);
+  }
+
+  /** Returns the gender of the person (from {@link Constants#GENDER_MALE} or {@link Constants#GENDER_FEMALE})
+   * or <code>null</code>, if not available.
+   */
+  public String getGender() {
+    String value = json.optString(Fields.GENDER);
+    if (Constants.GENDER_FEMALE.equals(value)) {
+      return Constants.GENDER_FEMALE;
+    }
+
+    if (Constants.GENDER_MALE.equals(value)) {
+      return Constants.GENDER_MALE;
+    }
+
+    return null;
+  }
+
+
+  public int getPhoneNumberCount() {
+    JSONArray emailsArray = json.optJSONArray(Fields.PHONE_NUMBERS);
+    if (emailsArray == null) {
+      return 0;
+    }
+    return emailsArray.length();
+  }
+
+  public String getPhoneNumber(int index) {
+    JSONArray emailsArray = json.optJSONArray(Fields.PHONE_NUMBERS);
+    if (emailsArray == null) {
+      return null;
+    }
+    return emailsArray.optJSONObject(index).optString(Fields.VALUE);
+  }
+
+  public String getProfileUrl() {
+    return json.optString(Fields.PROFILE_URL);
   }
 
   /**

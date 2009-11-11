@@ -16,15 +16,16 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.api.ProfileTest.JohnDoe;
 import com.google.orkut.client.sample.Transport;
+
+import junit.framework.TestCase;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 /**
  * Integration tests for Albums API.
@@ -41,8 +42,6 @@ public class AlbumsTest extends TestCase {
   private Map<String, Album> johnsAlbumsMap;
 
   private Transport transport;
-  private static final String ID_JOHN_DOE = "12658990920245756486";
-
   private static final String NEW_ALBUM_TITLE = "A New Album";
   private static final String NEW_ALBUM_DESCRIPTION = "This is the description of the new album!";
   private static final String UPDATED_ALBUM_TITLE = "Updated Album";
@@ -128,7 +127,7 @@ public class AlbumsTest extends TestCase {
   }
 
   public void testGetAlbumsOfJohn() throws Exception {
-    GetAlbumsTx albumsTx = factory.getAlbums(ID_JOHN_DOE);
+    GetAlbumsTx albumsTx = factory.getAlbums(JohnDoe.ID);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
     assertEquals(johnsAlbumsMap.size(), albumsTx.getAlbumCount());
