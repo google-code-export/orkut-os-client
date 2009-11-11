@@ -70,7 +70,9 @@ class Fields {
   static final String NAME_GIVEN_NAME = "givenName";
   static final String NOTE = "note";
   static final String PAGE_TYPE = "pageType";
+  static final String PHONE_NUMBERS = "phoneNumbers";
   static final String POSTED_TIME = "postedTime";
+  static final String PROFILE_URL = "profileUrl";
   static final String RELATIONSHIP_STATUS = "relationshipStatus";
   static final String RELEVANT_PROFILES = "relevantProfiles";
   static final String RELEVANT_USER_IDS = "relevantUserIds";
@@ -84,7 +86,5 @@ class Fields {
   static final String TOTAL_RESULTS = "totalResults";
   static final String TYPE = "type";
   static final String URL = "url";
-  public static final String VALUE = "value";
-  public static final String PROFILE_URL = "profileUrl";
-  public static final String PHONE_NUMBERS = "phoneNumbers";
+  static final String VALUE = "value";
 }

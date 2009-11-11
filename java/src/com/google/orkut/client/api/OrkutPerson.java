@@ -96,23 +96,25 @@ public class OrkutPerson {
     return null;
   }
 
-
+  /** Returns the count of phone numbers available */
   public int getPhoneNumberCount() {
-    JSONArray emailsArray = json.optJSONArray(Fields.PHONE_NUMBERS);
-    if (emailsArray == null) {
+    JSONArray phoneNumbers = json.optJSONArray(Fields.PHONE_NUMBERS);
+    if (phoneNumbers == null) {
       return 0;
     }
-    return emailsArray.length();
+    return phoneNumbers.length();
   }
 
+  /** Returns the phone number at the given index */
   public String getPhoneNumber(int index) {
-    JSONArray emailsArray = json.optJSONArray(Fields.PHONE_NUMBERS);
-    if (emailsArray == null) {
+    JSONArray phoneNumbers = json.optJSONArray(Fields.PHONE_NUMBERS);
+    if (phoneNumbers == null) {
       return null;
     }
-    return emailsArray.optJSONObject(index).optString(Fields.VALUE);
+    return phoneNumbers.optJSONObject(index).optString(Fields.VALUE);
   }
 
+  /** Returns the profile url of the person */
   public String getProfileUrl() {
     return json.optString(Fields.PROFILE_URL);
   }
