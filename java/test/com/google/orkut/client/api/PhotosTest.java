@@ -32,8 +32,6 @@ import junit.framework.TestCase;
  */
 public class PhotosTest extends TestCase {
   static final String ALBUM_ID = "5400844753047135304";
-  static final String ID_SELF = "02776157447964356030";
-
   private Transport transport;
   private PhotosTxFactory factory;
   private Map<String, Photo> expectedPhotos;

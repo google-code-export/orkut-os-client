@@ -37,6 +37,21 @@ public class GetProfileTx extends Transaction {
     request.setUserId(userId).setGroupId(Group.SELF);
   }
 
+  public GetProfileTx alsoGetName() {
+    request.addFieldIfNotPresent(Fields.NAME);
+    return this;
+  }
+
+  public GetProfileTx alsoGetThumbnailUrl() {
+    request.addFieldIfNotPresent(Fields.THUMBNAIL_URL);
+    return this;
+  }
+
+  public GetProfileTx alsoGetProfileUrl() {
+    request.addFieldIfNotPresent(Fields.PROFILE_URL);
+    return this;
+  }
+
   public GetProfileTx alsoGetStatus() {
     request.addFieldIfNotPresent(Fields.STATUS);
     return this;
@@ -52,6 +67,11 @@ public class GetProfileTx extends Transaction {
     return this;
   }
 
+  public GetProfileTx alsoGetPhoneNumbers() {
+    request.addFieldIfNotPresent(Fields.PHONE_NUMBERS);
+    return this;
+  }
+
   protected void setResponseData(JSONObject response) {
     orkutPerson = new OrkutPerson(response);
   }
@@ -59,6 +79,4 @@ public class GetProfileTx extends Transaction {
   public OrkutPerson getProfile() {
     return orkutPerson;
   }
-
-  // TODO(birmiwal): add support for fetching more fields
 }

@@ -84,4 +84,7 @@ class Fields {
   static final String TOTAL_RESULTS = "totalResults";
   static final String TYPE = "type";
   static final String URL = "url";
+  public static final String VALUE = "value";
+  public static final String PROFILE_URL = "profileUrl";
+  public static final String PHONE_NUMBERS = "phoneNumbers";
 }
