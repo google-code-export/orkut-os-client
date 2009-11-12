@@ -20,8 +20,10 @@ import org.json.me.JSONObject;
 
 /**
  * A media item in an Activity related to a photo or a video.
+ * TODO(birmiwal): replace this with {@link Photo}.
  *
  * @author Sachin Shenoy
+ * @author Shishir Birmiwal
  */
 public class MediaItem {
 
@@ -31,15 +33,19 @@ public class MediaItem {
     this.json = json;
   }
 
-  public String pageUrl() {
-    return json.optString("pageUrl");
+  public String getId() {
+    return json.optString(Fields.ID);
   }
 
-  public String thumbnailUrl() {
-    return json.optString("thumbnailUrl");
+  public String getPageUrl() {
+    return json.optString(Fields.PAGE_URL);
   }
 
-  public String type() {
-    return json.optString("type");
+  public String getUrl() {
+    return json.optString(Fields.URL);
+  }
+
+  public String getType() {
+    return json.optString(Fields.TYPE);
   }
 }

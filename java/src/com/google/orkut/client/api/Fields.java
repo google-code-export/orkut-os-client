@@ -87,4 +87,5 @@ class Fields {
   static final String TYPE = "type";
   static final String URL = "url";
   static final String VALUE = "value";
+  static final String PAGE_URL = "pageUrl";
 }

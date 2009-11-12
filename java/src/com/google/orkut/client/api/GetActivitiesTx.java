@@ -93,7 +93,7 @@ public class GetActivitiesTx extends Transaction {
     activities = Util.forEachItemInList(data, ResponseFields.LIST_KEY, new ActivityConverter());
   }
 
-  public int activityCount() {
+  public int getActivityCount() {
     return activities.size();
   }
 

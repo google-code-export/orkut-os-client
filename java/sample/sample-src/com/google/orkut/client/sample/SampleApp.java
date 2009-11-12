@@ -59,7 +59,7 @@ public class SampleApp {
     OrkutPerson person = profile.getProfile();
     System.out.println("Hello, " + person.getGivenName() + " " + person.getFamilyName() + "!");
 
-    for (int i = 0; i < friends.getFriendsSize(); i++) {
+    for (int i = 0; i < friends.getFriendsCount(); i++) {
       OrkutPerson friend = friends.getFriend(i);
       System.out.println("Friend: " + friend.getGivenName());
     }
