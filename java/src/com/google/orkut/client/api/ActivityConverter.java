@@ -55,6 +55,9 @@ class ActivityConverter extends Converter {
     if (ActivityEntry.ActivityType.VIDEO.equals(activityType)) {
       return new VideoShareActivity(json);
     }
+    if (ActivityEntry.ActivityType.PHOTO.equals(activityType)) {
+      return new PhotoShareActivity(json);
+    }
 
     return new GenericActivity(json);
   }

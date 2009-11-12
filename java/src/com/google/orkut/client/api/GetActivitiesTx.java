@@ -31,18 +31,6 @@ public class GetActivitiesTx extends Transaction {
   private static final int MAX_START_INDEX = 70;
   private Vector activities;
 
-  public class Fields {
-    public Fields addRelevantProfile() {
-      request.addField("relevantProfile");
-      return this;
-    }
-
-    public Fields addPageUrl() {
-      request.addField("pageUrl");
-      return this;
-    }
-  }
-
   GetActivitiesTx() {
     super(MethodNames.ACTIVITIES_GET);
     request.setUserId(Constants.USERID_ME)
@@ -57,7 +45,19 @@ public class GetActivitiesTx extends Transaction {
     return this;
   }
 
-  public GetActivitiesTx setRelevantProfile() {
+  public GetActivitiesTx alsoGetRelevantProfiles() {
+    request.addField(Fields.RELEVANT_PROFILES);
+    return this;
+  }
+
+  public GetActivitiesTx alsoGetPageUrls() {
+    request.addField(Fields.PAGE_URL);
+    return this;
+  }
+
+  /** includes you-tube urls in video-share activities */
+  public GetActivitiesTx alsoGetYoutubeUrls() {
+    request.addField(Fields.YOUTUBE_URL);
     return this;
   }
 
@@ -94,15 +94,14 @@ public class GetActivitiesTx extends Transaction {
   }
 
   public int getActivityCount() {
+    if (activities == null) {
+      return 0;
+    }
     return activities.size();
   }
 
   public ActivityEntry getActivity(int index) {
     return (ActivityEntry) activities.get(index);
-  }
-
-  public Fields fields() {
-    return new Fields();
   }
 
   private int getNextStartIndex() {

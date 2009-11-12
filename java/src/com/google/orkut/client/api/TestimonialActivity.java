@@ -68,19 +68,19 @@ public class TestimonialActivity extends ActivityEntry {
     return ActivityEntry.ActivityType.TESTIMONIAL;
   }
 
-  public String writerId() {
+  public String getWriterId() {
     return getOwnerId();
   }
 
-  public String receiverId() {
+  public String getReceiverId() {
     return receiverId;
   }
 
-  public OrkutPerson writerProfile() {
+  public OrkutPerson getWriterProfile() {
     return writerProfile;
   }
 
-  public OrkutPerson receiverProfile() {
+  public OrkutPerson getReceiverProfile() {
     return receiverProfile;
   }
 }

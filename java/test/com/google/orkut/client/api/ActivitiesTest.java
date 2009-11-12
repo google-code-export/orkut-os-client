@@ -88,8 +88,8 @@ public class ActivitiesTest extends TestCase {
     assertEquals(expected.getAlbumId(), actual.getAlbumId());
     assertMediaItemEquals(expected.getMediaItem(), actual.getMediaItem());
     assertEquals(expected.getPostedTime(), actual.getPostedTime());
-    assertEquals(expected.getCommentsSize(), actual.getCommentsSize());
-    for (int i = 0; i < expected.getCommentsSize(); i++) {
+    assertEquals(expected.getCommentsCount(), actual.getCommentsCount());
+    for (int i = 0; i < expected.getCommentsCount(); i++) {
       assertCommentEquals(expected.getComment(i), actual.getComment(i));
     }
   }

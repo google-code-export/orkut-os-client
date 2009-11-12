@@ -42,7 +42,7 @@ public class ActivityTxSample {
 
   private void fetchActivity() throws IOException {
     GetActivitiesTx fetchActivityTx = factory.getActivities();
-    fetchActivityTx.fields().addPageUrl();
+    fetchActivityTx.alsoGetPageUrls();
     transport.add(fetchActivityTx).run();
 
     for (int i = 0; i < fetchActivityTx.getActivityCount(); ++i) {

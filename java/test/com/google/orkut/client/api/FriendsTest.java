@@ -16,6 +16,7 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.api.Constants.Gender;
 import com.google.orkut.client.sample.Transport;
 
 import junit.framework.TestCase;
@@ -36,7 +37,7 @@ public class FriendsTest extends TestCase {
     private static final String FAMILY_NAME = "Poe";
     private static final String THUMBNAIL_URL = "orkut.com/images/small/1257975884/545289376/ep.jpg";
     private static final String PROFILE_URL = "Profile.aspx?uid=14146392242427648085";
-    private static final String GENDER = Constants.GENDER_MALE;
+    private static final String GENDER = Gender.MALE;
     private static final String STATUS = "on orkut";
     private static final String EMAIL_ADDRESS = "oocl19@gmail.com";
     private static final String PHONE_NUMBER = "123456";

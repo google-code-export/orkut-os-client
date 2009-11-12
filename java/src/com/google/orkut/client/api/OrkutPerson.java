@@ -17,6 +17,8 @@
 package com.google.orkut.client.api;
 
 
+import com.google.orkut.client.api.Constants.Gender;
+
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
@@ -80,17 +82,17 @@ public class OrkutPerson {
     return emailsArray.optJSONObject(index).optString(Fields.VALUE);
   }
 
-  /** Returns the gender of the person (from {@link Constants#GENDER_MALE} or {@link Constants#GENDER_FEMALE})
+  /** Returns the gender of the person (from {@link Gender#MALE} or {@link Gender#FEMALE})
    * or <code>null</code>, if not available.
    */
   public String getGender() {
     String value = json.optString(Fields.GENDER);
-    if (Constants.GENDER_FEMALE.equals(value)) {
-      return Constants.GENDER_FEMALE;
+    if (Gender.FEMALE.equals(value)) {
+      return Gender.FEMALE;
     }
 
-    if (Constants.GENDER_MALE.equals(value)) {
-      return Constants.GENDER_MALE;
+    if (Gender.MALE.equals(value)) {
+      return Gender.MALE;
     }
 
     return null;

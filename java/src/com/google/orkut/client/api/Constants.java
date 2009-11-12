@@ -48,8 +48,26 @@ public class Constants {
   }
 
   /**
+   * Defines possible values for a person's gender value
+   * as returned from {@link OrkutPerson#getGender()}.
+   */
+  public static class Gender {
+    public static final String FEMALE = "female";
+    public static final String MALE = "male";
+  }
+
+  /**
+   * Defines possible values for a media-item in an activity,
+   * as returned from {@link MediaItem#getType()}.
+   */
+  public static class MediaItemType {
+    public static final String IMAGE = "image";
+    public static final String VIDEO = "video";
+  }
+
+  /**
    * Defines the possible value to be sent in the call to
-   * {@link UpdateProfileTx#setRelationshipStatus(String)}
+   * {@link UpdateProfileTx#setRelationshipStatus(String)}.
    */
   public static class RelationshipStatus {
     public static String COMMITTED = "committed";
@@ -59,7 +77,6 @@ public class Constants {
     public static String SINGLE = "single";
   }
 
+  /** A user-id which represents the logged in person. */
   public static final String USERID_ME = "@me";
-  public static final String GENDER_FEMALE = "female";
-  public static final String GENDER_MALE = "male";
 }

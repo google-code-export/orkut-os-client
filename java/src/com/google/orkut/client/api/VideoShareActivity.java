@@ -47,7 +47,7 @@ public class VideoShareActivity extends ActivityEntry {
     return ActivityEntry.ActivityType.VIDEO;
   }
 
-  public int mediaItemSize() {
+  public int getMediaItemCount() {
     return mediaItems.size();
   }
 

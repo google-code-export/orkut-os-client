@@ -16,6 +16,7 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.api.ActivityEntry.ActivityType;
 import com.google.orkut.client.sample.Transport;
 
 import junit.framework.TestCase;
@@ -34,8 +35,7 @@ import java.util.List;
  * @author Shishir Birmiwal
  */
 public class FetchAllTests extends TestCase {
-  private static final int BIG_FETCH_COUNT = 50;
-  private static final int MAX_FETCH_COUNT = 200;
+  private static final int FETCH_COUNT = 200;
 
   private static final String TRANSPORT_FILES_PATH = "test/com/google/orkut/client/api/";
   private static final String[] TRANSPORT_FILES = {
@@ -74,6 +74,73 @@ public class FetchAllTests extends TestCase {
     }
   }
 
+  public void testActivities() throws Exception {
+    Asserts asserts = new Asserts();
+    for (ActivityEntry activity : activities) {
+      if (ActivityType.FRIEND_ADD.equals(activity.type())) {
+        FriendAddActivity friendAddActivity = (FriendAddActivity) activity;
+        asserts.inspectFriendAddActivity(friendAddActivity);
+      }
+
+      if (ActivityType.MAKAMAKA.equals(activity.type())) {
+        MakamakaActivity makamakaActivity = (MakamakaActivity) activity;
+        asserts.inspectMakamakaActivity(makamakaActivity);
+      }
+
+      if (ActivityType.PHOTO.equals(activity.type())) {
+        PhotoShareActivity photoShareActivity = (PhotoShareActivity) activity;
+        asserts.inspectPhotoShareActivity(photoShareActivity);
+      }
+
+      if (ActivityType.PHOTO_COMMENT.equals(activity.type())) {
+        PhotoCommentActivity photoCommentActivity = (PhotoCommentActivity) activity;
+        asserts.inspectPhotoCommentActivity(photoCommentActivity);
+      }
+
+      if (ActivityType.PROFILE_UPDATE.equals(activity.type())) {
+        ProfileUpdateActivity profileUpdateActivity = (ProfileUpdateActivity) activity;
+        asserts.inspectProfileUpdateActivity(profileUpdateActivity);
+      }
+
+      if (ActivityType.SCRAP.equals(activity.type())) {
+        ScrapActivity scrapActivity = (ScrapActivity) activity;
+        asserts.inspectScrapActivity(scrapActivity);
+      }
+
+      if (ActivityType.SOCIAL_EVENTS_CREATION.equals(activity.type())) {
+        SocialEventActivity socialEventActivity = (SocialEventActivity) activity;
+        asserts.inspectSocialEventActivity(socialEventActivity);
+      }
+
+      if (ActivityType.STATUS_MSG.equals(activity.type())) {
+        StatusMessageActivity statusMessageActivity = (StatusMessageActivity) activity;
+        asserts.inspectStatusMessageActivity(statusMessageActivity);
+      }
+
+      if (ActivityType.TESTIMONIAL.equals(activity.type())) {
+        TestimonialActivity testimonialActivity = (TestimonialActivity) activity;
+        asserts.inspectTestimonialActivity(testimonialActivity);
+      }
+
+      if (ActivityType.VIDEO.equals(activity.type())) {
+        VideoShareActivity videoShareActivity = (VideoShareActivity) activity;
+        asserts.inspectVideoShareActivity(videoShareActivity);
+      }
+    }
+
+    assertTrue("Friend Add Activities OK", asserts.areFriendAddActivitiesSane());
+    assertTrue("Makamaka Activities OK", asserts.areMakamakaActivitiesSane());
+    assertTrue("Photo Comment Activities OK", asserts.arePhotoCommentActivitiesSane());
+    assertTrue("Photo Share Activities OK", asserts.arePhotoShareActivitiesSane());
+    assertTrue("Profile Update Activities OK", asserts.areProfileUpdateActivitiesSane());
+    // scrap activities aren't sent at the moment?
+    // assertTrue("ScrapActivity OK", asserts.areScrapActivitiesSane());
+    assertTrue("Social Event Activities OK", asserts.areSocialEventActivitiesSane());
+    assertTrue("Status Message Activities OK", asserts.areStatusMessageActivitiesSane());
+    assertTrue("Testimonial Activities OK", asserts.areTestimonialActivitiesSane());
+    assertTrue("Video Share Activities OK", asserts.areVideoShareActivitiesSane());
+  }
+
   private void fetchAllActivities(Transport transport) throws IOException {
     if (activities == null) {
       activities = createList();
@@ -81,20 +148,13 @@ public class FetchAllTests extends TestCase {
 
     ActivityTxFactory factory = new ActivityTxFactory();
     GetActivitiesTx getActivities = factory.getActivities();
-    getActivities.setCount(BIG_FETCH_COUNT);
+    getActivities.setCount(FETCH_COUNT);
+    getActivities.alsoGetRelevantProfiles().alsoGetPageUrls()
+        .alsoGetYoutubeUrls();
     transport.add(getActivities).run();
 
-    int count = 0;
-    while (getActivities.getActivityCount() > 0) {
-      for (int i = 0; i < getActivities.getActivityCount(); i++) {
-        activities.add(getActivities.getActivity(i));
-      }
-      count += getActivities.getActivityCount();
-      if (count > MAX_FETCH_COUNT) {
-        break;
-      }
-      getActivities = factory.getNext(getActivities);
-      transport.add(getActivities).run();
+    for (int i = 0; i < getActivities.getActivityCount(); i++) {
+      activities.add(getActivities.getActivity(i));
     }
   }
 
