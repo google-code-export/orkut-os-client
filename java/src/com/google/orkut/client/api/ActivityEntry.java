@@ -88,7 +88,7 @@ public abstract class ActivityEntry {
   }
 
   /** Time at which the activity was posted */
-  public long postedTime() {
+  public long getPostedTime() {
     return json.optLong(Fields.POSTED_TIME);
   }
 

@@ -72,18 +72,7 @@ public class ProfileTest extends TestCase {
     transport.add(getProfileTx).run();
     OrkutPerson profile = getProfileTx.getProfile();
 
-    assertEquals(JaneDoe.GIVEN_NAME, profile.getGivenName());
-    assertEquals(JaneDoe.FAMILY_NAME, profile.getFamilyName());
-    assertEquals(JaneDoe.ID, profile.getId());
-    assertTrue(profile.getThumbnailUrl().contains(JaneDoe.THUMBNAIL_URL));
-    assertEquals(JaneDoe.STATUS, profile.getStatus());
-    assertEquals(JaneDoe.GENDER, profile.getGender());
-    assertEquals(1, profile.getEmailCount());
-    assertEquals(JaneDoe.EMAIL_ADDRESS, profile.getEmail(0));
-    assertEquals(1, profile.getPhoneNumberCount());
-    assertEquals(JaneDoe.PHONE_NUMBER, profile.getPhoneNumber(0));
-    assertTrue(profile.getProfileUrl().contains(JaneDoe.PROFILE_URL));
-    assertTrue(profile.getThumbnailUrl().contains(JaneDoe.THUMBNAIL_URL));
+    assertPersonIsJaneDoe(profile, true);
   }
 
   public void testGetFriend() throws Exception {
@@ -95,19 +84,42 @@ public class ProfileTest extends TestCase {
     transport.add(getProfileTx).run();
     OrkutPerson profile = getProfileTx.getProfile();
 
-    assertEquals(JohnDoe.GIVEN_NAME, profile.getGivenName());
-    assertEquals(JohnDoe.FAMILY_NAME, profile.getFamilyName());
-    assertEquals(JohnDoe.ID, profile.getId());
-    assertTrue(profile.getThumbnailUrl().contains(JohnDoe.THUMBNAIL_URL));
-    assertEquals(JohnDoe.STATUS, profile.getStatus());
-    assertEquals(JohnDoe.GENDER, profile.getGender());
-    assertEquals(1, profile.getEmailCount());
-    assertEquals(JohnDoe.EMAIL_ADDRESS, profile.getEmail(0));
-    assertEquals(2, profile.getPhoneNumberCount());
-    assertEquals(JohnDoe.PHONE_NUMBER_0, profile.getPhoneNumber(0));
-    assertEquals(JohnDoe.PHONE_NUMBER_1, profile.getPhoneNumber(1));
-    assertTrue(profile.getProfileUrl().contains(JohnDoe.PROFILE_URL));
-    assertTrue(profile.getThumbnailUrl().contains(JohnDoe.THUMBNAIL_URL));
+    assertPersonIsJohnDoe(profile);
+  }
 
+  static void assertPersonIsJaneDoe(OrkutPerson person, boolean expectPersonalInfo) {
+    assertEquals(JaneDoe.GIVEN_NAME, person.getGivenName());
+    assertEquals(JaneDoe.FAMILY_NAME, person.getFamilyName());
+    assertEquals(JaneDoe.ID, person.getId());
+    assertTrue(person.getThumbnailUrl().contains(JaneDoe.THUMBNAIL_URL));
+    assertEquals(JaneDoe.STATUS, person.getStatus());
+    assertEquals(JaneDoe.GENDER, person.getGender());
+    if (expectPersonalInfo) {
+      assertEquals(1, person.getEmailCount());
+      assertEquals(JaneDoe.EMAIL_ADDRESS, person.getEmail(0));
+      assertEquals(1, person.getPhoneNumberCount());
+      assertEquals(JaneDoe.PHONE_NUMBER, person.getPhoneNumber(0));
+    } else {
+      assertEquals(0, person.getEmailCount());
+      assertEquals(0, person.getPhoneNumberCount());
+    }
+    assertTrue(person.getProfileUrl().contains(JaneDoe.PROFILE_URL));
+    assertTrue(person.getThumbnailUrl().contains(JaneDoe.THUMBNAIL_URL));
+  }
+
+  static void assertPersonIsJohnDoe(OrkutPerson person) {
+    assertEquals(JohnDoe.GIVEN_NAME, person.getGivenName());
+    assertEquals(JohnDoe.FAMILY_NAME, person.getFamilyName());
+    assertEquals(JohnDoe.ID, person.getId());
+    assertTrue(person.getThumbnailUrl().contains(JohnDoe.THUMBNAIL_URL));
+    assertEquals(JohnDoe.STATUS, person.getStatus());
+    assertEquals(JohnDoe.GENDER, person.getGender());
+    assertEquals(1, person.getEmailCount());
+    assertEquals(JohnDoe.EMAIL_ADDRESS, person.getEmail(0));
+    assertEquals(2, person.getPhoneNumberCount());
+    assertEquals(JohnDoe.PHONE_NUMBER_0, person.getPhoneNumber(0));
+    assertEquals(JohnDoe.PHONE_NUMBER_1, person.getPhoneNumber(1));
+    assertTrue(person.getProfileUrl().contains(JohnDoe.PROFILE_URL));
+    assertTrue(person.getThumbnailUrl().contains(JohnDoe.THUMBNAIL_URL));
   }
 }

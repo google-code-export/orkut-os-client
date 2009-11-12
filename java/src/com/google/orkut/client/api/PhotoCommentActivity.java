@@ -88,7 +88,7 @@ public class PhotoCommentActivity extends ActivityEntry {
   }
   
   /** Returns number of comments on the photo */
-  public int commentsSize() {
+  public int getCommentsSize() {
     return mediaItems.size();
   }
 

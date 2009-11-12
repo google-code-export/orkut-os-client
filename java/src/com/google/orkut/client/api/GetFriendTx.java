@@ -42,8 +42,12 @@ public class GetFriendTx extends Transaction {
   }
 
   GetFriendTx(GetFriendTx prev) {
-    this(prev.getUserId(), prev.getStartIndex() + prev.getFriendsSize());
+    this(prev.getUserId(), prev.getStartIndex() + prev.getFriendsCount());
     setCount(prev.getRequestCount());
+    JSONArray fields = prev.request.getFields();
+    for (int i = 0; i < fields.length(); i++) {
+      request.addFieldIfNotPresent(fields.optString(i));
+    }
   }
 
   /**
@@ -51,6 +55,41 @@ public class GetFriendTx extends Transaction {
    */
   public GetFriendTx setCount(int count) {
     request.setCount(count);
+    return this;
+  }
+
+  public GetFriendTx alsoGetName() {
+    request.addFieldIfNotPresent(Fields.NAME);
+    return this;
+  }
+
+  public GetFriendTx alsoGetThumbnailUrl() {
+    request.addFieldIfNotPresent(Fields.THUMBNAIL_URL);
+    return this;
+  }
+
+  public GetFriendTx alsoGetProfileUrl() {
+    request.addFieldIfNotPresent(Fields.PROFILE_URL);
+    return this;
+  }
+
+  public GetFriendTx alsoGetStatus() {
+    request.addFieldIfNotPresent(Fields.STATUS);
+    return this;
+  }
+
+  public GetFriendTx alsoGetEmails() {
+    request.addFieldIfNotPresent(Fields.EMAILS);
+    return this;
+  }
+
+  public GetFriendTx alsoGetGender() {
+    request.addFieldIfNotPresent(Fields.GENDER);
+    return this;
+  }
+
+  public GetFriendTx alsoGetPhoneNumbers() {
+    request.addFieldIfNotPresent(Fields.PHONE_NUMBERS);
     return this;
   }
 
@@ -69,7 +108,7 @@ public class GetFriendTx extends Transaction {
     }
   }
 
-  public int getFriendsSize() {
+  public int getFriendsCount() {
     return friends.size();
   }
 
@@ -83,7 +122,7 @@ public class GetFriendTx extends Transaction {
    * get more friends.
    */
   public boolean canGetMoreFriends() {
-    return totalResults - getStartIndex() - getFriendsSize() > 0;
+    return totalResults - getStartIndex() - getFriendsCount() > 0;
   }
 
   private String getUserId() {

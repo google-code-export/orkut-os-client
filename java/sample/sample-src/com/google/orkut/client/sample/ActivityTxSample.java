@@ -45,7 +45,7 @@ public class ActivityTxSample {
     fetchActivityTx.fields().addPageUrl();
     transport.add(fetchActivityTx).run();
 
-    for (int i = 0; i < fetchActivityTx.activityCount(); ++i) {
+    for (int i = 0; i < fetchActivityTx.getActivityCount(); ++i) {
       ActivityEntry entry = fetchActivityTx.getActivity(i);
       System.out.println(entry);
     }
