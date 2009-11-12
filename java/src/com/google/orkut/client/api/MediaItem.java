@@ -16,6 +16,8 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.api.Constants.MediaItemType;
+
 import org.json.me.JSONObject;
 
 /**
@@ -47,5 +49,13 @@ public class MediaItem {
 
   public String getType() {
     return json.optString(Fields.TYPE);
+  }
+
+  /**
+   * Returns the you-tube url for a shared video.
+   * Note: this only makes sense when {@link #getType()} is {@link MediaItemType#VIDEO}
+   */
+  public String getYoutubeUrl() {
+    return json.optString(Fields.YOUTUBE_URL);
   }
 }

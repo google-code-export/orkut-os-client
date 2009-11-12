@@ -57,7 +57,7 @@ public class PhotoShareActivity extends ActivityEntry {
   }
 
   /** Returns number of media items present in the activity */
-  public int mediaItemSize() {
+  public int getMediaItemCount() {
     return mediaItems.size();
   }
 

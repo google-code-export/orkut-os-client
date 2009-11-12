@@ -97,15 +97,16 @@ public class ProfileUpdateActivity extends ActivityEntry {
     public static final String BEDROOM = "bedroom";
     public static final String ABOUT_YOU = "about_you";
   }
-  
+
   private Vector profileFields;
 
   public ProfileUpdateActivity(JSONObject json) {
     super(json);
+    parse(json);
   }
 
   private void parse(JSONObject json) {
-    profileFields = Util.forEachItemInList(json, Fields.MEDIA_ITEMS,
+    profileFields = Util.forEachItemInList(json, Fields.PROFILE_FIELDS,
         new Converter() {
           Object convert(JSONObject json) {
             return json.optString(Fields.TYPE);
@@ -116,11 +117,11 @@ public class ProfileUpdateActivity extends ActivityEntry {
   public String type() {
     return ActivityEntry.ActivityType.PROFILE_UPDATE;
   }
-  
-  public int profileFieldSize() {
+
+  public int getProfileFieldCount() {
     return profileFields.size();
   }
-  
+
   /** Returns profile filed string value from {@link ProfileFields}. */
   public String getProfileField(int index) {
     return (String) profileFields.get(index);
