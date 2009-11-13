@@ -67,10 +67,9 @@ public class FetchAllTests extends TestCase {
     // they are expensive operations
     if (transports == null) {
       transports = createTransports();
-    }
-
-    for (Transport transport : transports) {
-      fetchAllActivities(transport);
+      for (Transport transport : transports) {
+        fetchAllActivities(transport);
+      }
     }
   }
 

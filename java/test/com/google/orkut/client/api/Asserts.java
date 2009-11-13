@@ -279,7 +279,11 @@ public class Asserts {
   }
 
   private boolean isInvalidYoutubeUrl(String youtubeUrl) {
-    return isNull(youtubeUrl);
+    return isNull(youtubeUrl)
+        || !youtubeUrl.startsWith("http://")
+        || !youtubeUrl.contains("youtube.com")
+        || !youtubeUrl.contains("watch?")
+        || !youtubeUrl.contains("?v=");
   }
 
   private boolean isZero(int count) {
