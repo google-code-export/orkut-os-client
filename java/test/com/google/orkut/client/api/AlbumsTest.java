@@ -30,6 +30,9 @@ import java.util.Map;
 /**
  * Integration tests for Albums API.
  * This test should be run with the (logged in) user oocl17 at gmail.
+ * There be dragons ahead:
+ * If you run this as any other user, deleteAllUnknownAlbums() will
+ * really delete all unknown albums. You have been warned.
  *
  * @author Shishir Birmiwal
  */
