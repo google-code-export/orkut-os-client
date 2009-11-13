@@ -16,6 +16,8 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.api.Converter.ConversionErrorException;
+
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -50,8 +52,8 @@ public class Util {
       throw new RuntimeException("Null key while writing into json", e);
     }
   }
-  
-  
+
+
   static Vector forEachItemInList(JSONObject data, String key, Converter processor) {
     Vector items = new Vector();
     try {
@@ -62,7 +64,11 @@ public class Util {
       int numItems = itemList.length();
       for (int i = 0; i < numItems; i++) {
         JSONObject json = itemList.getJSONObject(i);
-        items.add(processor.convert(json));
+        try {
+          items.add(processor.convert(json));
+        } catch (ConversionErrorException e) {
+          // ignore and skip conversion of this item
+        }
       }
     } catch (JSONException jse) {
       throw new RuntimeException("Unexpected json exception.", jse);
