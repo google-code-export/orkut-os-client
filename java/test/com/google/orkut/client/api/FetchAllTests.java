@@ -67,8 +67,9 @@ public class FetchAllTests extends TestCase {
     // they are expensive operations
     if (transports == null) {
       transports = createTransports();
+      activities = createList();
       for (Transport transport : transports) {
-        fetchAllActivities(transport);
+        activities.addAll(fetchAllActivities(transport));
       }
     }
   }
@@ -140,10 +141,8 @@ public class FetchAllTests extends TestCase {
     assertTrue("Video Share Activities OK", asserts.areVideoShareActivitiesSane());
   }
 
-  private void fetchAllActivities(Transport transport) throws IOException {
-    if (activities == null) {
-      activities = createList();
-    }
+  private List<ActivityEntry> fetchAllActivities(Transport transport) throws IOException {
+    List<ActivityEntry> activities = createList();
 
     ActivityTxFactory factory = new ActivityTxFactory();
     GetActivitiesTx getActivities = factory.getActivities();
@@ -155,6 +154,8 @@ public class FetchAllTests extends TestCase {
     for (int i = 0; i < getActivities.getActivityCount(); i++) {
       activities.add(getActivities.getActivity(i));
     }
+
+    return activities;
   }
 
   /**
