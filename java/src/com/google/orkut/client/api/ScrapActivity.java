@@ -17,6 +17,8 @@
 package com.google.orkut.client.api;
 
 
+import com.google.orkut.client.api.Converter.ConversionErrorException;
+
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -29,16 +31,16 @@ import org.json.me.JSONObject;
 public class ScrapActivity extends ActivityEntry {
   // receiver of scrap
   private static final int SCRAP_RECEIVER = 0;
-  
+
   // sender of scrap
   private static final int SCRAP_SENDER = 1;
 
   private String receiverId;
   private String senderId;
-  
+
   private OrkutPerson receiverProfile;
   private OrkutPerson senderProfile;
-  
+
   ScrapActivity(JSONObject json) {
     super(json);
     parse(json);
@@ -51,7 +53,7 @@ public class ScrapActivity extends ActivityEntry {
         receiverId = userIds.getString(SCRAP_RECEIVER);
         senderId = userIds.getString(SCRAP_SENDER);
       } catch (JSONException e) {
-        // do nothing?
+        throw new ConversionErrorException("scrap information incomplete");
       }
     }
 
@@ -73,27 +75,27 @@ public class ScrapActivity extends ActivityEntry {
   public String type() {
     return ActivityEntry.ActivityType.SCRAP;
   }
-  
+
   /** Returns body of the scrap */
   public String getBody() {
     return json.optString(Fields.BODY);
   }
-  
+
   /** Returns user id of the receiver of the scrap */
   public String getReceiverId() {
     return receiverId;
   }
-  
+
   /** Returns user id of the sender of the scrap */
   public String getSenderId() {
     return senderId;
   }
-  
+
   /** Returns profile of the receiver of scrap */
   public OrkutPerson getReceiverProfile() {
     return receiverProfile;
   }
-  
+
   /** Returns profile of the sender of scrap */
   public OrkutPerson getSenderProfile() {
     return senderProfile;

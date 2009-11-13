@@ -149,7 +149,9 @@ public class BatchTransaction {
         JSONObject response = batchResponse.getJSONObject(i);
         String id = response.optString(Fields.ID);
         Transaction transaction = (Transaction) transactions.get(id);
-        transaction.setResponse(response);
+        if (transaction != null) {
+          transaction.setResponse(response);
+        }
       }
     } catch (JSONException e) {
       throw new RuntimeException("Unexpected exception while setting response", e);

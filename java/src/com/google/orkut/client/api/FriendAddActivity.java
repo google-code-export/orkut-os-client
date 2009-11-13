@@ -33,7 +33,7 @@ public class FriendAddActivity extends ActivityEntry {
   FriendAddActivity(JSONObject json) {
     super(json);
     if (getRelevantUserIdSize() < 2) {
-      throw new RuntimeException("FriendAdd activity needs at least two relevantUserIds");
+      throw new Converter.ConversionErrorException("Need at least two relevantUserIds");
     }
     personAId = getRelevantUserId(0);
     personBId = getRelevantUserId(1);

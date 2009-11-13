@@ -17,6 +17,8 @@
 package com.google.orkut.client.api;
 
 
+import com.google.orkut.client.api.Converter.ConversionErrorException;
+
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -45,7 +47,7 @@ public class TestimonialActivity extends ActivityEntry {
       try {
         receiverId = userIds.getString(RECEIVER);
       } catch (JSONException e) {
-        // do nothing?
+        throw new ConversionErrorException("cannot have a testimonial activity without a receiver");
       }
     }
 

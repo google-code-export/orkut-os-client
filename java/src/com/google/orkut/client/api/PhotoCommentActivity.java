@@ -40,17 +40,23 @@ public class PhotoCommentActivity extends ActivityEntry {
     mediaItems = Util.forEachItemInList(json, Fields.MEDIA_ITEMS,
         new Converter() {
           Object convert(JSONObject json) {
+            if (json == null) {
+              throw new ConversionErrorException("cannot have null media-item");
+            }
             return new MediaItem(json);
           }
         });
     comments = Util.forEachItemInList(json, Fields.COMMENTS,
         new Converter() {
           Object convert(JSONObject json) {
+            if (json == null) {
+              throw new ConversionErrorException("cannot have null comment");
+            }
             return new Comment(json);
           }
         });
   }
-  
+
   public String type() {
     return ActivityEntry.ActivityType.PHOTO_COMMENT;
   }
@@ -63,7 +69,7 @@ public class PhotoCommentActivity extends ActivityEntry {
     }
     return templateParams.optString(Fields.ALBUM_ID);
   }
-  
+
   /** Returns the title of the album on which the comment is written */
   public String getAlbumTitle() {
     JSONObject templateParams = json.optJSONObject(Fields.TEMPLATE_PARAMS);
@@ -77,7 +83,7 @@ public class PhotoCommentActivity extends ActivityEntry {
   public OrkutPerson getPhotoOwnerProfile() {
     return getOwnerProfile();
   }
-  
+
   /** Returns a requested photo on which the comments were written */
   public MediaItem getMediaItem() {
     if (mediaItems.size() == 0) {
@@ -86,7 +92,7 @@ public class PhotoCommentActivity extends ActivityEntry {
       return (MediaItem) mediaItems.get(0);
     }
   }
-  
+
   /** Returns number of comments on the photo */
   public int getCommentsCount() {
     return mediaItems.size();

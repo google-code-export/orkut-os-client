@@ -25,5 +25,11 @@ import org.json.me.JSONObject;
  * @author Sachin Shenoy
  */
 abstract class Converter {
-  abstract Object convert(JSONObject json);
+  public static class ConversionErrorException extends RuntimeException {
+    public ConversionErrorException(String msg) {
+      super(msg);
+    }
+  }
+
+  abstract Object convert(JSONObject json) throws ConversionErrorException;
 }
