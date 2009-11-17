@@ -30,7 +30,7 @@ public class VideoShareActivity extends ActivityEntry {
 
   private Vector mediaItems;
 
-  public VideoShareActivity(JSONObject json) {
+  VideoShareActivity(JSONObject json) {
     super(json);
     parse(json);
   }
@@ -43,14 +43,22 @@ public class VideoShareActivity extends ActivityEntry {
         });
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.VIDEO;
   }
 
+  /**
+   * Returns the number of videos in this video-share-activity.
+   */
   public int getMediaItemCount() {
     return mediaItems.size();
   }
 
+  /**
+   * Returns the video at the given index in the video share activity.
+   *
+   * @param index video index - valid values from {@code 0} to {@link #getMediaItemCount()}{@code -1}
+   */
   public MediaItem getMediaItem(int index) {
     return (MediaItem) mediaItems.get(index);
   }

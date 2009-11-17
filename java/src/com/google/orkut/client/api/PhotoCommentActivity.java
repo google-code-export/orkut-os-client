@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 import java.util.Vector;
@@ -51,7 +50,7 @@ public class PhotoCommentActivity extends ActivityEntry {
         });
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.PHOTO_COMMENT;
   }
 

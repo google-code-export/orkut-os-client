@@ -53,7 +53,7 @@ public class GetPhotoCommentsTx extends Transaction {
     totalResults = data.optInt(Fields.TOTAL_RESULTS);
     comments = Util.forEachItemInList(data, ResponseFields.LIST_KEY, new Converter() {
           Object convert(JSONObject json) {
-            return new CommentsEntry(json);
+            return new CommentEntry(json);
           }
         });
   }
@@ -62,8 +62,8 @@ public class GetPhotoCommentsTx extends Transaction {
     return comments.size();
   }
 
-  public CommentsEntry getComment(int index) {
-    return (CommentsEntry) comments.get(index);
+  public CommentEntry getComment(int index) {
+    return (CommentEntry) comments.get(index);
   }
 
   public boolean hasNext() {

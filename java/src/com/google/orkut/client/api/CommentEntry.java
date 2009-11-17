@@ -23,7 +23,7 @@ import org.json.me.JSONObject;
  *
  * @author Sachin Shenoy
  */
-public class CommentsEntry {
+public class CommentEntry {
   private static final String FROM_USER_PROFILE = "fromUserProfile";
   private static final String PARENT_ID = "parentId";
   private static final String TEXT = "text";
@@ -33,7 +33,7 @@ public class CommentsEntry {
 
   private final JSONObject json;
 
-  public CommentsEntry(JSONObject json) {
+  CommentEntry(JSONObject json) {
     this.json = json;
   }
 

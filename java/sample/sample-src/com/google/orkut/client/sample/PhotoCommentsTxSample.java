@@ -16,7 +16,7 @@
 
 package com.google.orkut.client.sample;
 
-import com.google.orkut.client.api.CommentsEntry;
+import com.google.orkut.client.api.CommentEntry;
 import com.google.orkut.client.api.CommentsTxFactory;
 import com.google.orkut.client.api.GetPhotoCommentsTx;
 import com.google.orkut.client.api.GetProfileTx;
@@ -87,7 +87,7 @@ public class PhotoCommentsTxSample {
       return null;
     }
 
-    CommentsEntry commentsEntry = writePhotoComments.getCommentsEntry();
+    CommentEntry commentsEntry = writePhotoComments.getCommentEntry();
 
     // we return the commentId so that we can delete it next.
     return commentsEntry.getId();

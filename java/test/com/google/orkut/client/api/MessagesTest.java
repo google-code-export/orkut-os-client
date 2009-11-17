@@ -48,7 +48,7 @@ public class MessagesTest extends TestCase {
   }
 
   public void testGetScraps() throws Exception {
-    GetScrapsTx getScrapsTx = factory.getScrap();
+    GetScrapsTx getScrapsTx = factory.getSelfScraps();
 
     transport.add(getScrapsTx).run();
 
@@ -60,7 +60,7 @@ public class MessagesTest extends TestCase {
   }
 
   public void testGetScrapsPagination() throws Exception {
-    GetScrapsTx getScrapsTx = factory.getScrap();
+    GetScrapsTx getScrapsTx = factory.getSelfScraps();
     getScrapsTx.setCount(1);
     transport.add(getScrapsTx).run();
     int offset = 0;

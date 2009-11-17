@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 /**
@@ -212,7 +211,7 @@ public class OrkutError {
   /**
    * Returns the error message string (this is beyond the other error params).
    */
-  public String getMessage() {
+  String getMessage() {
     return message;
   }
 

@@ -29,7 +29,7 @@ public class SocialEventActivity extends ActivityEntry {
     super(json);
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.SOCIAL_EVENTS_CREATION;
   }
 }

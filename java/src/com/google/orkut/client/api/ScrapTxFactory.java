@@ -25,8 +25,12 @@ import com.google.orkut.client.api.InternalConstants.Values;
  */
 public class ScrapTxFactory {
 
-  public GetScrapsTx getScrap() {
+  public GetScrapsTx getSelfScraps() {
     return new GetScrapsTx();
+  }
+
+  public GetScrapsTx getScrapsOf(String personId) {
+    return new GetScrapsTx(personId);
   }
 
   public GetScrapsTx getNext(GetScrapsTx prev) {

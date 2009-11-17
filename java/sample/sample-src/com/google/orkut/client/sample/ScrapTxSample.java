@@ -64,7 +64,7 @@ public class ScrapTxSample {
     System.out.println("Run fetchScrapTx:");
 
     // Create a transaction to fetch my scraps.
-    GetScrapsTx fetchScrapTx = factory.getScrap();
+    GetScrapsTx fetchScrapTx = factory.getSelfScraps();
 
     // execute the transaction.
     transport.add(fetchScrapTx).run();
@@ -130,7 +130,7 @@ public class ScrapTxSample {
   }
 
   private ScrapEntry fetchFirstScrapEntry() throws IOException {
-    GetScrapsTx fetchScrapTx = factory.getScrap();
+    GetScrapsTx fetchScrapTx = factory.getSelfScraps();
     transport.add(fetchScrapTx).run();
 
     if (fetchScrapTx.hasError()) {

@@ -55,7 +55,7 @@ public abstract class ActivityEntry {
   protected JSONArray relevantProfiles;
   private final HashMap relevantProfileMap = new HashMap();
 
-  public ActivityEntry(JSONObject json) {
+  ActivityEntry(JSONObject json) {
     this.json = json;
     if (!json.has(Params.RELEVANT_USER_IDS)) {
       throw new CreationException("Field " + Params.RELEVANT_USER_IDS
@@ -92,7 +92,7 @@ public abstract class ActivityEntry {
     return json.optLong(Fields.POSTED_TIME);
   }
 
-  protected int getRelevantUserIdSize() {
+  protected int getRelevantUserIdCount() {
     return relevantUserIds.length();
   }
 
@@ -109,7 +109,7 @@ public abstract class ActivityEntry {
   }
 
   /**
-   * Source application of the activity, null if activity was not generated
+   * Source application of the activity, <code>null</code> if activity was not generated
    * by an app, or if source app detail not known.
    */
   public Application getSource() {
@@ -117,5 +117,5 @@ public abstract class ActivityEntry {
   }
 
   /** Type of the activity one from the {@link ActivityEntry.ActivityType}. */
-  public abstract String type();
+  public abstract String getType();
 }

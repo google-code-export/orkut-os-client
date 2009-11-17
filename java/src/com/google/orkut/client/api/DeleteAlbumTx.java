@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 /**
@@ -33,7 +32,7 @@ public class DeleteAlbumTx extends Transaction {
   }
 
   protected void setResponseData(JSONObject data) {
-    // do nothing -- the checks for error are all we need
+    // do nothing -- the checks for error are all we need.
     // delete does not return any data to parse
   }
 }

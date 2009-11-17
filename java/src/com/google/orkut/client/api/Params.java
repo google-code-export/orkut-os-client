@@ -46,7 +46,6 @@ class Params {
   static final String MESSAGE_TYPE = "messageType";
   static final String METHOD = "method";
   static final String MSG_ID = "msgId";
-  /** The SMS text that will be sent to contacts with whom album is shared with */
   static final String NOTIFICATION = "notification";
   static final String OWNER_ID = "ownerId";
   static final String PARAMS = "params";
@@ -54,7 +53,6 @@ class Params {
   static final String PERSON_ID = "personId";
   static final String RELEVANT_USER_IDS = "relevantUserIds";
   static final String SORT_BY = "sortBy";
-
   static final String START_INDEX = "startIndex";
   static final String TYPE = "type";
   static final String USER_ID = "userId";

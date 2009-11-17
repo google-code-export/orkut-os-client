@@ -16,14 +16,12 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 import java.util.Vector;
 
 /**
  * A {@link Transaction} to fetch scraps for a user on orkut.
- * TODO(birmiwal): Add support for prev/next aailability.
  *
  * @author Sachin Shenoy
  */
@@ -51,13 +49,17 @@ public class GetScrapsTx extends Transaction {
     }
   }
 
-  public GetScrapsTx() {
+  GetScrapsTx(String personId) {
     super(RequestIds.SCRAPS_GET, MethodNames.MESSAGES_GET);
-    request.setUserId(Constants.USERID_ME)
+    request.setUserId(personId)
            .setGroupId(Group.FRIENDS)
            .addParameter(Fields.PAGE_TYPE, Params.PageType.FIRST)
            .addParameter(Fields.MESSAGE_TYPE, InternalConstants.Values.PUBLIC_MESSAGE);
     setCount(DEFAULT_NUM_SCRAPS);
+  }
+
+  GetScrapsTx() {
+    this(Constants.USERID_ME);
   }
 
   public GetScrapsTx setMessageFormat(String format) {
@@ -72,7 +74,7 @@ public class GetScrapsTx extends Transaction {
   }
 
   GetScrapsTx getNext() {
-    GetScrapsTx scrapTx = new GetScrapsTx();
+    GetScrapsTx scrapTx = new GetScrapsTx(request.getUserId());
     scrapTx.request.addParameter(Fields.PAGE_TYPE, Params.PageType.NEXT)
                    .addParameter(Params.COUNT, request.getCount())
                    .addParameter(Params.LAST_KEY, getLastMessageKey());
@@ -80,7 +82,7 @@ public class GetScrapsTx extends Transaction {
   }
 
   GetScrapsTx getPrev() {
-    GetScrapsTx scrapTx = new GetScrapsTx();
+    GetScrapsTx scrapTx = new GetScrapsTx(request.getUserId());
     scrapTx.request.addParameter(Fields.PAGE_TYPE, Params.PageType.PREV)
                    .addParameter(Params.COUNT, request.getCount())
                    .addParameter(Params.LAST_KEY, getFirstMessageKey());

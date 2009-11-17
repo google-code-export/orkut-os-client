@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 /**
@@ -36,7 +35,7 @@ public class UpdatePhotoTx extends Transaction {
   }
 
   protected void setResponseData(JSONObject data) {
-    // do nothing -- the checks for error are all we need
-    // delete does not return any data to parse
+    // do nothing -- the checks for error are all we need.
+    // update does not return any data to parse
   }
 }

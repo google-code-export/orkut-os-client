@@ -26,9 +26,9 @@ import org.json.me.JSONObject;
  * @author Sachin Shenoy
  */
 public class WritePhotoCommentsTx extends Transaction {
-  private CommentsEntry commentsEntry;
+  private CommentEntry commentEntry;
 
-  public WritePhotoCommentsTx(String userId, String albumId, String photoId, String text) {
+  WritePhotoCommentsTx(String userId, String albumId, String photoId, String text) {
     super(RequestIds.COMMENTS_CREATE, MethodNames.COMMENTS_CREATE);
     JSONObject comment = new JSONObject();
     Util.putJsonValue(comment, Fields.TEXT, text);
@@ -41,10 +41,13 @@ public class WritePhotoCommentsTx extends Transaction {
   }
 
   protected void setResponseData(JSONObject data) {
-    commentsEntry = new CommentsEntry(data);
+    commentEntry = new CommentEntry(data);
   }
 
-  public CommentsEntry getCommentsEntry() {
-    return commentsEntry;
+  /**
+   * Returns the comment written.
+   */
+  public CommentEntry getCommentEntry() {
+    return commentEntry;
   }
 }

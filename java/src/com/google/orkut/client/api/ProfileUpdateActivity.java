@@ -114,7 +114,7 @@ public class ProfileUpdateActivity extends ActivityEntry {
         });
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.PROFILE_UPDATE;
   }
 

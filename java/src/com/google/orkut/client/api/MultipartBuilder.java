@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Builds a multi-part HTTP request.
- * 
+ *
  * @author Sachin Shenoy
  */
 class MultipartBuilder {
@@ -40,8 +40,7 @@ class MultipartBuilder {
   private final String boundary;
   private final byte[] boundaryAsBytes;
 
-  
-  public MultipartBuilder() {
+  MultipartBuilder() {
     buffer = new ByteArrayOutputStream();
     boundary = "n1z2y3x4w5v6u7t";
     boundaryAsBytes = boundary.getBytes();
@@ -56,7 +55,7 @@ class MultipartBuilder {
     }
   }
 
-  public MultipartBuilder addField(String name, String value) throws IOException {
+  MultipartBuilder addField(String name, String value) throws IOException {
     buffer.write(DASHDASH);
     buffer.write(boundaryAsBytes);
     buffer.write(CRLF);
@@ -70,13 +69,13 @@ class MultipartBuilder {
     buffer.write(CRLF);
     return this;
   }
-  
-  public MultipartBuilder addFile(String name, String filename,
+
+  MultipartBuilder addFile(String name, String filename,
       String contentType, byte[] value) throws IOException {
     buffer.write(DASHDASH);
     buffer.write(boundaryAsBytes);
     buffer.write(CRLF);
-    buffer.write(FIELD_PARAM); 
+    buffer.write(FIELD_PARAM);
     buffer.write(QUOTE);
     buffer.write(getUtf8(name));
     buffer.write(QUOTE);
@@ -93,18 +92,18 @@ class MultipartBuilder {
     buffer.write(CRLF);
     return this;
   }
-  
-  public byte[] build() throws IOException {
+
+  byte[] build() throws IOException {
     buffer.write(DASHDASH);
     buffer.write(boundaryAsBytes);
     buffer.write(DASHDASH);
     buffer.write(CRLF);
     buffer.write(CRLF);
-    
+
     return buffer.toByteArray();
   }
-  
-  public String getContentType() {
+
+  String getContentType() {
     return MULTIPART_FORM_DATA + boundary;
   }
 }

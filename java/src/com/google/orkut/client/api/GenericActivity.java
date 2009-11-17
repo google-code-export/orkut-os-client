@@ -29,7 +29,7 @@ public class GenericActivity extends ActivityEntry {
     super(json);
   }
 
-  public String type() {
+  public String getType() {
     return ActivityConverter.getTypeOf(json);
   }
 }

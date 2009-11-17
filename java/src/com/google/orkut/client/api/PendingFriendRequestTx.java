@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
@@ -30,7 +29,7 @@ public class PendingFriendRequestTx extends Transaction {
 
   private JSONArray notificationsJson;
 
-  public PendingFriendRequestTx() {
+  PendingFriendRequestTx() {
     super(MethodNames.MESSAGES_GET);
     request.setUserId(Constants.USERID_ME)
            .setGroupId(Group.FRIENDS)
@@ -42,7 +41,8 @@ public class PendingFriendRequestTx extends Transaction {
     notificationsJson = data.optJSONArray(ResponseFields.LIST_KEY);
   }
 
-  public int getPendingFriendRequestSize() {
+  // TODO(birmiwal): finish this
+  public int getPendingFriendRequestCount() {
     return 0;
   }
 }
