@@ -16,8 +16,6 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.api.Converter.ConversionErrorException;
-
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -66,7 +64,7 @@ public class Util {
         JSONObject json = itemList.getJSONObject(i);
         try {
           items.add(processor.convert(json));
-        } catch (ConversionErrorException e) {
+        } catch (CreationException e) {
           // ignore and skip conversion of this item
         }
       }

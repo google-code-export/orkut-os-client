@@ -38,9 +38,6 @@ public class VideoShareActivity extends ActivityEntry {
   private void parse(JSONObject json) {
     mediaItems = Util.forEachItemInList(json, Fields.MEDIA_ITEMS, new Converter() {
           Object convert(JSONObject json) {
-            if (json == null) {
-              throw new ConversionErrorException("media-item cannot be null");
-            }
             return new MediaItem(json);
           }
         });

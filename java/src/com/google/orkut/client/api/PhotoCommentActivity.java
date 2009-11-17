@@ -40,18 +40,12 @@ public class PhotoCommentActivity extends ActivityEntry {
     mediaItems = Util.forEachItemInList(json, Fields.MEDIA_ITEMS,
         new Converter() {
           Object convert(JSONObject json) {
-            if (json == null) {
-              throw new ConversionErrorException("cannot have null media-item");
-            }
             return new MediaItem(json);
           }
         });
     comments = Util.forEachItemInList(json, Fields.COMMENTS,
         new Converter() {
           Object convert(JSONObject json) {
-            if (json == null) {
-              throw new ConversionErrorException("cannot have null comment");
-            }
             return new Comment(json);
           }
         });
