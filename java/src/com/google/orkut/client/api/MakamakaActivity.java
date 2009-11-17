@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 /**
@@ -30,14 +29,14 @@ public class MakamakaActivity extends ActivityEntry {
     super(json);
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.MAKAMAKA;
   }
-  
+
   public String getTitle() {
     return json.optString(Fields.TITLE);
   }
-  
+
   public String getBody() {
     return json.optString(Fields.BODY);
   }

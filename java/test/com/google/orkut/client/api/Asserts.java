@@ -223,8 +223,8 @@ public class Asserts {
     if (profile != null) {
       isBadActivity |= isInvalidProfile(profile);
     }
-    isBadActivity |= isZero(activity.getRelevantUserIdSize());
-    for (int i = 0; i < activity.getRelevantUserIdSize(); i++) {
+    isBadActivity |= isZero(activity.getRelevantUserIdCount());
+    for (int i = 0; i < activity.getRelevantUserIdCount(); i++) {
       String userId = activity.getRelevantUserId(i);
       isBadActivity |= isNull(userId);
       OrkutPerson person = activity.getRelevantProfile(userId);

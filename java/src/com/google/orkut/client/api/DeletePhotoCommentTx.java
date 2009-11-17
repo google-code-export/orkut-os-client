@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 /**
  * A {@link Transaction} to delete a photo comment.
  *

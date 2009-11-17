@@ -32,7 +32,7 @@ public class FriendAddActivity extends ActivityEntry {
 
   FriendAddActivity(JSONObject json) {
     super(json);
-    if (getRelevantUserIdSize() < 2) {
+    if (getRelevantUserIdCount() < 2) {
       throw new CreationException("FriendAddActivity: Need at least two relevantUserIds");
     }
     personAId = getRelevantUserId(0);
@@ -42,7 +42,7 @@ public class FriendAddActivity extends ActivityEntry {
     personBProfile = getRelevantProfile(personBId);
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.FRIEND_ADD;
   }
 

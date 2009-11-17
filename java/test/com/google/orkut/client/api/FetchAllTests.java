@@ -77,52 +77,52 @@ public class FetchAllTests extends TestCase {
   public void testActivities() throws Exception {
     Asserts asserts = new Asserts();
     for (ActivityEntry activity : activities) {
-      if (ActivityType.FRIEND_ADD.equals(activity.type())) {
+      if (ActivityType.FRIEND_ADD.equals(activity.getType())) {
         FriendAddActivity friendAddActivity = (FriendAddActivity) activity;
         asserts.inspectFriendAddActivity(friendAddActivity);
       }
 
-      if (ActivityType.MAKAMAKA.equals(activity.type())) {
+      if (ActivityType.MAKAMAKA.equals(activity.getType())) {
         MakamakaActivity makamakaActivity = (MakamakaActivity) activity;
         asserts.inspectMakamakaActivity(makamakaActivity);
       }
 
-      if (ActivityType.PHOTO.equals(activity.type())) {
+      if (ActivityType.PHOTO.equals(activity.getType())) {
         PhotoShareActivity photoShareActivity = (PhotoShareActivity) activity;
         asserts.inspectPhotoShareActivity(photoShareActivity);
       }
 
-      if (ActivityType.PHOTO_COMMENT.equals(activity.type())) {
+      if (ActivityType.PHOTO_COMMENT.equals(activity.getType())) {
         PhotoCommentActivity photoCommentActivity = (PhotoCommentActivity) activity;
         asserts.inspectPhotoCommentActivity(photoCommentActivity);
       }
 
-      if (ActivityType.PROFILE_UPDATE.equals(activity.type())) {
+      if (ActivityType.PROFILE_UPDATE.equals(activity.getType())) {
         ProfileUpdateActivity profileUpdateActivity = (ProfileUpdateActivity) activity;
         asserts.inspectProfileUpdateActivity(profileUpdateActivity);
       }
 
-      if (ActivityType.SCRAP.equals(activity.type())) {
+      if (ActivityType.SCRAP.equals(activity.getType())) {
         ScrapActivity scrapActivity = (ScrapActivity) activity;
         asserts.inspectScrapActivity(scrapActivity);
       }
 
-      if (ActivityType.SOCIAL_EVENTS_CREATION.equals(activity.type())) {
+      if (ActivityType.SOCIAL_EVENTS_CREATION.equals(activity.getType())) {
         SocialEventActivity socialEventActivity = (SocialEventActivity) activity;
         asserts.inspectSocialEventActivity(socialEventActivity);
       }
 
-      if (ActivityType.STATUS_MSG.equals(activity.type())) {
+      if (ActivityType.STATUS_MSG.equals(activity.getType())) {
         StatusMessageActivity statusMessageActivity = (StatusMessageActivity) activity;
         asserts.inspectStatusMessageActivity(statusMessageActivity);
       }
 
-      if (ActivityType.TESTIMONIAL.equals(activity.type())) {
+      if (ActivityType.TESTIMONIAL.equals(activity.getType())) {
         TestimonialActivity testimonialActivity = (TestimonialActivity) activity;
         asserts.inspectTestimonialActivity(testimonialActivity);
       }
 
-      if (ActivityType.VIDEO.equals(activity.type())) {
+      if (ActivityType.VIDEO.equals(activity.getType())) {
         VideoShareActivity videoShareActivity = (VideoShareActivity) activity;
         asserts.inspectVideoShareActivity(videoShareActivity);
       }

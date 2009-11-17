@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import com.google.orkut.client.api.Constants.Gender;
 
 import org.json.me.JSONArray;
@@ -24,6 +23,9 @@ import org.json.me.JSONObject;
 
 /**
  * Represents the profile information for a person.
+ *
+ * @author Sachin Shenoy
+ * @author Shishir Birmiwal
  */
 public class OrkutPerson {
 
@@ -51,7 +53,21 @@ public class OrkutPerson {
 
   /** Returns display name or null if the field was not present in the response */
   public String getDisplayName() {
-    return json.optString(Fields.DISPLAY_NAME, null);
+    String givenName = getGivenName();
+    String familyName = getFamilyName();
+    if (givenName == null && familyName == null) {
+      return null;
+    }
+
+    if (givenName == null) {
+      return familyName;
+    }
+
+    if (familyName == null) {
+      return givenName;
+    }
+
+    return givenName + " " + familyName;
   }
 
   /** Returns thumbnail-url or null if the field was not present in the response */
@@ -126,7 +142,7 @@ public class OrkutPerson {
    * Clients using this function should use it to get data-items that does not have a canned 'get'
    * method. Clients are not supposed to modify the underlying object.
    */
-  public JSONObject getJSONbject() {
+  JSONObject getJSONbject() {
     return json;
   }
 

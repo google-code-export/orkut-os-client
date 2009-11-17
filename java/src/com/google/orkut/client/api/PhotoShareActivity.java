@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 import java.util.Vector;
@@ -26,7 +25,7 @@ import java.util.Vector;
  *
  * <p>
  * This activity is created when someone uploads photo into orkut. We provide a
- * coalesed (merged) view of the activity, where if a user uploads multiple
+ * coalesced (merged) view of the activity, where if a user uploads multiple
  * photos, rather than providing multiple activity stream entry, we provide a
  * single entry with details of all photos. This detail is provided through
  * {@link MediaItem}.
@@ -52,7 +51,7 @@ public class PhotoShareActivity extends ActivityEntry {
         });
   }
 
-  public String type() {
+  public String getType() {
     return ActivityEntry.ActivityType.PHOTO;
   }
 

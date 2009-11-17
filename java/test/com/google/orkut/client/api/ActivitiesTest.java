@@ -56,7 +56,7 @@ public class ActivitiesTest extends TestCase {
     while (true) {
       for (int i = 0; i < activities.getActivityCount(); i++) {
         ActivityEntry activity = activities.getActivity(i);
-        if (ActivityType.PHOTO_COMMENT.equals(activity.type())) {
+        if (ActivityType.PHOTO_COMMENT.equals(activity.getType())) {
           PhotoCommentActivity photoCommentActivity = (PhotoCommentActivity) activity;
           assertPhotoCommentActivityEquals(expectedPhotoCommentActivity, photoCommentActivity);
           photoCommentActivityFound = true;
@@ -80,8 +80,8 @@ public class ActivitiesTest extends TestCase {
   void assertPhotoCommentActivityEquals(PhotoCommentActivity expected,
       PhotoCommentActivity actual) {
     assertEquals(expected.getId(), actual.getId());
-    assertEquals(expected.getRelevantUserIdSize(), actual.getRelevantUserIdSize());
-    for (int i = 0; i < expected.getRelevantUserIdSize(); i++) {
+    assertEquals(expected.getRelevantUserIdCount(), actual.getRelevantUserIdCount());
+    for (int i = 0; i < expected.getRelevantUserIdCount(); i++) {
       assertEquals(expected.getRelevantUserId(i), actual.getRelevantUserId(i));
     }
     assertEquals(expected.getOwnerId(), actual.getOwnerId());

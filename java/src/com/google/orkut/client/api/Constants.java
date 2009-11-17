@@ -18,7 +18,6 @@ package com.google.orkut.client.api;
 
 import com.google.orkut.client.api.Album.AclEntry;
 
-
 /**
  * Constants used in orkut client library api.
  *
