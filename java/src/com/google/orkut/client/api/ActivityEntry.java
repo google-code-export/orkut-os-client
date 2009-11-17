@@ -16,8 +16,6 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.api.Converter.ConversionErrorException;
-
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
@@ -60,7 +58,7 @@ public abstract class ActivityEntry {
   public ActivityEntry(JSONObject json) {
     this.json = json;
     if (!json.has(Params.RELEVANT_USER_IDS)) {
-      throw new ConversionErrorException("Field " + Params.RELEVANT_USER_IDS
+      throw new CreationException("Field " + Params.RELEVANT_USER_IDS
           + " missing!");
     }
     relevantUserIds = json.optJSONArray(Params.RELEVANT_USER_IDS);

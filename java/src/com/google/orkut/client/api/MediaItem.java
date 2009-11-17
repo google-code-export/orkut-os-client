@@ -32,6 +32,11 @@ public class MediaItem {
   private final JSONObject json;
 
   MediaItem(JSONObject json) {
+    if (json == null
+        || json.optString(Fields.TYPE) == null
+        || json.optString(Fields.ID) == null) {
+      throw new CreationException("JSON/ID/TYPE cannot be null!");
+    }
     this.json = json;
   }
 

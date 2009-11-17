@@ -21,7 +21,7 @@ import org.json.me.JSONObject;
 
 /**
  * Represents a comment.
- * 
+ *
  * @author Sachin Shenoy
  */
 public class Comment {
@@ -29,19 +29,22 @@ public class Comment {
   private final JSONObject json;
 
   Comment(JSONObject json) {
+    if (json == null) {
+      throw new CreationException("JSON cannot be null!");
+    }
     this.json = json;
   }
-  
+
   /** Returns the text of the comment */
   public String getText() {
     return json.optString(Fields.TEXT);
   }
-  
+
   /** Returns the created time of the comment */
   public Long getCreatedTime() {
     return json.optLong(Fields.CREATED);
   }
-  
+
   /** Returns the user id of the author of the comment */
   public String getAuthorId() {
     return json.optString(Fields.AUTHOR_ID);

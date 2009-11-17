@@ -17,8 +17,6 @@
 package com.google.orkut.client.api;
 
 
-import com.google.orkut.client.api.Converter.ConversionErrorException;
-
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -53,7 +51,7 @@ public class ScrapActivity extends ActivityEntry {
         receiverId = userIds.getString(SCRAP_RECEIVER);
         senderId = userIds.getString(SCRAP_SENDER);
       } catch (JSONException e) {
-        throw new ConversionErrorException("scrap information incomplete");
+        throw new CreationException("scrap information incomplete", e);
       }
     }
 
