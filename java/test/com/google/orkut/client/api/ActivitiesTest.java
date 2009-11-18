@@ -49,7 +49,7 @@ public class ActivitiesTest extends TestCase {
   public void testGetActivities() throws Exception {
     boolean photoCommentActivityFound = false;
 
-    GetActivitiesTx activities = factory.getActivities();
+    GetActivitiesTx activities = factory.getSelfActivities();
 
     transport.add(activities).run();
 

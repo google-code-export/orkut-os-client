@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 import org.json.me.JSONObject;
 
 /**
@@ -84,7 +83,7 @@ public class Transaction  {
   byte[] getBody() {
     return null;
   }
-  
+
   /**
    * Returns the content type of the body.
    */
@@ -98,7 +97,7 @@ public class Transaction  {
   String getParamName() {
     return null;
   }
-  
+
   void setResponse(JSONObject response) {
     JSONObject error = response.optJSONObject(ResponseFields.ERROR_KEY);
     if (error != null) {

@@ -72,6 +72,16 @@ public class GetProfileTx extends Transaction {
     return this;
   }
 
+  public GetProfileTx alsoGetBirthday() {
+    request.addFieldIfNotPresent(Fields.BIRTHDAY);
+    return this;
+  }
+
+  public GetProfileTx alsoGetAddress() {
+    request.addFieldIfNotPresent(Fields.CURRENT_LOCATION);
+    return this;
+  }
+
   protected void setResponseData(JSONObject response) {
     orkutPerson = new OrkutPerson(response);
   }

@@ -66,5 +66,25 @@ public class UpdateProfileTx extends Transaction {
     return this;
   }
 
+  /**
+   * Sets the birthday profile field of the user.
+   *
+   * @param birthday the birthday in seconds since unix epoch
+   */
+  public UpdateProfileTx setBirthday(long birthday) {
+    Util.putJsonValue(person, Fields.BIRTHDAY, birthday);
+    return this;
+  }
+
+  /**
+   * Sets the address field of the user.
+   *
+   * @param address the address to set for the user
+   */
+  public UpdateProfileTx setAddress(Address address) {
+    Util.putJsonValue(person, Fields.CURRENT_LOCATION, address.getJson());
+    return this;
+  }
+
   protected void setResponseData(JSONObject response) {}
 }

@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.api;
 
-
 /**
  * A {@link Transaction} to add a person as a friend.
  *

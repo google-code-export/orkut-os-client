@@ -25,22 +25,40 @@ import com.google.orkut.client.api.InternalConstants.Values;
  */
 public class ScrapTxFactory {
 
+  /**
+   * Get a {@link GetScrapsTx} to fetch scraps of the logged in user.
+   */
   public GetScrapsTx getSelfScraps() {
     return new GetScrapsTx();
   }
 
+  /**
+   * Get a {@link GetScrapsTx} to fetch scraps of a person.
+   */
   public GetScrapsTx getScrapsOf(String personId) {
     return new GetScrapsTx(personId);
   }
 
+  /**
+   * Get a {@link GetScrapsTx} to fetch the next set of scraps,
+   * give a previous successfully executed {@link GetScrapsTx}.
+   */
   public GetScrapsTx getNext(GetScrapsTx prev) {
     return prev.getNext();
   }
 
+  /**
+   * Get a {@link GetScrapsTx} to fetch the prev set of scraps,
+   * give a previously successfully executed {@link GetScrapsTx}.
+   */
   public GetScrapsTx getPrev(GetScrapsTx last) {
     return last.getPrev();
   }
 
+  /**
+   * Get a {@link Transaction} to delete a scrap.
+   * @param scrapEntry the scrap to delete
+   */
   public Transaction deleteScrap(ScrapEntry scrapEntry) {
     Transaction transaction = new Transaction(RequestIds.SCRAPS_DELETE, MethodNames.MESSAGES_DELETE);
     transaction.request.setUserId(Constants.USERID_ME)
@@ -50,10 +68,16 @@ public class ScrapTxFactory {
     return transaction;
   }
 
+  /**
+   * Get a {@link WriteScrapTx} to write a scrap in a person's scrap book.
+   */
   public WriteScrapTx writeScrap(String personId, String body) {
     return new WriteScrapTx(personId, body);
   }
 
+  /**
+   * Get a {@link WriteScrapTx} to reply to a scrap message.
+   */
   public WriteScrapTx replyToScrap(ScrapEntry scrapEntry, String body) {
     return new WriteScrapTx(scrapEntry.getFromUserId(), body, scrapEntry.getId());
   }

@@ -31,6 +31,12 @@ class Fields {
     /** Specifies the type of user in this entry of the ACL. */
     static final String ACCESSOR_TYPE = "accessorType";
   }
+  public static final String BIRTHDAY = "birthday";
+  public static final String COUNTRY = "country";
+  public static final String CURRENT_LOCATION = "currentLocation";
+  public static final String LOCALITY = "locality";
+  public static final String POSTAL_CODE = "postal";
+  public static final String REGION = "region";
   static final String ABOUT_ME = "aboutMe";
   /** data specifying the ACL for this album */
   static final String ACL = "accessControlList";
@@ -39,13 +45,13 @@ class Fields {
   static final String ALBUM_TITLE = "albumTitle";
   static final String ALLOW_IM = "allowIm";
   static final String AUTHOR_ID = "authorId";
+
   static final String BODY = "body";
   static final String COMMENTS = "comments";
   static final String CREATED = "created";
   static final String DESCRIPTION = "description";
   static final String DISPLAY_NAME = "displayName";
   static final String EMAILS = "emails";
-
   /** The list of entries in an ACL */
   static final String ENTRIES = "entries";
   static final String ERROR_TYPE = "errorType";
@@ -53,6 +59,7 @@ class Fields {
   static final String FROM_USER_PROFILE = "fromUserProfile";
   static final String GENDER = "gender";
   static final String ID = "id";
+
   /** the json field for location */
   static final String LOCATION = "location";
   /** the json field for count of media items in album */
@@ -63,7 +70,6 @@ class Fields {
   /** media types in the album */
   static final String MEDIA_TYPE = "mediaType";
   static final String MESSAGE_TYPE = "messageType";
-
   static final String NAME = "name";
   // The next two are subfields of "name":
   static final String NAME_FAMILY_NAME = "familyName";

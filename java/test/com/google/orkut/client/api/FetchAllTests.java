@@ -145,7 +145,7 @@ public class FetchAllTests extends TestCase {
     List<ActivityEntry> activities = createList();
 
     ActivityTxFactory factory = new ActivityTxFactory();
-    GetActivitiesTx getActivities = factory.getActivities();
+    GetActivitiesTx getActivities = factory.getSelfActivities();
     getActivities.setCount(FETCH_COUNT);
     getActivities.alsoGetRelevantProfiles().alsoGetPageUrls()
         .alsoGetYoutubeUrls();
