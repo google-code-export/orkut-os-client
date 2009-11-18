@@ -18,13 +18,23 @@ package com.google.orkut.client.api;
 
 /**
  * A factory to create activity related {@link Transaction} on orkut.
- * TODO(birmiwal): Fetch activities for a given user
  *
  * @author Sachin Shenoy
  */
 public class ActivityTxFactory {
-  public GetActivitiesTx getActivities() {
+
+  /**
+   * Get a {@link GetActivitiesTx} to get the logged in users' activities.
+   */
+  public GetActivitiesTx getSelfActivities() {
     return new GetActivitiesTx();
+  }
+
+  /**
+   * Get a {@link GetActivitiesTx} to get a person's activities.
+   */
+  public GetActivitiesTx getActivitiesOf(String personId) {
+    return new GetActivitiesTx(personId);
   }
 
   public GetActivitiesTx getNext(GetActivitiesTx prev) {
@@ -35,6 +45,9 @@ public class ActivityTxFactory {
     return last.getPrev();
   }
 
+  /**
+   * Posts an activity (visible to the logged in user and his/her friends).
+   */
   public PostActivityTx postActivity(String title, String body) {
     return new PostActivityTx(title, body);
   }

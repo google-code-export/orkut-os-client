@@ -31,13 +31,17 @@ public class GetActivitiesTx extends Transaction {
   private static final int MAX_START_INDEX = 70;
   private Vector activities;
 
-  GetActivitiesTx() {
+  GetActivitiesTx(String personId) {
     super(MethodNames.ACTIVITIES_GET);
-    request.setUserId(Constants.USERID_ME)
+    request.setUserId(personId)
            .setGroupId(Group.ALL)
            .setCount(DEFAULT_NUM_ACTIVITIES)
            .setStartIndex(0)
            .addParameter("coalesce", true);
+  }
+
+  GetActivitiesTx() {
+    this(Constants.USERID_ME);
   }
 
   public GetActivitiesTx setCount(int count) {

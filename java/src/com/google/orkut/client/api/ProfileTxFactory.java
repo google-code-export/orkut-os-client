@@ -59,7 +59,7 @@ public class ProfileTxFactory {
   /**
    * Returns a GetProfile transaction object to fetch self profile.
    *
-   * @return transaction object.
+   * @return transaction object
    */
   public GetProfileTx getSelfProfile() {
     return new GetProfileTx();
@@ -69,8 +69,8 @@ public class ProfileTxFactory {
    * Returns a {@link GetProfileTx} object to fetch the profile of the given
    * user.
    *
-   * @param userId user id of the person whose profile to fetch.
-   * @return transaction object.
+   * @param userId user id of the person whose profile to fetch
+   * @return transaction object
    */
   public GetProfileTx getProfileOf(String userId) {
     return new GetProfileTx(userId);
@@ -79,7 +79,7 @@ public class ProfileTxFactory {
   /**
    * Returns an {@link UpdateProfileTx} object to update the profile of self.
    *
-   * @return transaction object.
+   * @return transaction object
    */
   public UpdateProfileTx updateSelfProfile() {
     return new UpdateProfileTx();

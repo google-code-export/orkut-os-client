@@ -137,6 +137,16 @@ public class OrkutPerson {
     return json.optString(Fields.PROFILE_URL);
   }
 
+  /** Returns the birthday of the person as #seconds since epoch */
+  public long getBirthday() {
+    return json.optLong(Fields.BIRTHDAY);
+  }
+
+  /** Returns the address of the person */
+  public Address getAddress() {
+    return new Address(json.optJSONObject(Fields.CURRENT_LOCATION));
+  }
+
   /**
    * Returns the underlying json-object from which this resource has been constructed.
    * Clients using this function should use it to get data-items that does not have a canned 'get'
