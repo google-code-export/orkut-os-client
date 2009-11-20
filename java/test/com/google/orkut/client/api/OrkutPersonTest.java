@@ -16,14 +16,11 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.api.OrkutPerson;
-import com.google.orkut.client.api.RequiredFieldNotFoundException;
+import junit.framework.TestCase;
 
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 import org.junit.Test;
-
-import junit.framework.TestCase;
 
 /**
  * @author Hari S
@@ -130,7 +127,7 @@ public class OrkutPersonTest extends TestCase {
     OrkutPerson profileObject = new OrkutPerson(profileInJSON);
     assertContains(profileObject.getId(), MOCK_ORKUT_USERID);
     assertEquals(MOCK_GIVEN_NAME, profileObject.getGivenName());
-    assertEquals(null, profileObject.getDisplayName());
+    assertEquals(MOCK_GIVEN_NAME + " " + MOCK_FAMILY_NAME, profileObject.getDisplayName());
     assertEquals(MOCK_FAMILY_NAME, profileObject.getFamilyName());
     assertEquals(MOCK_THUMBNAIL_URL, profileObject.getThumbnailUrl());
   }
