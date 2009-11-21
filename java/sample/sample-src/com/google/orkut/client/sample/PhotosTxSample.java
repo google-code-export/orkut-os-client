@@ -23,7 +23,15 @@ import com.google.orkut.client.api.GetAlbumsTx;
 import com.google.orkut.client.api.GetPhotosTx;
 import com.google.orkut.client.api.Photo;
 import com.google.orkut.client.api.PhotosTxFactory;
+import com.google.orkut.client.api.UploadPhotoTx;
+import com.google.orkut.client.api.Util;
+import com.google.orkut.client.api.UploadPhotoTx.ImageType;
 
+import org.json.me.JSONObject;
+
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -43,9 +51,10 @@ public class PhotosTxSample {
     photosFactory = new PhotosTxFactory();
   }
 
-  public void run() throws IOException {
+  public void run() throws Exception {
     Album album = fetchFirstAlbum();
     fetchAllPhotos(album);
+    uploadPhoto(album);
   }
 
   private void fetchAllPhotos(Album album) throws IOException {
@@ -63,6 +72,44 @@ public class PhotosTxSample {
       getPhotos = photosFactory.getNextPhotos(getPhotos);
       transport.add(getPhotos).run();
     }
+  }
+  
+  private void uploadPhoto(Album album) throws Exception {
+    byte[] image = loadImage("sample/repo/images/orkut-logo.png");
+    System.out.println("Length := " + image.length);
+    UploadPhotoTx uploadPhoto = photosFactory.uploadPhoto(
+        album, image, ImageType.PNG, "My Image");
+    
+    String response = transport.sendRequest(
+        uploadPhoto.getContentType(),
+        uploadPhoto.getBody(),
+        uploadPhoto.getParameters(),
+        Util.getHttpVersionHeaderName(),
+        Util.getHttpVersionHeaderValue());
+    uploadPhoto.setResponse(new JSONObject(response));
+  }
+
+  private byte[] loadImage(String filename) throws Exception {
+    File file = new File(filename); 
+    //File length
+    int size = (int)file.length(); 
+    if (size > Integer.MAX_VALUE){
+      System.out.println("File is to larger");
+    }
+    byte[] bytes = new byte[size]; 
+    DataInputStream dis = new DataInputStream(new FileInputStream(file)); 
+    int read = 0;
+    int numRead = 0;
+    while (read < bytes.length && (numRead=dis.read(bytes, read,
+                                              bytes.length-read)) >= 0) {
+      read = read + numRead;
+    }
+    System.out.println("File size: " + read);
+    // Ensure all the bytes have been read in
+    if (read < bytes.length) {
+      return null;
+    }
+    return bytes;
   }
 
   private Album fetchFirstAlbum() throws IOException {

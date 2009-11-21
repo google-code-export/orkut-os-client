@@ -78,27 +78,13 @@ public class Transaction  {
   }
 
   /**
-   * Returns byte array body of the request, only if it is an upload.
-   */
-  byte[] getBody() {
-    return null;
-  }
-
-  /**
-   * Returns the content type of the body.
-   */
-  String getContentType() {
-    return null;
-  }
-
-  /**
    * Returns the name of the param where the body should be placed in multipart
    */
   String getParamName() {
     return null;
   }
 
-  void setResponse(JSONObject response) {
+  public void setResponse(JSONObject response) {
     JSONObject error = response.optJSONObject(ResponseFields.ERROR_KEY);
     if (error != null) {
       // set error fields

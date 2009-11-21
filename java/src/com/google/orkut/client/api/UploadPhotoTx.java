@@ -16,7 +16,15 @@
 
 package com.google.orkut.client.api;
 
+import net.oauth.OAuth;
+
 import org.json.me.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * A {@link Transaction} to upload a photo to an orkut album.
@@ -29,6 +37,7 @@ public class UploadPhotoTx extends Transaction {
   private final String paramName;
   private final byte[] image;
   private final String type;
+  private MultipartBuilder builder;
 
   public static class ImageType {
     public static final String PNG = "png";
@@ -49,17 +58,21 @@ public class UploadPhotoTx extends Transaction {
            .setGroupId(Group.SELF)
            .setAlbumId(albumId)
            .addParameter("mediaItem", mediaItem);
+    builder = new MultipartBuilder();
   }
 
-  byte[] getBody() {
-    return image;
+  public byte[] getBody() throws IOException {
+    builder.addFile(paramName, "uploaded", "image/" + type, image);
+    return builder.build();
   }
 
-  String getContentType() {
-    return "image/" + type;
+  public String getContentType() {
+    return builder.getContentType();
   }
-
-  String getParamName() {
-    return paramName;
+  
+  public Collection<? extends Map.Entry> getParameters() {
+    ArrayList<Entry<String, String>> params = new ArrayList<Map.Entry<String, String>>();
+    params.add(new OAuth.Parameter("request", request.toString()));
+    return params;
   }
 }

@@ -78,7 +78,6 @@ public class BatchTransactionTest extends TestCase {
     jsonA.put("req", "A");
     expect(transactionA.getId()).andStubReturn(ID_A);
     expect(transactionA.getRequestAsJson()).andReturn(jsonA);
-    expect(transactionA.getBody()).andStubReturn(null);
     transactionA.setResponse(capture(jsonResponseA));
 
     mockControl.replay();
@@ -99,13 +98,11 @@ public class BatchTransactionTest extends TestCase {
     jsonA.put("req", "A");
     expect(transactionA.getId()).andStubReturn(ID_A);
     expect(transactionA.getRequestAsJson()).andReturn(jsonA);
-    expect(transactionA.getBody()).andStubReturn(null);
     transactionA.setResponse(capture(jsonResponseA));
 
     jsonB.put("req", "B");
     expect(transactionB.getId()).andStubReturn(ID_B);
     expect(transactionB.getRequestAsJson()).andReturn(jsonB);
-    expect(transactionB.getBody()).andStubReturn(null);
     transactionB.setResponse(capture(jsonResponseB));
 
     mockControl.replay();

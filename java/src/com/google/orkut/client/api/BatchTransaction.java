@@ -53,12 +53,6 @@ public class BatchTransaction {
    */
   private final JSONArray batch = new JSONArray();
 
-  private String contentType;
-
-  private byte[] body;
-
-  private boolean alreadyBuilt;
-
   /**
    * Adds the given request to the batch.
    *
@@ -74,20 +68,11 @@ public class BatchTransaction {
     return this;
   }
 
-  public String getHttpVersionHeaderName() {
-    return InternalConstants.ORKUT_CLIENT_LIB_HEADER;
-  }
-
-  public String getHttpVersionHeaderValue() {
-    return InternalConstants.VERSION_STRING;
-  }
-
   /** Returns the value of content type
    * @throws IOException
    */
   public String getContentType() throws IOException {
-    build();
-    return contentType;
+    return "application/json";
   }
 
   /**
@@ -97,43 +82,7 @@ public class BatchTransaction {
    * @throws IOException
    */
   public byte[] getRequestBody() throws IOException {
-    build();
-    return body;
-  }
-
-  private void build() throws IOException {
-    if (alreadyBuilt) {
-      return;
-    }
-    alreadyBuilt = true;
-    if (hasUpload()) {
-      MultipartBuilder builder = new MultipartBuilder();
-      Iterator it = transactions.values().iterator();
-      while (it.hasNext()) {
-        Transaction transaction = (Transaction) it.next();
-        if (transaction.getBody() != null) {
-          builder.addFile(transaction.getParamName(), "uploaded",
-              transaction.getContentType(), transaction.getBody());
-        }
-      }
-      builder.addField("request", batch.toString());
-      body = builder.build();
-      contentType = builder.getContentType();
-    } else {
-      contentType = "application/json";
-      body = batch.toString().getBytes("UTF-8");
-    }
-  }
-
-  private boolean hasUpload() {
-    Iterator it = transactions.values().iterator();
-    while (it.hasNext()) {
-      Transaction transaction = (Transaction) it.next();
-      if (transaction.getBody() != null) {
-        return true;
-      }
-    }
-    return false;
+    return batch.toString().getBytes("UTF-8");
   }
 
   /**

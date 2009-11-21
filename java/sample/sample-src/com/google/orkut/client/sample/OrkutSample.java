@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * A Sample App to show usage of orkut client library.
  *
- * @author sachins@google.com (Sachin Shenoy)
+ * @author Sachin Shenoy
  */
 public class OrkutSample {
 
@@ -32,7 +32,8 @@ public class OrkutSample {
     transport.init();
   }
 
-  private void run() throws IOException {
+  private void run() throws Exception {
+    new FriendTxSample(transport).run();
     new PhotosTxSample(transport).run();
     new AlbumsTxSample(transport).run();
     new ScrapTxSample(transport).run();

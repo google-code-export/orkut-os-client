@@ -107,6 +107,13 @@ public class FriendTxFactory {
   }
 
   /**
+   * Gets birthday notification of your friends.
+   */
+  public BirthdayNotificationTx getBirthdayNotification() {
+    return new BirthdayNotificationTx();
+  }
+  
+  /**
    * Helper to handle all the negative cases of friend request, like reject,
    * revoke, remove etc.
    */
