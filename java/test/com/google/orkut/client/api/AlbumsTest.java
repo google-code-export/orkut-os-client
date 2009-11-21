@@ -47,7 +47,7 @@ public class AlbumsTest extends JaneDoeTestCase {
   private static final String UPDATED_ALBUM_DESCRIPTION = "Updated Description";
 
   public void testCreateUpdateAndDeleteAlbums() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
+    if (!doesNotMeetJaneDoeDependency(transport)) {
       deleteAllUnknownAlbums();
     }
 
@@ -96,7 +96,7 @@ public class AlbumsTest extends JaneDoeTestCase {
     transport.add(albumsTx).run();
 
     // only expected albums are present and the created album is gone
-    if (doesNotMeetJaneDoeDependency(transport)) {
+    if (!doesNotMeetJaneDoeDependency(transport)) {
       assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
     }
 
