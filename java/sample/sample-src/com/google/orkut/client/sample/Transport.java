@@ -19,7 +19,6 @@ package com.google.orkut.client.sample;
 import com.google.orkut.client.api.BatchTransaction;
 import com.google.orkut.client.api.OrkutHttpRequest;
 import com.google.orkut.client.api.Transaction;
-import com.google.orkut.client.api.UploadPhotoTx;
 import com.google.orkut.client.api.Util;
 import com.google.orkut.client.api.OrkutHttpRequest.Parameter;
 
