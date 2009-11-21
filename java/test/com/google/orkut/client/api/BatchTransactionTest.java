@@ -71,7 +71,9 @@ public class BatchTransactionTest extends TestCase {
   }
 
   public void testBatchTransaction_getRequestWithoutAddingAnyTransaction() throws Exception {
-    assertEquals("[]", new String(batchRequest.getRequestBody()));
+    OrkutHttpRequest request = batchRequest.build();
+    assertEquals("[]", new String(request.getRequestBody()));
+    assertEquals("application/json", request.getContentType());
   }
 
   public void testBatchTransaction_withOneTransaction() throws Exception {
@@ -84,7 +86,8 @@ public class BatchTransactionTest extends TestCase {
 
     batchRequest.add(transactionA);
 
-    assertEquals("[{\"req\":\"A\"}]", new String(batchRequest.getRequestBody()));
+    OrkutHttpRequest request = batchRequest.build();
+    assertEquals("[{\"req\":\"A\"}]", new String(request.getRequestBody()));
 
     batchRequest.setResponse("[{'id':'idA', 'value':'A'}]");
 
@@ -109,8 +112,9 @@ public class BatchTransactionTest extends TestCase {
 
     batchRequest.add(transactionA).add(transactionB);
 
+    OrkutHttpRequest request = batchRequest.build();
     assertEquals("[{\"req\":\"A\"},{\"req\":\"B\"}]",
-        new String(batchRequest.getRequestBody()));
+        new String(request.getRequestBody()));
 
     // Note: The order of responses are reversed here from that of the request.
     batchRequest.setResponse("[{'id':'idB', 'value':'B'},{'id':'idA', 'value':'A'}]");
