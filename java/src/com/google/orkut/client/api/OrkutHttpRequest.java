@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * Represents an HTTP request to be sent on the wire. This class is created
+ * using {@link BatchTransaction#build()}. Clients are supposed to form an
+ * HTTP request using the values returned by this class, add authentication to
+ * it and send to orkut servers.
+ * 
+ * Look at {@link com.google.orkut.client.sample.Transport} for example.
  * 
  * @author Sachin Shenoy
  */
@@ -88,13 +94,15 @@ public class OrkutHttpRequest {
   }
 
   /**
-   * 
-   * @return
+   * Returns Collection of {@link Parameter} to be sent with the HTTP request.
    */
   public Collection getParameters() {
     return params;
   }
 
+  /**
+   * Returns Colleciton of {@link Header} to be sent with the HTTP request.
+   */
   public Collection getHeaders() {
     return headers;
   }
