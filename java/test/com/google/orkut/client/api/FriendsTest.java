@@ -19,14 +19,12 @@ package com.google.orkut.client.api;
 import com.google.orkut.client.api.Constants.Gender;
 import com.google.orkut.client.sample.Transport;
 
-import junit.framework.TestCase;
-
 /**
  * Integration tests for Friends related APIs.
  *
  * @author Shishir Birmiwal
  */
-public class FriendsTest extends TestCase {
+public class FriendsTest extends JaneDoeTestCase {
 
   private FriendTxFactory factory;
   private Transport transport;
@@ -52,6 +50,10 @@ public class FriendsTest extends TestCase {
   }
 
   public void testSelfGetFriends() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
     GetFriendTx selfFriendsTx = factory.getSelfFriends();
     selfFriendsTx.alsoGetName().alsoGetStatus()
         .alsoGetGender().alsoGetProfileUrl().alsoGetThumbnailUrl()
@@ -68,6 +70,10 @@ public class FriendsTest extends TestCase {
   }
 
   public void testSelfGetFriendsWithPagination() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
     GetFriendTx selfFriendsTx = factory.getSelfFriends();
     selfFriendsTx.setCount(1);
     selfFriendsTx.alsoGetName().alsoGetStatus()

@@ -19,8 +19,6 @@ package com.google.orkut.client.api;
 import com.google.orkut.client.api.ProfileTest.JohnDoe;
 import com.google.orkut.client.sample.Transport;
 
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,14 +27,12 @@ import java.util.Map;
 
 /**
  * Integration tests for Albums API.
- * This test should be run with the (logged in) user oocl17 at gmail.
- * There be dragons ahead:
- * If you run this as any other user, deleteAllUnknownAlbums() will
- * really delete all unknown albums. You have been warned.
+ * This test should be run with the (logged in) user oocl17 at gmail. [JaneDoe]
  *
  * @author Shishir Birmiwal
  */
-public class AlbumsTest extends TestCase {
+public class AlbumsTest extends JaneDoeTestCase {
+
   static final int MAX_COUNT = 100;
   static final String OAUTH_PROPS_FILE = "sample/oauth.properties";
 
@@ -51,7 +47,9 @@ public class AlbumsTest extends TestCase {
   private static final String UPDATED_ALBUM_DESCRIPTION = "Updated Description";
 
   public void testCreateUpdateAndDeleteAlbums() throws Exception {
-    deleteAllUnknownAlbums();
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      deleteAllUnknownAlbums();
+    }
 
     // create a new album
     CreateAlbumTx createAlbumTx = factory.createAlbum(NEW_ALBUM_TITLE, NEW_ALBUM_DESCRIPTION);
@@ -98,7 +96,14 @@ public class AlbumsTest extends TestCase {
     transport.add(albumsTx).run();
 
     // only expected albums are present and the created album is gone
-    assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
+    }
+
+    // check that the deleted album is not present in fetched albums
+    for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
+      assertFalse(albumsTx.getAlbum(i).getId().equals(album.getId()));
+    }
   }
 
   private void deleteAllUnknownAlbums() throws IOException {
@@ -118,6 +123,11 @@ public class AlbumsTest extends TestCase {
   }
 
   public void testGetAlbums() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skip this test
+      return;
+    }
+
     GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
@@ -130,6 +140,10 @@ public class AlbumsTest extends TestCase {
   }
 
   public void testGetAlbumsOfJohn() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skip this test
+      return;
+    }
     GetAlbumsTx albumsTx = factory.getAlbums(JohnDoe.ID);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
@@ -142,30 +156,25 @@ public class AlbumsTest extends TestCase {
   }
 
   public void testGetAlbumsPagination() throws Exception {
-    GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
-    albumsTx.setCount(selfAlbumsMap.size());
-    transport.add(albumsTx).run();
-    assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
-
+    GetAlbumsTx refAlbumsTx = factory.getAlbums(Constants.USERID_ME);
+    refAlbumsTx.setCount(MAX_COUNT);
+    transport.add(refAlbumsTx).run();
+    assertTrue("Test account must have atleast 2 albums to test pagination",
+        refAlbumsTx.getAlbumCount() > 1);
     List<Album> albums = new ArrayList<Album>();
-    for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
-      albums.add(albumsTx.getAlbum(i));
+    for (int i = 0; i < refAlbumsTx.getAlbumCount(); i++) {
+      albums.add(refAlbumsTx.getAlbum(i));
     }
 
-    albumsTx = factory.getAlbums(Constants.USERID_ME);
+    int albumIndex = 0;
+    GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
     albumsTx.setCount(1);
-    transport.add(albumsTx).run();
-    assertAlbumEquals(albumsTx.getAlbum(), albums.get(0));
-
-    albumsTx = factory.getNextAlbums(albumsTx);
-    transport.add(albumsTx).run();
-    assertAlbumEquals(albumsTx.getAlbum(), albums.get(1));
-
-    albumsTx = factory.getNextAlbums(albumsTx);
-    albumsTx.setCount(2);
-    transport.add(albumsTx).run();
-    assertAlbumEquals(albumsTx.getAlbum(0), albums.get(2));
-    assertAlbumEquals(albumsTx.getAlbum(1), albums.get(3));
+    while (albumIndex < albums.size()) {
+      transport.add(albumsTx).run();
+      assertAlbumEquals(albumsTx.getAlbum(), albums.get(albumIndex));
+      albumIndex++;
+      albumsTx = factory.getNextAlbums(albumsTx);
+    }
   }
 
   protected void setUp() throws Exception {

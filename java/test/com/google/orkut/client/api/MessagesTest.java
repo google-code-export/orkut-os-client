@@ -18,8 +18,6 @@ package com.google.orkut.client.api;
 
 import com.google.orkut.client.sample.Transport;
 
-import junit.framework.TestCase;
-
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
@@ -31,7 +29,7 @@ import java.util.List;
  *
  * @author Shishir Birmiwal
  */
-public class MessagesTest extends TestCase {
+public class MessagesTest extends JaneDoeTestCase {
 
   private Transport transport;
   private ScrapTxFactory factory;
@@ -48,6 +46,11 @@ public class MessagesTest extends TestCase {
   }
 
   public void testGetScraps() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
+
     GetScrapsTx getScrapsTx = factory.getSelfScraps();
 
     transport.add(getScrapsTx).run();
@@ -60,6 +63,11 @@ public class MessagesTest extends TestCase {
   }
 
   public void testGetScrapsPagination() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
+
     GetScrapsTx getScrapsTx = factory.getSelfScraps();
     getScrapsTx.setCount(1);
     transport.add(getScrapsTx).run();

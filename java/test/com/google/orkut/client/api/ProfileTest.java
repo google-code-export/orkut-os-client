@@ -19,14 +19,12 @@ package com.google.orkut.client.api;
 import com.google.orkut.client.api.Constants.Gender;
 import com.google.orkut.client.sample.Transport;
 
-import junit.framework.TestCase;
-
 /**
  * Integration tests for Profile fetch.
  *
  * @author Shishir Birmiwal
  */
-public class ProfileTest extends TestCase {
+public class ProfileTest extends JaneDoeTestCase {
 
   static class JaneDoe {
     static final String ID = "02776157447964356030";
@@ -65,6 +63,10 @@ public class ProfileTest extends TestCase {
   }
 
   public void testGetSelfProfile() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
     GetProfileTx getProfileTx = factory.getSelfProfile();
     getProfileTx.alsoGetEmails().alsoGetGender().alsoGetStatus()
         .alsoGetName().alsoGetPhoneNumbers()
@@ -77,6 +79,10 @@ public class ProfileTest extends TestCase {
   }
 
   public void testGetFriend() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
     GetProfileTx getProfileTx = factory.getProfileOf(JohnDoe.ID);
     getProfileTx.alsoGetEmails().alsoGetGender().alsoGetStatus()
         .alsoGetName().alsoGetPhoneNumbers()
