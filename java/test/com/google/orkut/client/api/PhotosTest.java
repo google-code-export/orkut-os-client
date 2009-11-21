@@ -23,14 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 /**
  * Integration tests for Photos API.
  *
  * @author Shishir Birmiwal
  */
-public class PhotosTest extends TestCase {
+public class PhotosTest extends JaneDoeTestCase {
   static final String ALBUM_ID = "5400844753047135304";
   private Transport transport;
   private PhotosTxFactory factory;
@@ -46,6 +44,10 @@ public class PhotosTest extends TestCase {
   }
 
   public void testGetPhotos() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
     GetPhotosTx getPhotosTx = factory.getPhotos(Constants.USERID_ME, ALBUM_ID);
     transport.add(getPhotosTx).run();
 
@@ -59,6 +61,10 @@ public class PhotosTest extends TestCase {
   }
 
   public void testGetPhotosPagination() throws Exception {
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      // skipping test :(
+      return;
+    }
     GetPhotosTx getPhotosTx = factory.getPhotos(Constants.USERID_ME, ALBUM_ID);
     transport.add(getPhotosTx).run();
     assertEquals(expectedPhotos.size(), getPhotosTx.getPhotoCount());

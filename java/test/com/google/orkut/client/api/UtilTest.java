@@ -16,12 +16,15 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.api.Util;
-
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
+/**
+ * Tests for {@link Util}.
+ *
+ * @author Hari S?
+ */
 public class UtilTest extends TestCase {
 
   @Test
