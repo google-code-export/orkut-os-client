@@ -16,13 +16,19 @@
 
 package com.google.orkut.client.api;
 
+import net.oauth.OAuth;
+
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Builds a batch request from {@link Transaction}s.
@@ -53,6 +59,8 @@ public class BatchTransaction {
    */
   private final JSONArray batch = new JSONArray();
 
+  private String contentType;
+
   /**
    * Adds the given request to the batch.
    *
@@ -67,24 +75,42 @@ public class BatchTransaction {
     batch.put(transaction.getRequestAsJson());
     return this;
   }
-
-  /** Returns the value of content type
-   * @throws IOException
-   */
-  public String getContentType() throws IOException {
-    return "application/json";
+  
+  public OrkutHttpRequest build() throws IOException {
+    OrkutHttpRequest request;
+    if (hasUpload()) {
+      MultipartBuilder builder = new MultipartBuilder();
+      addBody(builder);
+      request = new OrkutHttpRequest(builder.build(), builder.getContentType());
+      request.addParam("request", batch.toString());
+    } else {
+      request = new OrkutHttpRequest(batch.toString().getBytes("UTF-8"), "application/json");
+    }
+    request.addHeader(InternalConstants.ORKUT_CLIENT_LIB_HEADER, InternalConstants.VERSION_STRING);
+    return request;
   }
 
-  /**
-   * Builds and returns the batch json request string. Send this out to the
-   * server with appropriate authentication, and pass the response received to
-   * {@link #setResponse(String)}
-   * @throws IOException
-   */
-  public byte[] getRequestBody() throws IOException {
-    return batch.toString().getBytes("UTF-8");
+  private boolean hasUpload() {
+    Iterator it = transactions.values().iterator();
+    while (it.hasNext()) {
+       Transaction transaction = (Transaction) it.next();
+      if (transaction instanceof UploadPhotoTx) {
+        return true;
+      }
+    }
+    return false;
   }
 
+  private void addBody(MultipartBuilder builder) throws IOException {
+    Iterator it = transactions.values().iterator();
+    while (it.hasNext()) {
+       Transaction transaction = (Transaction) it.next();
+      if (transaction instanceof UploadPhotoTx) {
+        UploadPhotoTx photoTx = (UploadPhotoTx) transaction;
+        photoTx.addBody(builder);
+      }
+    }
+  }
   /**
    * Set the response received from server for the batch request.
    *

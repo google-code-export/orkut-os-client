@@ -80,13 +80,7 @@ public class PhotosTxSample {
     UploadPhotoTx uploadPhoto = photosFactory.uploadPhoto(
         album, image, ImageType.PNG, "My Image");
     
-    String response = transport.sendRequest(
-        uploadPhoto.getContentType(),
-        uploadPhoto.getBody(),
-        uploadPhoto.getParameters(),
-        Util.getHttpVersionHeaderName(),
-        Util.getHttpVersionHeaderValue());
-    uploadPhoto.setResponse(new JSONObject(response));
+    transport.add(uploadPhoto).run();
   }
 
   private byte[] loadImage(String filename) throws Exception {

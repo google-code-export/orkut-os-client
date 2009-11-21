@@ -17,9 +17,13 @@
 package com.google.orkut.client.sample;
 
 import com.google.orkut.client.api.BatchTransaction;
+import com.google.orkut.client.api.OrkutHttpRequest;
 import com.google.orkut.client.api.Transaction;
+import com.google.orkut.client.api.UploadPhotoTx;
 import com.google.orkut.client.api.Util;
+import com.google.orkut.client.api.OrkutHttpRequest.Parameter;
 
+import net.oauth.OAuth;
 import net.oauth.OAuthConsumer;
 import net.oauth.OAuthMessage;
 import net.oauth.OAuthServiceProvider;
@@ -30,9 +34,12 @@ import net.oauth.example.desktop.DesktopClient;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 /**
  *
@@ -86,11 +93,28 @@ public class Transport {
     return this;
   }
 
+  private Collection getParams(OrkutHttpRequest request) {
+    Collection params = request.getParameters();
+    if (params == null || params.size() == 0) {
+      return null;
+    }
+    
+    ArrayList<Entry<String, String>> oauthParams = new ArrayList<Entry<String, String>>();
+    Iterator it = params.iterator();
+    while (it.hasNext()) {
+      Parameter parameter = (Parameter) it.next();
+      oauthParams.add(new OAuth.Parameter(parameter.getKey(), parameter.getValue()));
+    }
+    return oauthParams;
+  }
+  
   synchronized public Transport run() throws IOException {
+    OrkutHttpRequest request = batchTransaction.build();
+    
     String response = sendRequest(
-        batchTransaction.getContentType(),
-        batchTransaction.getRequestBody(),
-        null,
+        request.getContentType(),
+        request.getRequestBody(),
+        getParams(request),
         Util.getHttpVersionHeaderName(),
         Util.getHttpVersionHeaderValue());
     batchTransaction.setResponse(response);
