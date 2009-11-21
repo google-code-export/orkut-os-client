@@ -84,7 +84,7 @@ public class Transaction  {
     return null;
   }
 
-  public void setResponse(JSONObject response) {
+  void setResponse(JSONObject response) {
     JSONObject error = response.optJSONObject(ResponseFields.ERROR_KEY);
     if (error != null) {
       // set error fields
