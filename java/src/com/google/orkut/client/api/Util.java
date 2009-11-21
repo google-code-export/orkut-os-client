@@ -76,7 +76,10 @@ public class Util {
         } catch (CreationException e) {
           // ignore and skip conversion of this item
         } catch (RuntimeException e) {
-          // we skip any runtime exception too.
+          // we skip any runtime exception too. This is to catch any exception
+          // that occurs while the object is being initialized.
+          // TODO(Sachin Shenoy): Don't silently eat up exception, provide
+          // mechanism to log these. 
         }
       }
     } catch (JSONException jse) {
