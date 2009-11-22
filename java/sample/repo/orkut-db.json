@@ -1,0 +1,51 @@
+{
+"friend-invite-notifications":{
+  "request":{
+    "method":"messages.get",
+    "params":{
+      "userId":"@me",
+      "groupId":"@friends",
+      "messageType": "notification",
+      "messageGroup":"friendRequests"
+    }
+  },
+  "reply":{
+    "data":{
+      "filtered" : false,
+      "list":[
+        {
+          "body" : "body 1234",
+          "fromUserId" : "1234",
+          "fromUserProfile" : {
+            "id" : "1234",
+            "name" : {
+              "familyName" : "Dummy",
+              "givenName" : "Account"
+            },
+            "profileUrl" : "/Main#Profile.aspx?uid=11234",
+            "thumbnailUrl" : "http://img3.orkut.com/images/small/1234/1234/photo.jpg"
+          },
+          "time" : 1257754585,
+          "type" : "NOTIFICATION",
+        },
+        { "body" : "body 5678",
+          "fromUserId" : "5678",
+          "fromUserProfile" : {
+            "id" : "5678",
+            "name" : {
+              "familyName" : "test",
+              "givenName" : "newui10"
+            },
+            "profileUrl" : "/Main#Profile.aspx?uid=55678",
+            "thumbnailUrl" : "http://img2.orkut.com/images/small/5678/5678/photo.jpg",
+          },
+          "time" : 1258773245,
+          "type" : "NOTIFICATION",
+        },
+      ],
+      "sorted" : false,
+      "updatedSince" : false,
+    },
+  },
+},
+}

@@ -17,8 +17,8 @@
 package com.google.orkut.client.api;
 
 import com.google.orkut.client.api.ActivityEntry.ActivityType;
-import com.google.orkut.client.api.FriendsTest.JohnPoe;
-import com.google.orkut.client.api.ProfileTest.JaneDoe;
+import com.google.orkut.client.api.FriendsLargeTest.JohnPoe;
+import com.google.orkut.client.api.ProfileLargeTest.JaneDoe;
 import com.google.orkut.client.sample.Transport;
 
 import junit.framework.TestCase;
@@ -32,7 +32,7 @@ import org.json.me.JSONObject;
  *
  * @author Shishir Birmiwal
  */
-public class ActivitiesTest extends TestCase {
+public class ActivitiesLargeTest extends TestCase {
   private ActivityTxFactory factory;
   private Transport transport;
   private PhotoCommentActivity expectedPhotoCommentActivity;
@@ -42,7 +42,7 @@ public class ActivitiesTest extends TestCase {
 
     expectedPhotoCommentActivity = getExpectedPhotoCommentActivity();
     factory = new ActivityTxFactory();
-    transport = new Transport(AlbumsTest.OAUTH_PROPS_FILE);
+    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
     transport.init();
   }
 

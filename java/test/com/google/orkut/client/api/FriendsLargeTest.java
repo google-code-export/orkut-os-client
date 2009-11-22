@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  *
  * @author Shishir Birmiwal
  */
-public class FriendsTest extends TestCase {
+public class FriendsLargeTest extends TestCase {
 
   private FriendTxFactory factory;
   private Transport transport;
@@ -47,7 +47,7 @@ public class FriendsTest extends TestCase {
     super.setUp();
 
     factory = new FriendTxFactory();
-    transport = new Transport(AlbumsTest.OAUTH_PROPS_FILE);
+    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
     transport.init();
   }
 
@@ -99,7 +99,7 @@ public class FriendsTest extends TestCase {
 
     assertEquals(1, getFriendTx.getFriendsCount());
 
-    ProfileTest.assertPersonIsJaneDoe(getFriendTx.getFriend(0), false);
+    ProfileLargeTest.assertPersonIsJaneDoe(getFriendTx.getFriend(0), false);
   }
 
   // Jane Doe's friends are John Doe and John Poe!
@@ -107,7 +107,7 @@ public class FriendsTest extends TestCase {
     if (friend.getId().equals(JohnPoe.ID)) {
       assertPersonIsJohnPoe(friend);
     } else {
-      ProfileTest.assertPersonIsJohnDoe(friend);
+      ProfileLargeTest.assertPersonIsJohnDoe(friend);
     }
   }
 
