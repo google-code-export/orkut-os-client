@@ -17,7 +17,7 @@ public class FriendTxFactoryTest extends TestCase {
   protected void setUp() throws Exception {
     super.setUp();
     factory = new FriendTxFactory();
-    comparator = new JsonComparator(JsonComparator.SIMPLE);
+    comparator = new JsonComparator(JsonComparator.STRICT);
   }
 
   public void testFriendInviteNotification() throws Exception {
