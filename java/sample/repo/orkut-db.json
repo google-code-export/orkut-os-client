@@ -48,4 +48,56 @@
     },
   },
 },
+"birthday-notifications":{
+  "request":{
+    "method":"messages.get",
+    "params":{
+      "userId":"@me",
+      "groupId":"@friends",
+      "messageType": "notification",
+      "messageGroup":"birthdays",
+    }
+  },
+  "reply":{
+    "data":{
+      "filtered":false,
+      "sorted":false,
+      "list":[
+         {
+            "birthMonth":11,
+            "birthDay":22,
+            "type":"NOTIFICATION",
+            "fromUserId":"1234",
+            "time":25200,
+            "fromUserProfile":{
+               "profileUrl":"/Main#Profile.aspx?uid=11234",
+               "id":"1234",
+               "thumbnailUrl":"http://img3.orkut.com/images/small/1234/1234/photo.jpg",
+               "name":{
+                  "familyName":"Dummy",
+                  "givenName":"Account"
+               }
+            }
+         },
+         {
+            "birthMonth":11,
+            "birthDay":23,
+            "type":"NOTIFICATION",
+            "fromUserId":"5678",
+            "time":25200,
+            "fromUserProfile":{
+               "profileUrl":"/Main#Profile.aspx?uid=55678",
+               "id":"5678",
+               "thumbnailUrl":"http://img2.orkut.com/images/small/5678/5678/photo.jpg",
+               "name":{
+                  "familyName":"test",
+                  "givenName":"newui10"
+               }
+            }
+         },
+      ],
+      "updatedSince":false
+    }
+  }
+}
 }

@@ -34,7 +34,7 @@ import java.io.InputStreamReader;
  */
 public class FakeOrkutServer {
   public static final String FRIEND_INVITE_NOTIFICATIONS = "friend-invite-notifications";
-  public static final String BIRTHDAY_NOTIFICATIONS = "birthday-notificaions";
+  public static final String BIRTHDAY_NOTIFICATIONS = "birthday-notifications";
   private JSONObject entry;
   
   public FakeOrkutServer(String file) {
