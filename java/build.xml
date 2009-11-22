@@ -1,0 +1,203 @@
+<project name="Orkut Client Library" default="compile" basedir=".">
+  <description>
+    Orkut Client Library.
+  </description>
+
+  <property name="app.name" value="orkut"/>
+  <property name="app.version" value="20091030"/>
+
+  <!-- set global properties for this build -->
+
+  <property name="path.src" location="src"/>
+  <property name="path.test" location="test"/>
+
+  <property name="path.sample" location="sample"/>
+  <property name="path.sample.src" location="${path.sample}/sample-src"/>
+  <property name="path.sample.lib" location="${path.sample}/repo"/>
+  <property name="path.sample.build" location="${path.sample}/build"/>
+
+  <property name="path.build" location="build"/>
+  <property name="path.dist" location="dist"/>
+  <property name="path.lib" location="lib"/>
+
+  <property name="path.doc" value="doc"/>
+  <property name="path.html" value="html" />
+  <property name="path.overview" value="${path.html}/overview.html" />
+  <property name="path.stylesheet" value="${path.html}/stylesheet.css" />
+  <property name="javadoc.bottom" value="&lt;div id=footerlogo&gt;&lt;img src=http://www.google.com/images/art.gif&gt;&lt;div&gt;"/>
+
+  <property name="test.class.name" value="com.google.orkut.client.AllTests"/>
+
+  <path id="compile.classpath">
+    <fileset dir="${path.lib}">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${path.sample.lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="compile-sample.classpath">
+    <fileset dir="${path.lib}">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${path.dist}">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${path.sample.lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+  </target>
+
+  <target name="compile" depends="init" description="Compile Java sources">
+    <mkdir dir="${path.build}"/>
+    <javac destdir="${path.build}" debug="true" debuglevel="lines,vars,source">
+      <classpath refid="compile.classpath"/>
+      <src path="${path.src}"/>
+      <src path="${path.test}"/>
+      <src path="${path.sample.src}"/>
+    </javac>
+  </target>
+
+  <target name="compile-lib" depends="init" description="Compile Java sources for library">
+    <mkdir dir="${path.build}"/>
+    <javac destdir="${path.build}">
+      <classpath refid="compile.classpath"/>
+      <src path="${path.src}"/>
+    </javac>
+  </target>
+
+  <target name="dist" depends="clean,compile-lib"
+        description="generate the distribution" >
+    <mkdir dir="${path.dist}/lib"/>
+    <jar jarfile="${path.dist}/lib/OrkutClient-${DSTAMP}.jar" basedir="${path.build}"/>
+  </target>
+
+  <target name="compile-sample" depends="dist" description="Compile client library sample applications">
+    <mkdir dir="${path.build}"/>
+    <javac destdir="${path.build}" debug="true" debuglevel="lines,vars,source">
+      <classpath refid="compile-sample.classpath"/>
+      <src path="${path.sample.src}"/>
+    </javac>
+  </target>
+
+  <target name="run-sample" depends="compile-sample" description="Run the sample">
+    <java classname="com.google.orkut.client.sample.SampleApp">
+      <arg value="${path.sample}/oauth.properties"/>
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="test-auth" depends="compile-sample" description="Run the authentication tester">
+    <java classname="com.google.orkut.client.sample.TestOrkutAuth">
+      <arg value="${path.sample}/oauth.properties"/>
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="run-all-samples" depends="compile-sample" description="Run the sample app for all APIs. Needs whitelisting.">
+    <java classname="com.google.orkut.client.sample.OrkutSample">
+      <arg value="${path.sample}/oauth.properties"/>
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="run" depends="compile-sample" description="Run the sample">
+    <java classname="com.google.orkut.client.sample.SampleApp">
+      <arg value="${path.sample}/oauth.properties"/>
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="javadoc" depends="compile" description="Create Javadoc API documentation">
+    <mkdir dir="${path.doc}"/>
+    <delete>
+      <fileset dir="${path.doc}"/>
+    </delete>
+    <javadoc doctitle="Orkut Client Library" bottom="${javadoc.bottom}" access="public" stylesheetfile="${path.stylesheet}" overview="${path.overview}" sourcepath="${path.src}" destdir="${path.doc}" packagenames="*">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+  <target name="test" depends="compile" description="Run JUnit test suites">
+    <junit printsummary="false" haltonfailure="true">
+      <formatter type="brief" usefile="false" />    	
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+      <classpath location="${path.build}"/>
+      <batchtest>
+        <fileset dir="${path.build}" includes="**/*Test.class" excludes="**/*LargeTest.class"/>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="large-test" depends="compile" description="Run Large Tests - talks to real server">
+    <junit printsummary="false" haltonfailure="true">
+      <formatter type="brief" usefile="false" />    	
+      <classpath>
+        <pathelement path="${path.build}"/>
+        <fileset dir="${path.lib}">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${path.sample.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+      <classpath location="${path.build}"/>
+      <batchtest>
+        <fileset dir="${path.build}" includes="**/*LargeTest.class"/>
+      </batchtest>
+    </junit>
+  </target>
+
+
+  <target name="clean"
+        description="clean up" >
+    <delete dir="${path.build}"/>
+    <delete dir="${path.dist}"/>
+  </target>
+</project>
+
