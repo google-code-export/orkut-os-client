@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  *
  * @author Shishir Birmiwal
  */
-public class ProfileTest extends TestCase {
+public class ProfileLargeTest extends TestCase {
 
   static class JaneDoe {
     static final String ID = "02776157447964356030";
@@ -60,7 +60,7 @@ public class ProfileTest extends TestCase {
     super.setUp();
 
     factory = new ProfileTxFactory();
-    transport = new Transport(AlbumsTest.OAUTH_PROPS_FILE);
+    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
     transport.init();
   }
 
