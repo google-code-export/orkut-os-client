@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import org.json.me.JSONObject;
 
 /**
- * @author sachins@google.com (Sachin Shenoy)
+ * @author Sachin Shenoy
  */
 public class TransactionTest extends TestCase {
 
