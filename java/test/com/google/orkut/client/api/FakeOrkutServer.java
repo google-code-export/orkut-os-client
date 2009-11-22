@@ -33,8 +33,12 @@ import java.io.InputStreamReader;
  * @author Sachin Shenoy
  */
 public class FakeOrkutServer {
-  public static final String FRIEND_INVITE_NOTIFICATIONS = "friend-invite-notifications";
-  public static final String BIRTHDAY_NOTIFICATIONS = "birthday-notificaions";
+  static final String FRIEND_INVITE_NOTIFICATIONS = "friend-invite-notifications";
+  static final String BIRTHDAY_NOTIFICATIONS = "birthday-notifications";
+  static final String GET_PHOTO_COMMENTS = "get-photo-comments";
+  static final String WRITE_PHOTO_COMMENTS = "write-photo-comment";
+  static final String DELETE_PHOTO_COMMENTS = "delete-photo-comment";
+  
   private JSONObject entry;
   
   public FakeOrkutServer(String file) {
