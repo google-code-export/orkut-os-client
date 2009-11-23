@@ -93,10 +93,10 @@ public class AlbumsTxFactory {
   /**
    * Shares an album with all your orkut friends.
    *
-   * @param album the album to share with friends
+   * @param album the album to share
    * @return a {@link Transaction} instance for this request
    */
   public Transaction shareAlbumWithFriends(Album album) {
-    return new UpdateAlbumShareTx(album);
+    return new UpdateAlbumShareTx(album, UpdateAlbumShareTx.FRIENDS);
   }
 }
