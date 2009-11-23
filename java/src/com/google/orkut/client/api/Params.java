@@ -28,6 +28,7 @@ class Params {
     static final String NEXT = "next";
     static final String PREV = "prev";
   }
+  static final String ACLENTRY = "aclentry";
   static final String ACTIVITY = "activity";
   static final String ALBUM = "album";
   static final String ALBUM_ID = "albumId";

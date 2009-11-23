@@ -16,8 +16,6 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.api.Constants.AlbumAccessorType;
-
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -28,12 +26,35 @@ import org.json.me.JSONObject;
  * @author Shishir Birmiwal
  */
 public class Album {
+  /** Possible values for the field returned by {@link AclEntry#getAccessorType()}. */
+  static class AlbumAccessorType {
+    // Defines permission for an email address.
+    public static final String EXTERNAL = "external";
+    // Defines permission for a phone number.
+    public static final String PHONE_NUMBER = "phoneNumber";
+    // Defines permission for an orkut user.
+    public static final String USER = "user";
+  }
+
+  /**
+   * Possible values for the field returned by {@link AclEntry#getAccessType()}.
+   * Note: When sharing with another user, set access-type to {@link AlbumAccessType#READ}.
+   *       Other values may not have the desired effect (and are not fully supported at present).
+   */
+  static class AlbumAccessType {
+    public static final String CREATE = "create";
+    public static final String DELETE = "delete";
+    public static final String READ = "read";
+    public static final String UPDATE = "update";
+  }
+
+
   /**
    * An entry in an {@link AccessControlList}.
    *
    * @author Shishir Birmiwal
    */
-  public static class AclEntry {
+  static class AclEntry {
     private JSONObject json;
 
     /**
@@ -57,12 +78,12 @@ public class Album {
      *   // .. add to batch and send to server
      * </pre>
      *
-     * @param accessorType see {@link Constants.AlbumAccessorType} for valid values
+     * @param accessorType see {@link AlbumAccessorType} for valid values
      * @param accessorInfo phone number or email address (if applicable)
-     * @param accessType see {@link Constants.AlbumAccessType} for valid values
+     * @param accessType see {@link AlbumAccessType} for valid values
      * @param accessorId the id of the accessor; used when the accessor type is user
      */
-    public AclEntry(String accessorType, String accessorInfo, String accessType, String accessorId) {
+    AclEntry(String accessorType, String accessorInfo, String accessType, String accessorId) {
       this(null);
       try {
         json.put(Fields.AclEntryFields.ACCESSOR_TYPE, accessorType);
@@ -90,7 +111,7 @@ public class Album {
      * The type of access granted by this {@link AclEntry}. Valid values are
      * in {@link Constants.AlbumAccessType}.
      */
-    public String getAccessType() {
+    String getAccessType() {
       return json.optString(Fields.AclEntryFields.ACCESS_TYPE);
     }
 
@@ -100,7 +121,7 @@ public class Album {
      *
      * @see AclEntry#getAccessorType()
      */
-    public String getAccessorInfo() {
+    String getAccessorInfo() {
       return json.optString(Fields.AclEntryFields.ACCESSOR_INFO);
     }
 
@@ -109,14 +130,14 @@ public class Album {
      * {@link Constants.AlbumAccessorType}. Depending on accessor type, related values are
      * had through {@link AclEntry#getAccessorInfo()} or {@link AclEntry#getAccessorId()}.
      */
-    public String getAccessorType() {
+    String getAccessorType() {
       return json.optString(Fields.AclEntryFields.ACCESSOR_TYPE);
     }
 
     /**
      * The userid of the user with access. This is present if accessor type is {@link AlbumAccessorType#USER}.
      */
-    public String getAccessorId() {
+    String getAccessorId() {
       return json.optString(Fields.AclEntryFields.ACCESSOR_ID);
     }
 
@@ -140,10 +161,11 @@ public class Album {
    * An access control list. To modify {@link AccessControlList} for
    * an album, get it using {@link Album#getAccessControlList()} and
    * set it back again using {@link Album#setAccessControlList(AccessControlList)}.
+   * @deprecated use {@link AlbumsTxFactory#shareAlbumWithFriends(Album)}
    *
    * @author Shishir Birmiwal
    */
-  public static class AccessControlList {
+  static class AccessControlList {
     private JSONArray json;
 
     AccessControlList(JSONObject json) {
@@ -159,7 +181,7 @@ public class Album {
     /**
      * @return the number of {@link AclEntry}s in {@link AccessControlList}
      */
-    public int length() {
+    int length() {
       return json.length();
     }
 
@@ -167,7 +189,7 @@ public class Album {
      * @return the {@link AclEntry} at position {@code index}. Valid values of
      *     index are from {@code 0} to {@link #length()}{@code - 1}
      */
-    public AclEntry get(int index) {
+    AclEntry get(int index) {
       return new AclEntry(json.optJSONObject(index));
     }
 
@@ -176,7 +198,7 @@ public class Album {
      *
      * @see AclEntry
      */
-    public void addAclEntry(AclEntry aclEntry) {
+    void addAclEntry(AclEntry aclEntry) {
       json.put(aclEntry.getJson());
     }
 
@@ -186,7 +208,7 @@ public class Album {
      * @param aclEntry the entry to remove
      * @return true if the given entry was found and removed
      */
-    public boolean removeAclEntry(AclEntry aclEntry) {
+    boolean removeAclEntry(AclEntry aclEntry) {
       AclEntry holder = null;
       JSONArray newEntries = new JSONArray();
       for (int i = 0; i < json.length(); i++) {
@@ -272,9 +294,10 @@ public class Album {
   }
 
   /**
+   * @deprecated use {@link AlbumsTxFactory#shareAlbumWithFriends(Album)}
    * @return the {@link AccessControlList} which grants access to the album
    */
-  public AccessControlList getAccessControlList() {
+  AccessControlList getAccessControlList() {
     return new AccessControlList(json.optJSONObject(Fields.ACL));
   }
 
@@ -304,8 +327,9 @@ public class Album {
   /**
    * Set an updated {@link AccessControlList}. Follow this with {@link AlbumsTxFactory#updateAlbum(Album)}
    * to update an album.
+   * @deprecated use {@link AlbumsTxFactory#shareAlbumWithFriends(Album)}
    */
-  public void setAccessControlList(AccessControlList acl) {
+  void setAccessControlList(AccessControlList acl) {
     Util.putJsonValue(json, Fields.ACL, acl.getJson());
   }
 

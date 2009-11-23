@@ -25,7 +25,7 @@ import com.google.orkut.client.api.ProfileTxFactory;
 /**
  * A Sample application to get a person and his/her friend's details.
  *
- * @author sachins@google.com (Sachin Shenoy)
+ * @author Sachin Shenoy
  */
 public class SampleApp {
   private final Transport transport;

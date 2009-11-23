@@ -33,10 +33,10 @@ public class OrkutSample {
   }
 
   private void run() throws IOException {
-    new PhotosTxSample(transport).run();
     new AlbumsTxSample(transport).run();
-    new ScrapTxSample(transport).run();
+    new PhotosTxSample(transport).run();
     new ProfileTxSample(transport).run();
+    new ScrapTxSample(transport).run();
     new ActivityTxSample(transport).run();
     new PhotoCommentsTxSample(transport).run();
   }

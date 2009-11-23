@@ -23,9 +23,8 @@ import com.google.orkut.client.api.CreateAlbumTx;
 import com.google.orkut.client.api.DeleteAlbumTx;
 import com.google.orkut.client.api.GetAlbumsTx;
 import com.google.orkut.client.api.OrkutError;
+import com.google.orkut.client.api.Transaction;
 import com.google.orkut.client.api.UpdateAlbumTx;
-import com.google.orkut.client.api.Album.AccessControlList;
-import com.google.orkut.client.api.Album.AclEntry;
 
 import java.io.IOException;
 
@@ -49,9 +48,19 @@ public class AlbumsTxSample {
     album.setTitle("bleh bleh bleh");
     album.setDescription("yoohoo!");
     updateAlbum(album);
+    shareAlbum(album);
     fetchAlbum(album.getId());
     deleteAlbum(album.getId());
     fetchAlbums();
+  }
+
+  private void shareAlbum(Album album) throws IOException {
+    Transaction shareAlbumWithFriends = factory.shareAlbumWithFriends(album);
+    transport.add(shareAlbumWithFriends).run();
+
+    if (shareAlbumWithFriends.hasError()) {
+      System.err.println("Error sharing album: " + shareAlbumWithFriends.getError().toString());
+    }
   }
 
   private void deleteAlbum(String albumId) throws IOException {
@@ -122,10 +131,5 @@ public class AlbumsTxSample {
     System.out.println(album.getThumbnailUrl());
     System.out.println("album id " + album.getId());
     System.out.println(album.getOwnerId());
-    AccessControlList acl = album.getAccessControlList();
-    for (int i = 0; i < acl.length(); i++) {
-      AclEntry entry = acl.get(i);
-      System.out.println(entry.getAccessorInfo() + " / " + entry.getAccessorType() + "/" + entry.getAccessType() + "/" + entry.getAccessorId());
-    }
   }
 }

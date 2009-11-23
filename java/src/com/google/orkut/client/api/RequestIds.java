@@ -26,6 +26,7 @@ class RequestIds {
 
   static final String ALBUMS_CREATE = "a.c";
   static final String ALBUMS_DELETE = "a.d";
+  static final String ALBUM_SHARE = "a.s";
   static final String ALBUMS_GET = "a.g";
   static final String ALBUMS_UPDATE = "a.u";
 

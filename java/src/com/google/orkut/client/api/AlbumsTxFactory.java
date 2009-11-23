@@ -89,4 +89,14 @@ public class AlbumsTxFactory {
   public DeleteAlbumTx deleteAlbum(String albumId) {
     return new DeleteAlbumTx(albumId);
   }
+
+  /**
+   * Shares an album with all your orkut friends.
+   *
+   * @param album the album to share with friends
+   * @return a {@link Transaction} instance for this request
+   */
+  public Transaction shareAlbumWithFriends(Album album) {
+    return new UpdateAlbumShareTx(album);
+  }
 }

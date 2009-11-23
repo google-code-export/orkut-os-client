@@ -16,36 +16,12 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.api.Album.AclEntry;
-
 /**
  * Constants used in orkut client library api.
  *
  * @author Shishir Birmiwal
  */
 public class Constants {
-  /** Possible values for the field returned by {@link AclEntry#getAccessorType()}. */
-  public static class AlbumAccessorType {
-    // Defines permission for an email address.
-    public static final String EXTERNAL = "external";
-    // Defines permission for a phone number.
-    public static final String PHONE_NUMBER = "phoneNumber";
-    // Defines permission for an orkut user.
-    public static final String USER = "user";
-  }
-
-  /**
-   * Possible values for the field returned by {@link AclEntry#getAccessType()}.
-   * Note: When sharing with another user, set access-type to {@link AlbumAccessType#READ}.
-   *       Other values may not have the desired effect (and are not fully supported at present).
-   */
-  public static class AlbumAccessType {
-    public static final String CREATE = "create";
-    public static final String DELETE = "delete";
-    public static final String READ = "read";
-    public static final String UPDATE = "update";
-  }
-
   /**
    * Defines possible values for a person's gender value
    * as returned from {@link OrkutPerson#getGender()}.

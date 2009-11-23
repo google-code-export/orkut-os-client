@@ -26,6 +26,7 @@ class InternalConstants {
   static String VERSION_STRING = "0.1";
 
   static class Values {
+    static final String ALBUMS = "albums";
     static final String MEDIAITEMS = "mediaitems";
     static final String PUBLIC_MESSAGE = "public_message";
   }
