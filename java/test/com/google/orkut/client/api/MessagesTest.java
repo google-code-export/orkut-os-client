@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Shishir Birmiwal
  */
-public class MessagesTest extends JaneDoeTestCase {
+public class MessagesTest extends AccountDependantTestCase {
 
   private Transport transport;
   private ScrapTxFactory factory;
@@ -46,11 +46,6 @@ public class MessagesTest extends JaneDoeTestCase {
   }
 
   public void testGetScraps() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skipping test :(
-      return;
-    }
-
     GetScrapsTx getScrapsTx = factory.getSelfScraps();
 
     transport.add(getScrapsTx).run();
@@ -63,11 +58,6 @@ public class MessagesTest extends JaneDoeTestCase {
   }
 
   public void testGetScrapsPagination() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skipping test :(
-      return;
-    }
-
     GetScrapsTx getScrapsTx = factory.getSelfScraps();
     getScrapsTx.setCount(1);
     transport.add(getScrapsTx).run();

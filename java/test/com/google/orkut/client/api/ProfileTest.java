@@ -24,7 +24,7 @@ import com.google.orkut.client.sample.Transport;
  *
  * @author Shishir Birmiwal
  */
-public class ProfileTest extends JaneDoeTestCase {
+public class ProfileTest extends AccountDependantTestCase {
 
   static class JaneDoe {
     static final String ID = "02776157447964356030";
@@ -63,10 +63,6 @@ public class ProfileTest extends JaneDoeTestCase {
   }
 
   public void testGetSelfProfile() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skipping test :(
-      return;
-    }
     GetProfileTx getProfileTx = factory.getSelfProfile();
     getProfileTx.alsoGetEmails().alsoGetGender().alsoGetStatus()
         .alsoGetName().alsoGetPhoneNumbers()
@@ -79,10 +75,6 @@ public class ProfileTest extends JaneDoeTestCase {
   }
 
   public void testGetFriend() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skipping test :(
-      return;
-    }
     GetProfileTx getProfileTx = factory.getProfileOf(JohnDoe.ID);
     getProfileTx.alsoGetEmails().alsoGetGender().alsoGetStatus()
         .alsoGetName().alsoGetPhoneNumbers()
