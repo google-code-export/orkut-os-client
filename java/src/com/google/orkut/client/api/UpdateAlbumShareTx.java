@@ -26,13 +26,22 @@ import com.google.orkut.client.api.InternalConstants.Values;
  * @author Shishir Birmiwal
  */
 public class UpdateAlbumShareTx extends Transaction {
-  public UpdateAlbumShareTx(Album album) {
+  static final String EVERYONE_ON_ORKUT = "@orkut";
+  static final String FRIENDS = "@friends";
+
+  /**
+   * Constructs a request to share an album.
+   *
+   * @param album the album to update
+   * @param shareWith the group to share with
+   */
+  UpdateAlbumShareTx(Album album, String shareWith) {
     super(RequestIds.ALBUM_SHARE, MethodNames.ACL_CREATE);
     request.setUserId(Constants.USERID_ME);
     request.setGroupId(Group.SELF);
     request.addParameter(Params.TYPE, Values.ALBUMS);
     request.addParameter(Params.ALBUM_ID, album.getId());
     request.addParameter(Params.ACLENTRY,
-        (new AclEntry("metaGroup", "", AlbumAccessType.READ, "@friends")).getJson());
+        (new AclEntry("metaGroup", "", AlbumAccessType.READ, shareWith)).getJson());
   }
 }

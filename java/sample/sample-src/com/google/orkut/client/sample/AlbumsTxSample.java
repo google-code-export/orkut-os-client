@@ -34,7 +34,6 @@ import java.io.IOException;
  * @author Shishir Birmiwal
  */
 public class AlbumsTxSample {
-
   private final Transport transport;
   private final AlbumsTxFactory factory;
 
@@ -58,6 +57,12 @@ public class AlbumsTxSample {
     Transaction shareAlbumWithFriends = factory.shareAlbumWithFriends(album);
     transport.add(shareAlbumWithFriends).run();
 
+    shareAlbumWithFriends = factory.shareAlbumWithEveryone(album);
+    transport.add(shareAlbumWithFriends).run();
+
+    shareAlbumWithFriends = factory.shareAlbumWithFriends(album);
+    transport.add(shareAlbumWithFriends).run();
+
     if (shareAlbumWithFriends.hasError()) {
       System.err.println("Error sharing album: " + shareAlbumWithFriends.getError().toString());
     }
@@ -67,12 +72,11 @@ public class AlbumsTxSample {
     DeleteAlbumTx deleteAlbumTx = factory.deleteAlbum(albumId);
     transport.add(deleteAlbumTx).run();
 
-    // TODO(birmiwal): Delete album deletes album and throws 500 internal error
-//    if (deleteAlbumTx.hasError()) {
-//      OrkutError err = deleteAlbumTx.getError();
-//      throw new RuntimeException("unable to delete album:" + albumId + ";"
-//          + err.code() + err.errorType() + err.message());
-//    }
+    if (deleteAlbumTx.hasError()) {
+      OrkutError err = deleteAlbumTx.getError();
+      throw new RuntimeException("unable to delete album:" + albumId + ";"
+          + err.toString());
+    }
   }
 
   private void fetchAlbum(String albumId) throws IOException {
