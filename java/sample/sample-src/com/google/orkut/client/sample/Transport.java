@@ -17,8 +17,12 @@
 package com.google.orkut.client.sample;
 
 import com.google.orkut.client.api.BatchTransaction;
+import com.google.orkut.client.api.OrkutHttpRequest;
 import com.google.orkut.client.api.Transaction;
+import com.google.orkut.client.api.Util;
+import com.google.orkut.client.api.OrkutHttpRequest.Parameter;
 
+import net.oauth.OAuth;
 import net.oauth.OAuthConsumer;
 import net.oauth.OAuthMessage;
 import net.oauth.OAuthServiceProvider;
@@ -29,11 +33,16 @@ import net.oauth.example.desktop.DesktopClient;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 /**
  *
- * @author sachins@google.com (Sachin Shenoy)
+ * @author Sachin Shenoy
  */
 public class Transport {
   private static final String TOKEN_SECRET = "token_secret";
@@ -83,12 +92,30 @@ public class Transport {
     return this;
   }
 
+  private Collection getParams(OrkutHttpRequest request) {
+    Collection params = request.getParameters();
+    if (params == null || params.size() == 0) {
+      return null;
+    }
+    
+    ArrayList<Entry<String, String>> oauthParams = new ArrayList<Entry<String, String>>();
+    Iterator it = params.iterator();
+    while (it.hasNext()) {
+      Parameter parameter = (Parameter) it.next();
+      oauthParams.add(new OAuth.Parameter(parameter.getKey(), parameter.getValue()));
+    }
+    return oauthParams;
+  }
+  
   synchronized public Transport run() throws IOException {
+    OrkutHttpRequest request = batchTransaction.build();
+    
     String response = sendRequest(
-        batchTransaction.getContentType(),
-        batchTransaction.getRequestBody(),
-        batchTransaction.getHttpVersionHeaderName(),
-        batchTransaction.getHttpVersionHeaderValue());
+        request.getContentType(),
+        request.getRequestBody(),
+        getParams(request),
+        Util.getHttpVersionHeaderName(),
+        Util.getHttpVersionHeaderValue());
     batchTransaction.setResponse(response);
 
     // create a new batch now.
@@ -96,13 +123,16 @@ public class Transport {
     return this;
   }
 
-  public String sendRequest(String contentType, byte[] body, String versionHeaderName,
+  public String sendRequest(String contentType, byte[] body,
+      Collection<? extends Map.Entry> parameters, String versionHeaderName,
       String versionHeaderValue) throws IOException {
-    System.out.println("Request:" + new String(body));
+    if (body.length < 512) {
+      System.out.println("Request:" + new String(body));
+    }
     OAuthMessage message;
     try {
       message = client.access(OAuthMessage.POST,
-              props.getProperty(SERVER_URL), null, contentType, versionHeaderName,
+              props.getProperty(SERVER_URL), parameters, contentType, versionHeaderName,
               versionHeaderValue, body);
     } catch (Exception e) {
       return "";

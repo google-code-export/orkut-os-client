@@ -27,7 +27,7 @@ public class CommentEntry {
   private static final String FROM_USER_PROFILE = "fromUserProfile";
   private static final String PARENT_ID = "parentId";
   private static final String TEXT = "text";
-  private static final String CREATED_TIME = "createdTime";
+  private static final String CREATED_TIME = "created";
   private static final String AUTHOR_ID = "authorId";
   private static final String ID = "id";
 

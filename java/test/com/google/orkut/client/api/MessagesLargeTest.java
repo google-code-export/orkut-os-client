@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Shishir Birmiwal
  */
-public class MessagesTest extends TestCase {
+public class MessagesLargeTest extends TestCase {
 
   private Transport transport;
   private ScrapTxFactory factory;
@@ -43,7 +43,7 @@ public class MessagesTest extends TestCase {
 
     expectedScraps = getExpectedScraps();
     factory = new ScrapTxFactory();
-    transport = new Transport(AlbumsTest.OAUTH_PROPS_FILE);
+    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
     transport.init();
   }
 

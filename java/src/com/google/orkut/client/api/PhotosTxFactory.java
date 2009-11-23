@@ -92,7 +92,7 @@ public class PhotosTxFactory {
    *
    * @param album the album in which to upload the photo
    * @param image the image bytes
-   * @param type the type of the image
+   * @param type the type of the image; one from {@link ImageType}
    * @param title the title of the image
    * @return a {@link UpdatePhotoTx} instance to upload the photo
    */

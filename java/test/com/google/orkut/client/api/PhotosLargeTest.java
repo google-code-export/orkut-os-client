@@ -30,7 +30,7 @@ import junit.framework.TestCase;
  *
  * @author Shishir Birmiwal
  */
-public class PhotosTest extends TestCase {
+public class PhotosLargeTest extends TestCase {
   static final String ALBUM_ID = "5400844753047135304";
   private Transport transport;
   private PhotosTxFactory factory;
@@ -38,7 +38,7 @@ public class PhotosTest extends TestCase {
 
   protected void setUp() throws Exception {
     super.setUp();
-    transport = new Transport(AlbumsTest.OAUTH_PROPS_FILE);
+    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
     transport.init();
 
     expectedPhotos = getKnownPhotos();

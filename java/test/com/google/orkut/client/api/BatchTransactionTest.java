@@ -71,21 +71,23 @@ public class BatchTransactionTest extends TestCase {
   }
 
   public void testBatchTransaction_getRequestWithoutAddingAnyTransaction() throws Exception {
-    assertEquals("[]", new String(batchRequest.getRequestBody()));
+    OrkutHttpRequest request = batchRequest.build();
+    assertEquals("[]", new String(request.getRequestBody()));
+    assertEquals("application/json", request.getContentType());
   }
 
   public void testBatchTransaction_withOneTransaction() throws Exception {
     jsonA.put("req", "A");
     expect(transactionA.getId()).andStubReturn(ID_A);
     expect(transactionA.getRequestAsJson()).andReturn(jsonA);
-    expect(transactionA.getBody()).andStubReturn(null);
     transactionA.setResponse(capture(jsonResponseA));
 
     mockControl.replay();
 
     batchRequest.add(transactionA);
 
-    assertEquals("[{\"req\":\"A\"}]", new String(batchRequest.getRequestBody()));
+    OrkutHttpRequest request = batchRequest.build();
+    assertEquals("[{\"req\":\"A\"}]", new String(request.getRequestBody()));
 
     batchRequest.setResponse("[{'id':'idA', 'value':'A'}]");
 
@@ -99,21 +101,20 @@ public class BatchTransactionTest extends TestCase {
     jsonA.put("req", "A");
     expect(transactionA.getId()).andStubReturn(ID_A);
     expect(transactionA.getRequestAsJson()).andReturn(jsonA);
-    expect(transactionA.getBody()).andStubReturn(null);
     transactionA.setResponse(capture(jsonResponseA));
 
     jsonB.put("req", "B");
     expect(transactionB.getId()).andStubReturn(ID_B);
     expect(transactionB.getRequestAsJson()).andReturn(jsonB);
-    expect(transactionB.getBody()).andStubReturn(null);
     transactionB.setResponse(capture(jsonResponseB));
 
     mockControl.replay();
 
     batchRequest.add(transactionA).add(transactionB);
 
+    OrkutHttpRequest request = batchRequest.build();
     assertEquals("[{\"req\":\"A\"},{\"req\":\"B\"}]",
-        new String(batchRequest.getRequestBody()));
+        new String(request.getRequestBody()));
 
     // Note: The order of responses are reversed here from that of the request.
     batchRequest.setResponse("[{'id':'idB', 'value':'B'},{'id':'idA', 'value':'A'}]");
