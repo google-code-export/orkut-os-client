@@ -18,6 +18,8 @@ package com.google.orkut.client.api;
 
 import org.json.me.JSONObject;
 
+import java.io.IOException;
+
 /**
  * A {@link Transaction} to upload a photo to an orkut album.
  *
@@ -51,15 +53,7 @@ public class UploadPhotoTx extends Transaction {
            .addParameter("mediaItem", mediaItem);
   }
 
-  byte[] getBody() {
-    return image;
-  }
-
-  String getContentType() {
-    return "image/" + type;
-  }
-
-  String getParamName() {
-    return paramName;
+  public void addBody(MultipartBuilder builder) throws IOException {
+    builder.addFile(paramName, "uploaded", "image/" + type, image);
   }
 }

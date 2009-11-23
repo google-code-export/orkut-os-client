@@ -31,6 +31,15 @@ public class Util {
   private Util() {
   }
 
+
+  public static String getHttpVersionHeaderName() {
+    return InternalConstants.ORKUT_CLIENT_LIB_HEADER;
+  }
+
+  public static String getHttpVersionHeaderValue() {
+    return InternalConstants.VERSION_STRING;
+  }
+
   public static boolean isEmpty(String str) {
     return null == str || "".equals(str);
   }
@@ -66,6 +75,11 @@ public class Util {
           items.add(processor.convert(json));
         } catch (CreationException e) {
           // ignore and skip conversion of this item
+        } catch (RuntimeException e) {
+          // we skip any runtime exception too. This is to catch any exception
+          // that occurs while the object is being initialized.
+          // TODO(Sachin Shenoy): Don't silently eat up exception, provide
+          // mechanism to log these. 
         }
       }
     } catch (JSONException jse) {

@@ -16,13 +16,19 @@
 
 package com.google.orkut.client.api;
 
+import net.oauth.OAuth;
+
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Builds a batch request from {@link Transaction}s.
@@ -55,10 +61,6 @@ public class BatchTransaction {
 
   private String contentType;
 
-  private byte[] body;
-
-  private boolean alreadyBuilt;
-
   /**
    * Adds the given request to the batch.
    *
@@ -73,69 +75,42 @@ public class BatchTransaction {
     batch.put(transaction.getRequestAsJson());
     return this;
   }
-
-  public String getHttpVersionHeaderName() {
-    return InternalConstants.ORKUT_CLIENT_LIB_HEADER;
-  }
-
-  public String getHttpVersionHeaderValue() {
-    return InternalConstants.VERSION_STRING;
-  }
-
-  /** Returns the value of content type
-   * @throws IOException
-   */
-  public String getContentType() throws IOException {
-    build();
-    return contentType;
-  }
-
-  /**
-   * Builds and returns the batch json request string. Send this out to the
-   * server with appropriate authentication, and pass the response received to
-   * {@link #setResponse(String)}
-   * @throws IOException
-   */
-  public byte[] getRequestBody() throws IOException {
-    build();
-    return body;
-  }
-
-  private void build() throws IOException {
-    if (alreadyBuilt) {
-      return;
-    }
-    alreadyBuilt = true;
+  
+  public OrkutHttpRequest build() throws IOException {
+    OrkutHttpRequest request;
     if (hasUpload()) {
       MultipartBuilder builder = new MultipartBuilder();
-      Iterator it = transactions.values().iterator();
-      while (it.hasNext()) {
-        Transaction transaction = (Transaction) it.next();
-        if (transaction.getBody() != null) {
-          builder.addFile(transaction.getParamName(), "uploaded",
-              transaction.getContentType(), transaction.getBody());
-        }
-      }
-      builder.addField("request", batch.toString());
-      body = builder.build();
-      contentType = builder.getContentType();
+      addBody(builder);
+      request = new OrkutHttpRequest(builder.build(), builder.getContentType());
+      request.addParam("request", batch.toString());
     } else {
-      contentType = "application/json";
-      body = batch.toString().getBytes("UTF-8");
+      request = new OrkutHttpRequest(batch.toString().getBytes("UTF-8"), "application/json");
     }
+    request.addHeader(InternalConstants.ORKUT_CLIENT_LIB_HEADER, InternalConstants.VERSION_STRING);
+    return request;
   }
 
   private boolean hasUpload() {
     Iterator it = transactions.values().iterator();
     while (it.hasNext()) {
-      Transaction transaction = (Transaction) it.next();
-      if (transaction.getBody() != null) {
+       Transaction transaction = (Transaction) it.next();
+      if (transaction instanceof UploadPhotoTx) {
         return true;
       }
     }
     return false;
   }
 
+  private void addBody(MultipartBuilder builder) throws IOException {
+    Iterator it = transactions.values().iterator();
+    while (it.hasNext()) {
+       Transaction transaction = (Transaction) it.next();
+      if (transaction instanceof UploadPhotoTx) {
+        UploadPhotoTx photoTx = (UploadPhotoTx) transaction;
+        photoTx.addBody(builder);
+      }
+    }
+  }
   /**
    * Set the response received from server for the batch request.
    *

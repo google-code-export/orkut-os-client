@@ -26,31 +26,31 @@ import java.util.Vector;
  *
  * @author Sachin Shenoy
  */
-public class PendingFriendRequestTx extends Transaction {
+public class BirthdayNotificationTx extends Transaction {
 
   private Vector entries;
 
-  PendingFriendRequestTx() {
+  BirthdayNotificationTx() {
     super(MethodNames.MESSAGES_GET);
     request.setUserId(Constants.USERID_ME)
            .setGroupId(Group.FRIENDS)
            .addParameter("messageType", "notification")
-           .addParameter("messageGroup", "friendRequests");
+           .addParameter("messageGroup", "birthdays");
   }
 
   protected void setResponseData(JSONObject data) {
     entries = Util.forEachItemInList(data, ResponseFields.LIST_KEY, new Converter() {
       Object convert(JSONObject json) {
-        return new FriendRequestEntry(json);
+        return new BirthdayNotificationEntry(json);
       }
     });
   }
 
-  public FriendRequestEntry getPendingFriendRequest(int index) {
-    return (FriendRequestEntry) entries.get(index);
+  public BirthdayNotificationEntry getBirthdayNotification(int index) {
+    return (BirthdayNotificationEntry) entries.get(index);
   }
   
-  public int getPendingFriendRequestCount() {
+  public int getBirthdayNotificationCount() {
     return entries.size();
   }
 }
