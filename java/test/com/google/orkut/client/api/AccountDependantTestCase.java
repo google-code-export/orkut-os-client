@@ -19,6 +19,8 @@ package com.google.orkut.client.api;
 import com.google.orkut.client.api.ProfileTest.JaneDoe;
 import com.google.orkut.client.sample.Transport;
 
+import org.apache.http.auth.InvalidCredentialsException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +29,9 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 /**
- * Tests that need to be run as Jane-Doe user.
+ * Tests that need to be run as Jane-Doe user [oocl17 at gmail].
  * Tests that depend on the logged in user to be Jane-Doe should
- * extend {@link JaneDoeTestCase} and call {@link #doesNotMeetJaneDoeDependency(Transport)}
+ * extend {@link AccountDependantTestCase} and call {@link #doesNotMeetJaneDoeDependency(Transport)}
  * before executing the test:
  * <pre><code>
  * public void testSomeTest() throws Exception {
@@ -42,11 +44,23 @@ import junit.framework.TestCase;
  *
  * @author Shishir Birmiwal
  */
-public class JaneDoeTestCase extends TestCase {
-  private static final Logger logger = Logger.getLogger(JaneDoeTestCase.class.getCanonicalName());
+public class AccountDependantTestCase extends TestCase {
+  private static final Logger logger = Logger.getLogger(AccountDependantTestCase.class.getCanonicalName());
   private static Map<Transport, Boolean> isUserJaneDoeMap = new HashMap<Transport, Boolean>();
+  static final String OAUTH_PROPS_FILE = "sample/oauth.properties";
+  protected Transport transport;
 
-  protected boolean isUserJaneDoe(Transport transport) throws IOException {
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    transport = new Transport(OAUTH_PROPS_FILE);
+    transport.init();
+    if (doesNotMeetJaneDoeDependency(transport)) {
+      throw new InvalidCredentialsException("logged in user is not the expected account - oocl17 at gmail");
+    }
+  }
+
+  private boolean isUserJaneDoe(Transport transport) throws IOException {
     if (!isUserJaneDoeMap.containsKey(transport)) {
       ProfileTxFactory txFactory = new ProfileTxFactory();
       GetProfileTx selfProfile = txFactory.getSelfProfile();
@@ -56,9 +70,9 @@ public class JaneDoeTestCase extends TestCase {
     return isUserJaneDoeMap.get(transport);
   }
 
-  protected boolean doesNotMeetJaneDoeDependency(Transport transport) throws IOException {
+  private boolean doesNotMeetJaneDoeDependency(Transport transport) throws IOException {
     if (!isUserJaneDoe(transport)) {
-      logger.severe("SKIPPING TEST - Logged in account is NOT JANE-DOE, but RUN_JANE_DOE_TESTS is TRUE");
+      logger.severe("SKIPPING TEST - Logged in account is not the expected account");
       return true;
     }
     return false;

@@ -24,7 +24,7 @@ import com.google.orkut.client.sample.Transport;
  *
  * @author Shishir Birmiwal
  */
-public class FriendsTest extends JaneDoeTestCase {
+public class FriendsTest extends AccountDependantTestCase {
 
   private FriendTxFactory factory;
   private Transport transport;
@@ -50,10 +50,6 @@ public class FriendsTest extends JaneDoeTestCase {
   }
 
   public void testSelfGetFriends() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skipping test :(
-      return;
-    }
     GetFriendTx selfFriendsTx = factory.getSelfFriends();
     selfFriendsTx.alsoGetName().alsoGetStatus()
         .alsoGetGender().alsoGetProfileUrl().alsoGetThumbnailUrl()
@@ -70,10 +66,6 @@ public class FriendsTest extends JaneDoeTestCase {
   }
 
   public void testSelfGetFriendsWithPagination() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skipping test :(
-      return;
-    }
     GetFriendTx selfFriendsTx = factory.getSelfFriends();
     selfFriendsTx.setCount(1);
     selfFriendsTx.alsoGetName().alsoGetStatus()

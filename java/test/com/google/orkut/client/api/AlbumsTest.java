@@ -17,7 +17,6 @@
 package com.google.orkut.client.api;
 
 import com.google.orkut.client.api.ProfileTest.JohnDoe;
-import com.google.orkut.client.sample.Transport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,25 +30,20 @@ import java.util.Map;
  *
  * @author Shishir Birmiwal
  */
-public class AlbumsTest extends JaneDoeTestCase {
-
+public class AlbumsTest extends AccountDependantTestCase {
   static final int MAX_COUNT = 100;
-  static final String OAUTH_PROPS_FILE = "sample/oauth.properties";
 
   private AlbumsTxFactory factory;
   private Map<String, Album> selfAlbumsMap;
   private Map<String, Album> johnsAlbumsMap;
 
-  private Transport transport;
   private static final String NEW_ALBUM_TITLE = "A New Album";
   private static final String NEW_ALBUM_DESCRIPTION = "This is the description of the new album!";
   private static final String UPDATED_ALBUM_TITLE = "Updated Album";
   private static final String UPDATED_ALBUM_DESCRIPTION = "Updated Description";
 
   public void testCreateUpdateAndDeleteAlbums() throws Exception {
-    if (!doesNotMeetJaneDoeDependency(transport)) {
-      deleteAllUnknownAlbums();
-    }
+    deleteAllUnknownAlbums();
 
     // create a new album
     CreateAlbumTx createAlbumTx = factory.createAlbum(NEW_ALBUM_TITLE, NEW_ALBUM_DESCRIPTION);
@@ -96,9 +90,7 @@ public class AlbumsTest extends JaneDoeTestCase {
     transport.add(albumsTx).run();
 
     // only expected albums are present and the created album is gone
-    if (!doesNotMeetJaneDoeDependency(transport)) {
-      assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
-    }
+    assertEquals(selfAlbumsMap.size(), albumsTx.getAlbumCount());
 
     // check that the deleted album is not present in fetched albums
     for (int i = 0; i < albumsTx.getAlbumCount(); i++) {
@@ -123,11 +115,6 @@ public class AlbumsTest extends JaneDoeTestCase {
   }
 
   public void testGetAlbums() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skip this test
-      return;
-    }
-
     GetAlbumsTx albumsTx = factory.getAlbums(Constants.USERID_ME);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
@@ -140,10 +127,6 @@ public class AlbumsTest extends JaneDoeTestCase {
   }
 
   public void testGetAlbumsOfJohn() throws Exception {
-    if (doesNotMeetJaneDoeDependency(transport)) {
-      // skip this test
-      return;
-    }
     GetAlbumsTx albumsTx = factory.getAlbums(JohnDoe.ID);
     albumsTx.setCount(MAX_COUNT);
     transport.add(albumsTx).run();
@@ -179,8 +162,6 @@ public class AlbumsTest extends JaneDoeTestCase {
 
   protected void setUp() throws Exception {
     super.setUp();
-    transport = new Transport(OAUTH_PROPS_FILE);
-    transport.init();
 
     selfAlbumsMap = getSelfAlbums();
     johnsAlbumsMap = getJohnsExpectedAlbums();
