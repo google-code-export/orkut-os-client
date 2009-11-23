@@ -17,16 +17,13 @@
 package com.google.orkut.client.api;
 
 import com.google.orkut.client.api.Constants.Gender;
-import com.google.orkut.client.sample.Transport;
-
-import junit.framework.TestCase;
 
 /**
  * Integration tests for Profile fetch.
  *
  * @author Shishir Birmiwal
  */
-public class ProfileLargeTest extends TestCase {
+public class ProfileLargeTest extends AccountDependantTestCase {
 
   static class JaneDoe {
     static final String ID = "02776157447964356030";
@@ -53,15 +50,12 @@ public class ProfileLargeTest extends TestCase {
     private static final String PHONE_NUMBER_1 = "123890664";
   }
 
-  private Transport transport;
   private ProfileTxFactory factory;
 
   protected void setUp() throws Exception {
     super.setUp();
 
     factory = new ProfileTxFactory();
-    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
-    transport.init();
   }
 
   public void testGetSelfProfile() throws Exception {

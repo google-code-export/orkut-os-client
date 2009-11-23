@@ -16,31 +16,24 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.sample.Transport;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 /**
  * Integration tests for Photos API.
  *
  * @author Shishir Birmiwal
  */
-public class PhotosLargeTest extends TestCase {
+public class PhotosLargeTest extends AccountDependantTestCase {
   static final String ALBUM_ID = "5400844753047135304";
-  private Transport transport;
+
   private PhotosTxFactory factory;
   private Map<String, Photo> expectedPhotos;
 
   protected void setUp() throws Exception {
     super.setUp();
-    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
-    transport.init();
-
     expectedPhotos = getKnownPhotos();
     factory = new PhotosTxFactory();
   }

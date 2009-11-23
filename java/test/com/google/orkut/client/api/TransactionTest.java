@@ -16,11 +16,13 @@
 
 package com.google.orkut.client.api;
 
-import junit.framework.TestCase;
-
 import org.json.me.JSONObject;
 
+import junit.framework.TestCase;
+
 /**
+ * Tests for {@link Transaction}.
+ *
  * @author Sachin Shenoy
  */
 public class TransactionTest extends TestCase {
