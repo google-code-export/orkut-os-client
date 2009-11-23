@@ -57,12 +57,6 @@ public class AlbumsTxSample {
     Transaction shareAlbumWithFriends = factory.shareAlbumWithFriends(album);
     transport.add(shareAlbumWithFriends).run();
 
-    shareAlbumWithFriends = factory.shareAlbumWithEveryone(album);
-    transport.add(shareAlbumWithFriends).run();
-
-    shareAlbumWithFriends = factory.shareAlbumWithFriends(album);
-    transport.add(shareAlbumWithFriends).run();
-
     if (shareAlbumWithFriends.hasError()) {
       System.err.println("Error sharing album: " + shareAlbumWithFriends.getError().toString());
     }

@@ -16,10 +16,6 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.sample.Transport;
-
-import junit.framework.TestCase;
-
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
@@ -31,9 +27,8 @@ import java.util.List;
  *
  * @author Shishir Birmiwal
  */
-public class MessagesLargeTest extends TestCase {
+public class MessagesLargeTest extends AccountDependantTestCase {
 
-  private Transport transport;
   private ScrapTxFactory factory;
 
   List<ScrapEntry> expectedScraps;
@@ -43,8 +38,6 @@ public class MessagesLargeTest extends TestCase {
 
     expectedScraps = getExpectedScraps();
     factory = new ScrapTxFactory();
-    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
-    transport.init();
   }
 
   public void testGetScraps() throws Exception {

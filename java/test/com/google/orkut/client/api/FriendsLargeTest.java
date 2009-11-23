@@ -17,19 +17,15 @@
 package com.google.orkut.client.api;
 
 import com.google.orkut.client.api.Constants.Gender;
-import com.google.orkut.client.sample.Transport;
-
-import junit.framework.TestCase;
 
 /**
  * Integration tests for Friends related APIs.
  *
  * @author Shishir Birmiwal
  */
-public class FriendsLargeTest extends TestCase {
+public class FriendsLargeTest extends AccountDependantTestCase {
 
   private FriendTxFactory factory;
-  private Transport transport;
 
   static class JohnPoe {
     static final String ID = "05486674863471704172";
@@ -47,8 +43,6 @@ public class FriendsLargeTest extends TestCase {
     super.setUp();
 
     factory = new FriendTxFactory();
-    transport = new Transport(AlbumsLargeTest.OAUTH_PROPS_FILE);
-    transport.init();
   }
 
   public void testSelfGetFriends() throws Exception {

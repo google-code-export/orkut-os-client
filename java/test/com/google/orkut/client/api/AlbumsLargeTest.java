@@ -17,9 +17,6 @@
 package com.google.orkut.client.api;
 
 import com.google.orkut.client.api.ProfileLargeTest.JohnDoe;
-import com.google.orkut.client.sample.Transport;
-
-import junit.framework.TestCase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ import java.util.Map;
  *
  * @author Shishir Birmiwal
  */
-public class AlbumsLargeTest extends TestCase {
+public class AlbumsLargeTest extends AccountDependantTestCase {
   static final int MAX_COUNT = 100;
   static final String OAUTH_PROPS_FILE = "sample/oauth.properties";
 
@@ -44,7 +41,6 @@ public class AlbumsLargeTest extends TestCase {
   private Map<String, Album> selfAlbumsMap;
   private Map<String, Album> johnsAlbumsMap;
 
-  private Transport transport;
   private static final String NEW_ALBUM_TITLE = "A New Album";
   private static final String NEW_ALBUM_DESCRIPTION = "This is the description of the new album!";
   private static final String UPDATED_ALBUM_TITLE = "Updated Album";
@@ -172,8 +168,6 @@ public class AlbumsLargeTest extends TestCase {
 
   protected void setUp() throws Exception {
     super.setUp();
-    transport = new Transport(OAUTH_PROPS_FILE);
-    transport.init();
 
     selfAlbumsMap = getSelfAlbums();
     johnsAlbumsMap = getJohnsExpectedAlbums();
