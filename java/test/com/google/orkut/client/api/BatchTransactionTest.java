@@ -19,12 +19,15 @@ package com.google.orkut.client.api;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 
+import com.google.orkut.client.transport.HttpRequest;
+import com.google.orkut.client.transport.OrkutHttpRequestFactory;
+
+import junit.framework.TestCase;
+
 import org.easymock.Capture;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 import org.json.me.JSONObject;
-
-import junit.framework.TestCase;
 
 /**
  * @author Hari S
@@ -51,7 +54,7 @@ public class BatchTransactionTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    batchRequest = new BatchTransaction();
+    batchRequest = new BatchTransaction(new OrkutHttpRequestFactory());
     mockControl = EasyMock.createControl();
     transactionA = mockControl.createMock(Transaction.class);
     transactionB = mockControl.createMock(Transaction.class);
@@ -71,7 +74,7 @@ public class BatchTransactionTest extends TestCase {
   }
 
   public void testBatchTransaction_getRequestWithoutAddingAnyTransaction() throws Exception {
-    OrkutHttpRequest request = batchRequest.build();
+    HttpRequest request = batchRequest.build();
     assertEquals("[]", new String(request.getRequestBody()));
     assertEquals("application/json", request.getContentType());
   }
@@ -86,7 +89,7 @@ public class BatchTransactionTest extends TestCase {
 
     batchRequest.add(transactionA);
 
-    OrkutHttpRequest request = batchRequest.build();
+    HttpRequest request = batchRequest.build();
     assertEquals("[{\"req\":\"A\"}]", new String(request.getRequestBody()));
 
     batchRequest.setResponse("[{'id':'idA', 'value':'A'}]");
@@ -112,7 +115,7 @@ public class BatchTransactionTest extends TestCase {
 
     batchRequest.add(transactionA).add(transactionB);
 
-    OrkutHttpRequest request = batchRequest.build();
+    HttpRequest request = batchRequest.build();
     assertEquals("[{\"req\":\"A\"},{\"req\":\"B\"}]",
         new String(request.getRequestBody()));
 

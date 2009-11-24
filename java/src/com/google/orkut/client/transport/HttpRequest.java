@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.orkut.client.api;
+package com.google.orkut.client.transport;
 
-import java.util.ArrayList;
+import com.google.orkut.client.api.BatchTransaction;
+
 import java.util.Collection;
 
 /**
@@ -24,96 +25,76 @@ import java.util.Collection;
  * using {@link BatchTransaction#build()}. Clients are supposed to form an
  * HTTP request using the values returned by this class, add authentication to
  * it and send to orkut servers.
- * 
+ *
  * Look at {@link com.google.orkut.client.sample.Transport} for example.
- * 
- * @author Sachin Shenoy
+ *
+ * @author Shishir Birmiwal
  */
-public class OrkutHttpRequest {
+public interface HttpRequest {
 
-  private final byte[] body;
-  private final String contentType;
-  private ArrayList params;
-  private ArrayList headers;
-
-  public class Parameter {
+  public static class Parameter {
     String key;
     String value;
-    
+
     Parameter(String key, String value) {
       this.key = key;
       this.value = value;
     }
-    
+
     public String getKey() {
       return key;
     }
-    
+
     public String getValue() {
       return value;
     }
   }
-  
-  public class Header {
+
+  public static class Header {
     String name;
     String value;
-    
+
     Header(String name, String value) {
       this.name = name;
       this.value = value;
     }
-    
+
     public String getName() {
       return name;
     }
-    
+
     public String getValue() {
       return value;
     }
   }
-  
-  OrkutHttpRequest(byte[] body, String contentType) {
-    this.body = body;
-    this.contentType = contentType;
-    this.params = new ArrayList();
-    this.headers = new ArrayList();
-  }
-  
+
   /**
    * Returns the content type header value
    */
-  public String getContentType() {
-    return contentType;
-  }
+  String getContentType();
 
   /**
    * Returns the body of the request
    */
-  public byte[] getRequestBody() {
-    return body;
-  }
+  byte[] getRequestBody();
 
   /**
    * Returns Collection of {@link Parameter} to be sent with the HTTP request.
    */
-  public Collection getParameters() {
-    return params;
-  }
+  Collection getParameters();
 
   /**
    * Returns Colleciton of {@link Header} to be sent with the HTTP request.
    */
-  public Collection getHeaders() {
-    return headers;
-  }
-  
-  OrkutHttpRequest addParam(String key, String value) {
-    params.add(new Parameter(key, value));
-    return this;
-  }
-  
-  OrkutHttpRequest addHeader(String name, String value) {
-    headers.add(new Header(name, value));
-    return this;
-  }
+  Collection getHeaders();
+
+  /**
+   * Adds a parameter to the list of parameters of the http request.
+   */
+  HttpRequest addParam(String key, String value);
+
+  /**
+   * Adds a header to the list of http-headers.
+   */
+  HttpRequest addHeader(String name, String value);
 }
