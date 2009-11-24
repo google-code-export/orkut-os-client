@@ -16,19 +16,16 @@
 
 package com.google.orkut.client.api;
 
-import net.oauth.OAuth;
+import com.google.orkut.client.transport.HttpRequest;
+import com.google.orkut.client.transport.HttpRequestFactory;
 
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Builds a batch request from {@link Transaction}s.
@@ -36,10 +33,10 @@ import java.util.Map.Entry;
  * <pre>
  * {@code
  * BatchTransaction batch = new BatchTransaction();
- * batch.add(transaction1)
+ * httpRequest = batch.add(transaction1)
  *      .add(transaction2)
  *      .add(transaction3)
- *      .getRequest();
+ *      .build();
  *
  * batch.setResponse(response);
  * }</pre>
@@ -61,6 +58,12 @@ public class BatchTransaction {
 
   private String contentType;
 
+  private final HttpRequestFactory requestFactory;
+
+  public BatchTransaction(HttpRequestFactory requestFactory) {
+    this.requestFactory = requestFactory;
+  }
+
   /**
    * Adds the given request to the batch.
    *
@@ -75,16 +78,17 @@ public class BatchTransaction {
     batch.put(transaction.getRequestAsJson());
     return this;
   }
-  
-  public OrkutHttpRequest build() throws IOException {
-    OrkutHttpRequest request;
+
+  public HttpRequest build() throws IOException {
+    HttpRequest request;
     if (hasUpload()) {
       MultipartBuilder builder = new MultipartBuilder();
       addBody(builder);
-      request = new OrkutHttpRequest(builder.build(), builder.getContentType());
+      request = requestFactory.getHttpRequest(builder.getContentType(), builder.build());
       request.addParam("request", batch.toString());
     } else {
-      request = new OrkutHttpRequest(batch.toString().getBytes("UTF-8"), "application/json");
+      request = requestFactory.getHttpRequest("application/json",
+          batch.toString().getBytes("UTF-8"));
     }
     request.addHeader(InternalConstants.ORKUT_CLIENT_LIB_HEADER, InternalConstants.VERSION_STRING);
     return request;

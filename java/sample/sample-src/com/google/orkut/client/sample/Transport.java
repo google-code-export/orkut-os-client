@@ -17,10 +17,11 @@
 package com.google.orkut.client.sample;
 
 import com.google.orkut.client.api.BatchTransaction;
-import com.google.orkut.client.api.OrkutHttpRequest;
 import com.google.orkut.client.api.Transaction;
 import com.google.orkut.client.api.Util;
-import com.google.orkut.client.api.OrkutHttpRequest.Parameter;
+import com.google.orkut.client.transport.HttpRequest;
+import com.google.orkut.client.transport.OrkutHttpRequestFactory;
+import com.google.orkut.client.transport.HttpRequest.Parameter;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthConsumer;
@@ -52,11 +53,13 @@ public class Transport {
   private final String propFilename;
   private DesktopClient client;
   private BatchTransaction batchTransaction;
+  private final OrkutHttpRequestFactory requestFactory;
 
   public Transport(String propfile) {
     this.propFilename = propfile;
     this.props = new Properties();
-    batchTransaction =  new BatchTransaction();
+    requestFactory = new OrkutHttpRequestFactory();
+    batchTransaction =  new BatchTransaction(requestFactory);
   }
 
   public void init() throws Exception {
@@ -92,12 +95,12 @@ public class Transport {
     return this;
   }
 
-  private Collection getParams(OrkutHttpRequest request) {
+  private Collection getParams(HttpRequest request) {
     Collection params = request.getParameters();
     if (params == null || params.size() == 0) {
       return null;
     }
-    
+
     ArrayList<Entry<String, String>> oauthParams = new ArrayList<Entry<String, String>>();
     Iterator it = params.iterator();
     while (it.hasNext()) {
@@ -106,10 +109,10 @@ public class Transport {
     }
     return oauthParams;
   }
-  
+
   synchronized public Transport run() throws IOException {
-    OrkutHttpRequest request = batchTransaction.build();
-    
+    HttpRequest request = batchTransaction.build();
+
     String response = sendRequest(
         request.getContentType(),
         request.getRequestBody(),
@@ -119,7 +122,7 @@ public class Transport {
     batchTransaction.setResponse(response);
 
     // create a new batch now.
-    batchTransaction = new BatchTransaction();
+    batchTransaction = new BatchTransaction(requestFactory);
     return this;
   }
 
