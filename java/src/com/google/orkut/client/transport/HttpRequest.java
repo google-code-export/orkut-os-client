@@ -26,7 +26,7 @@ import java.util.Collection;
  * HTTP request using the values returned by this class, add authentication to
  * it and send to orkut servers.
  *
- * Look at {@link com.google.orkut.client.sample.Transport} for example.
+ * Look at {@link com.google.orkut.client.sample.Transport} for an example in samples/.
  *
  * @author Shishir Birmiwal
  */

@@ -16,6 +16,8 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.api.UploadPhotoTx.ImageType;
+
 /**
  * A factory to generate orkut photos related {@link Transaction}s.
  *
