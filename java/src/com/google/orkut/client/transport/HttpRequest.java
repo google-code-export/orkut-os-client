@@ -28,6 +28,7 @@ import java.util.Collection;
  *
  * Look at {@link com.google.orkut.client.sample.Transport} for an example in samples/.
  *
+ * @author Sachin Shenoy
  * @author Shishir Birmiwal
  */
 public interface HttpRequest {
@@ -69,11 +70,6 @@ public interface HttpRequest {
   }
 
   /**
-   * Returns the content type header value
-   */
-  String getContentType();
-
-  /**
    * Returns the body of the request
    */
   byte[] getRequestBody();
@@ -87,6 +83,16 @@ public interface HttpRequest {
    * Returns Colleciton of {@link Header} to be sent with the HTTP request.
    */
   Collection getHeaders();
+
+  /**
+   * Returns the method of the request.
+   */
+  String getMethod();
+
+  /**
+   * Returns the url where the request is to be sent.
+   */
+  String getRequestBaseUrl();
 
   /**
    * Adds a parameter to the list of parameters of the http request.

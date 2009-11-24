@@ -18,9 +18,9 @@ package com.google.orkut.client.sample;
 
 import com.google.orkut.client.api.BatchTransaction;
 import com.google.orkut.client.api.Transaction;
-import com.google.orkut.client.api.Util;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.OrkutHttpRequestFactory;
+import com.google.orkut.client.transport.HttpRequest.Header;
 import com.google.orkut.client.transport.HttpRequest.Parameter;
 
 import net.oauth.OAuth;
@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 
@@ -47,7 +46,6 @@ import java.util.Map.Entry;
  */
 public class Transport {
   private static final String TOKEN_SECRET = "token_secret";
-  private static final String SERVER_URL = "serverUrl";
   private static final String ACCESS_TOKEN = "accessToken";
   Properties props;
   private final String propFilename;
@@ -95,30 +93,10 @@ public class Transport {
     return this;
   }
 
-  private Collection getParams(HttpRequest request) {
-    Collection params = request.getParameters();
-    if (params == null || params.size() == 0) {
-      return null;
-    }
-
-    ArrayList<Entry<String, String>> oauthParams = new ArrayList<Entry<String, String>>();
-    Iterator it = params.iterator();
-    while (it.hasNext()) {
-      Parameter parameter = (Parameter) it.next();
-      oauthParams.add(new OAuth.Parameter(parameter.getKey(), parameter.getValue()));
-    }
-    return oauthParams;
-  }
-
   synchronized public Transport run() throws IOException {
     HttpRequest request = batchTransaction.build();
 
-    String response = sendRequest(
-        request.getContentType(),
-        request.getRequestBody(),
-        getParams(request),
-        Util.getHttpVersionHeaderName(),
-        Util.getHttpVersionHeaderValue());
+    String response = sendRequest(request);
     batchTransaction.setResponse(response);
 
     // create a new batch now.
@@ -126,17 +104,16 @@ public class Transport {
     return this;
   }
 
-  public String sendRequest(String contentType, byte[] body,
-      Collection<? extends Map.Entry> parameters, String versionHeaderName,
-      String versionHeaderValue) throws IOException {
+  public String sendRequest(HttpRequest request) throws IOException {
+    byte[] body = request.getRequestBody();
+    String method = request.getMethod();
     if (body.length < 512) {
       System.out.println("Request:" + new String(body));
     }
     OAuthMessage message;
     try {
-      message = client.access(OAuthMessage.POST,
-              props.getProperty(SERVER_URL), parameters, contentType, versionHeaderName,
-              versionHeaderValue, body);
+      message = client.access(method, request.getRequestBaseUrl(),
+          getParams(request), getHeaders(request), body);
     } catch (Exception e) {
       return "";
     }
@@ -155,5 +132,35 @@ public class Transport {
     FileOutputStream fileOutputStream = new FileOutputStream(propFilename);
     props.store(fileOutputStream, "writing access Token");
     fileOutputStream.close();
+  }
+
+  private Collection getParams(HttpRequest request) {
+    Collection params = request.getParameters();
+    if (params == null || params.size() == 0) {
+      return null;
+    }
+
+    ArrayList<Entry<String, String>> oauthParams = new ArrayList<Entry<String, String>>();
+    Iterator it = params.iterator();
+    while (it.hasNext()) {
+      Parameter parameter = (Parameter) it.next();
+      oauthParams.add(new OAuth.Parameter(parameter.getKey(), parameter.getValue()));
+    }
+    return oauthParams;
+  }
+
+  private Collection getHeaders(HttpRequest request) {
+    Collection params = request.getHeaders();
+    if (params == null || params.size() == 0) {
+      return null;
+    }
+
+    ArrayList<Entry<String, String>> headers = new ArrayList<Entry<String, String>>();
+    Iterator it = params.iterator();
+    while (it.hasNext()) {
+      Header header = (Header) it.next();
+      headers.add(new OAuth.Parameter(header.getName(), header.getValue()));
+    }
+    return headers;
   }
 }

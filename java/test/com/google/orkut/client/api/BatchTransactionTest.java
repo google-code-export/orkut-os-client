@@ -21,6 +21,7 @@ import static org.easymock.EasyMock.expect;
 
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.OrkutHttpRequestFactory;
+import com.google.orkut.client.transport.HttpRequest.Header;
 
 import junit.framework.TestCase;
 
@@ -28,6 +29,9 @@ import org.easymock.Capture;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 import org.json.me.JSONObject;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * @author Hari S
@@ -76,7 +80,25 @@ public class BatchTransactionTest extends TestCase {
   public void testBatchTransaction_getRequestWithoutAddingAnyTransaction() throws Exception {
     HttpRequest request = batchRequest.build();
     assertEquals("[]", new String(request.getRequestBody()));
-    assertEquals("application/json", request.getContentType());
+    Collection headers = request.getHeaders();
+    assertEquals(2, headers.size());
+    Iterator iterator = headers.iterator();
+    boolean contentTypeFound = false;
+    boolean versionFound = false;
+    while (iterator.hasNext()) {
+      Header header = (Header) iterator.next();
+      String name = header.getName();
+      if (name.equals("Content-Type")) {
+        assertEquals("application/json", header.getValue());
+        contentTypeFound = true;
+      } else {
+        assertEquals(InternalConstants.ORKUT_CLIENT_LIB_HEADER, header.getName());
+        assertEquals(InternalConstants.VERSION_STRING, header.getValue());
+        versionFound = true;
+      }
+    }
+    assertTrue(contentTypeFound);
+    assertTrue(versionFound);
   }
 
   public void testBatchTransaction_withOneTransaction() throws Exception {
