@@ -81,7 +81,7 @@ public class OrkutHttpRequest implements HttpRequest {
    *   http://www.orkut.com/social/rpc
    */
   public String getRequestBaseUrl() {
-    return "http://sandbox.orkut.com/social/rpc";
+    return requestBaseUrl;
   }
 
   public HttpRequest setMethod(String method) {
