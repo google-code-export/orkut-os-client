@@ -18,8 +18,8 @@ package com.google.orkut.client.sample;
 
 import com.google.orkut.client.api.BatchTransaction;
 import com.google.orkut.client.api.Transaction;
-import com.google.orkut.client.config.ConfigFactory;
-import com.google.orkut.client.config.SandboxConfigFactory;
+import com.google.orkut.client.config.Config;
+import com.google.orkut.client.config.FileConfig;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.OrkutHttpRequestFactory;
 import com.google.orkut.client.transport.HttpRequest.Header;
@@ -54,14 +54,14 @@ public class Transport {
   private DesktopClient client;
   private BatchTransaction batchTransaction;
   private final OrkutHttpRequestFactory requestFactory;
-  private final ConfigFactory configFactory;
+  private final Config config;
 
-  public Transport(String propfile) {
+  public Transport(String propfile) throws IOException {
     this.propFilename = propfile;
     this.props = new Properties();
     requestFactory = new OrkutHttpRequestFactory();
-    configFactory = new SandboxConfigFactory();
-    batchTransaction =  new BatchTransaction(requestFactory, configFactory);
+    config = new FileConfig();
+    batchTransaction =  new BatchTransaction(requestFactory, config);
   }
 
   public void init() throws Exception {
@@ -104,7 +104,7 @@ public class Transport {
     batchTransaction.setResponse(response);
 
     // create a new batch now.
-    batchTransaction = new BatchTransaction(requestFactory, configFactory);
+    batchTransaction = new BatchTransaction(requestFactory, config);
     return this;
   }
 

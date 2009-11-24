@@ -16,13 +16,30 @@
 
 package com.google.orkut.client.config;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
- * Configuration to send requests to orkut sandbox.
+ * {@link Config} while reads configuration from {@link #CONFIG_FILE}.
+ * You may choose to create an implementation with hard-coded values,
+ * instead of reading from this properties file.
  *
  * @author Shishir Birmiwal
  */
-public class SandboxConfig implements Config {
+public class FileConfig implements Config {
+  public final String CONFIG_FILE = "sample/oauth.properties";
+  private final String SERVER_URL = "serverUrl";
+  private final Properties props;
+
+  public FileConfig() throws IOException {
+    FileInputStream fileInputStream = new FileInputStream(CONFIG_FILE);
+    props = new Properties();
+    props.load(fileInputStream);
+    fileInputStream.close();
+  }
+
   public String getRequestBaseUrl() {
-    return "http://sandbox.orkut.com/social/rpc";
+    return props.getProperty(SERVER_URL);
   }
 }

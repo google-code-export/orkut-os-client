@@ -16,7 +16,8 @@
 
 package com.google.orkut.client.api;
 
-import com.google.orkut.client.config.ConfigFactory;
+import com.google.orkut.client.config.Config;
+import com.google.orkut.client.config.FileConfig;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.HttpRequestFactory;
 
@@ -63,14 +64,16 @@ public class BatchTransaction {
    */
   private final JSONArray batch = new JSONArray();
 
-  private String contentType;
-
   private final HttpRequestFactory requestFactory;
-  private final ConfigFactory configFactory;
+  private final Config config;
 
-  public BatchTransaction(HttpRequestFactory requestFactory, ConfigFactory configFactory) {
+  public BatchTransaction(HttpRequestFactory requestFactory, Config config) {
     this.requestFactory = requestFactory;
-    this.configFactory = configFactory;
+    this.config = config;
+  }
+
+  public BatchTransaction(HttpRequestFactory requestFactory) throws IOException {
+    this(requestFactory, new FileConfig());
   }
 
   /**
@@ -102,7 +105,7 @@ public class BatchTransaction {
     }
     request.addHeader(InternalConstants.ORKUT_CLIENT_LIB_HEADER, InternalConstants.VERSION_STRING);
     request.setMethod("POST");
-    request.setRequestBaseUrl(configFactory.getConfig().getRequestBaseUrl());
+    request.setRequestBaseUrl(config.getRequestBaseUrl());
     return request;
   }
 

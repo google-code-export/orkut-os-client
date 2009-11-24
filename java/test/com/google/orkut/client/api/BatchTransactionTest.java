@@ -19,7 +19,6 @@ package com.google.orkut.client.api;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 
-import com.google.orkut.client.config.SandboxConfigFactory;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.OrkutHttpRequestFactory;
 import com.google.orkut.client.transport.HttpRequest.Header;
@@ -59,7 +58,7 @@ public class BatchTransactionTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    batchRequest = new BatchTransaction(new OrkutHttpRequestFactory(), new SandboxConfigFactory());
+    batchRequest = new BatchTransaction(new OrkutHttpRequestFactory());
     mockControl = EasyMock.createControl();
     transactionA = mockControl.createMock(Transaction.class);
     transactionB = mockControl.createMock(Transaction.class);
