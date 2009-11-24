@@ -103,4 +103,14 @@ public interface HttpRequest {
    * Adds a header to the list of http-headers.
    */
   HttpRequest addHeader(String name, String value);
+
+  /**
+   * Sets the HTTP request method.
+   */
+  HttpRequest setMethod(String method);
+
+  /**
+   * Sets the Request URL base.
+   */
+  HttpRequest setRequestBaseUrl(String requestBaseUrl);
 }

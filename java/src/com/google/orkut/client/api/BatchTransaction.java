@@ -16,6 +16,7 @@
 
 package com.google.orkut.client.api;
 
+import com.google.orkut.client.config.ConfigFactory;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.HttpRequestFactory;
 
@@ -46,12 +47,10 @@ import java.util.Iterator;
  */
 public class BatchTransaction {
   private static final String REQUEST_PARAM = "request";
-
   private static final String UTF_8 = "UTF-8";
-
   private static final String APPLICATION_JSON = "application/json";
-
   private static final String CONTENT_TYPE = "Content-Type";
+  private static final String REQUEST_METHOD = "POST";
 
   /**
    * Map of request-id to transaction. Used to de-mux responses to appropriate
@@ -67,9 +66,11 @@ public class BatchTransaction {
   private String contentType;
 
   private final HttpRequestFactory requestFactory;
+  private final ConfigFactory configFactory;
 
-  public BatchTransaction(HttpRequestFactory requestFactory) {
+  public BatchTransaction(HttpRequestFactory requestFactory, ConfigFactory configFactory) {
     this.requestFactory = requestFactory;
+    this.configFactory = configFactory;
   }
 
   /**
@@ -100,6 +101,8 @@ public class BatchTransaction {
       request.addHeader(CONTENT_TYPE, APPLICATION_JSON);
     }
     request.addHeader(InternalConstants.ORKUT_CLIENT_LIB_HEADER, InternalConstants.VERSION_STRING);
+    request.setMethod("POST");
+    request.setRequestBaseUrl(configFactory.getConfig().getRequestBaseUrl());
     return request;
   }
 

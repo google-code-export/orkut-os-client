@@ -30,6 +30,8 @@ public class OrkutHttpRequest implements HttpRequest {
   private final byte[] body;
   private final ArrayList params;
   private final ArrayList headers;
+  private String method;
+  private String requestBaseUrl;
 
   public OrkutHttpRequest(byte[] body) {
     this.body = body;
@@ -69,7 +71,7 @@ public class OrkutHttpRequest implements HttpRequest {
   }
 
   public String getMethod() {
-    return "POST";
+    return method;
   }
 
   /**
@@ -80,5 +82,15 @@ public class OrkutHttpRequest implements HttpRequest {
    */
   public String getRequestBaseUrl() {
     return "http://sandbox.orkut.com/social/rpc";
+  }
+
+  public HttpRequest setMethod(String method) {
+    this.method = method;
+    return this;
+  }
+
+  public HttpRequest setRequestBaseUrl(String requestBaseUrl) {
+    this.requestBaseUrl = requestBaseUrl;
+    return this;
   }
 }
