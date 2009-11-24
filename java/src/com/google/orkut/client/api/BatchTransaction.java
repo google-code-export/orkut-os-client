@@ -20,6 +20,7 @@ import com.google.orkut.client.config.Config;
 import com.google.orkut.client.config.FileConfig;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.HttpRequestFactory;
+import com.google.orkut.client.transport.OrkutHttpRequestFactory;
 
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
@@ -67,13 +68,30 @@ public class BatchTransaction {
   private final HttpRequestFactory requestFactory;
   private final Config config;
 
+  /**
+   * Create a {@link BatchTransaction} using the given requestFactory and config.
+   */
   public BatchTransaction(HttpRequestFactory requestFactory, Config config) {
     this.requestFactory = requestFactory;
     this.config = config;
   }
 
+  /**
+   * Convenience constructor that creates a {@link BatchTransaction} using the
+   * given requestFactory and {@link FileConfig}.
+   */
   public BatchTransaction(HttpRequestFactory requestFactory) throws IOException {
     this(requestFactory, new FileConfig());
+  }
+
+  /**
+   * Convenience constructor that creates a {@link BatchTransaction}.
+   * To use a custom {@link HttpRequestFactory} or a custom {@link Config},
+   * use {@link BatchTransaction#BatchTransaction(HttpRequestFactory)} or
+   * {@link BatchTransaction#BatchTransaction(HttpRequestFactory, Config)}.
+   */
+  public BatchTransaction() throws IOException {
+    this(new OrkutHttpRequestFactory());
   }
 
   /**

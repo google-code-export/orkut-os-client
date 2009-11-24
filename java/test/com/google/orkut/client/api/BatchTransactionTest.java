@@ -19,6 +19,7 @@ package com.google.orkut.client.api;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 
+import com.google.orkut.client.config.Config;
 import com.google.orkut.client.transport.HttpRequest;
 import com.google.orkut.client.transport.OrkutHttpRequestFactory;
 import com.google.orkut.client.transport.HttpRequest.Header;
@@ -38,6 +39,7 @@ import junit.framework.TestCase;
  */
 public class BatchTransactionTest extends TestCase {
 
+  private static final String REQUEST_URL = "http://orkut.com/someurl";
   private static final String ID = "id";
   private static final String VALUE = "value";
   private static final String ID_A = "idA";
@@ -58,7 +60,12 @@ public class BatchTransactionTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    batchRequest = new BatchTransaction(new OrkutHttpRequestFactory());
+    batchRequest = new BatchTransaction(new OrkutHttpRequestFactory(),
+        new Config() {
+          public String getRequestBaseUrl() {
+            return REQUEST_URL;
+          }
+        });
     mockControl = EasyMock.createControl();
     transactionA = mockControl.createMock(Transaction.class);
     transactionB = mockControl.createMock(Transaction.class);
@@ -99,6 +106,7 @@ public class BatchTransactionTest extends TestCase {
     }
     assertTrue(contentTypeFound);
     assertTrue(versionFound);
+    assertEquals(REQUEST_URL, request.getRequestBaseUrl());
   }
 
   public void testBatchTransaction_withOneTransaction() throws Exception {
