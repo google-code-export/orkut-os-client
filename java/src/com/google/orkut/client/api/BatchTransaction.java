@@ -45,6 +45,14 @@ import java.util.Iterator;
  * @author Shishir Birmiwal
  */
 public class BatchTransaction {
+  private static final String REQUEST_PARAM = "request";
+
+  private static final String UTF_8 = "UTF-8";
+
+  private static final String APPLICATION_JSON = "application/json";
+
+  private static final String CONTENT_TYPE = "Content-Type";
+
   /**
    * Map of request-id to transaction. Used to de-mux responses to appropriate
    * transaction
@@ -84,11 +92,12 @@ public class BatchTransaction {
     if (hasUpload()) {
       MultipartBuilder builder = new MultipartBuilder();
       addBody(builder);
-      request = requestFactory.getHttpRequest(builder.getContentType(), builder.build());
-      request.addParam("request", batch.toString());
+      request = requestFactory.getHttpRequest(builder.build());
+      request.addParam(REQUEST_PARAM, batch.toString());
+      request.addHeader(CONTENT_TYPE, builder.getContentType());
     } else {
-      request = requestFactory.getHttpRequest("application/json",
-          batch.toString().getBytes("UTF-8"));
+      request = requestFactory.getHttpRequest(batch.toString().getBytes(UTF_8));
+      request.addHeader(CONTENT_TYPE, APPLICATION_JSON);
     }
     request.addHeader(InternalConstants.ORKUT_CLIENT_LIB_HEADER, InternalConstants.VERSION_STRING);
     return request;

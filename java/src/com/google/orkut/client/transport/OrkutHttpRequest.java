@@ -23,26 +23,18 @@ import java.util.Collection;
  * An model implementation of {@link HttpRequest}.
  *
  * @author Sachin Shenoy
+ * @author Shishir Birmiwal
  */
 public class OrkutHttpRequest implements HttpRequest {
 
   private final byte[] body;
-  private final String contentType;
   private final ArrayList params;
   private final ArrayList headers;
 
-  public OrkutHttpRequest(byte[] body, String contentType) {
+  public OrkutHttpRequest(byte[] body) {
     this.body = body;
-    this.contentType = contentType;
     this.params = new ArrayList();
     this.headers = new ArrayList();
-  }
-
-  /* (non-Javadoc)
-   * @see com.google.orkut.client.transport.HttpRequest#getContentType()
-   */
-  public String getContentType() {
-    return contentType;
   }
 
   /* (non-Javadoc)
@@ -74,5 +66,19 @@ public class OrkutHttpRequest implements HttpRequest {
   public HttpRequest addHeader(String name, String value) {
     headers.add(new Header(name, value));
     return this;
+  }
+
+  public String getMethod() {
+    return "POST";
+  }
+
+  /**
+   * NOTE:
+   * <p>This value is for ORKUT SANDBOX. DO NOT GO TO PRODUCTION
+   * with this value. For production, this should be
+   *   http://www.orkut.com/social/rpc
+   */
+  public String getRequestBaseUrl() {
+    return "http://sandbox.orkut.com/social/rpc";
   }
 }

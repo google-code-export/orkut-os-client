@@ -19,11 +19,12 @@ package com.google.orkut.client.transport;
 /**
  * A factory to create {@link HttpRequest}s.
  *
+ * @author Sachin Shenoy
  * @author Shishir Birmiwal
  */
 public interface HttpRequestFactory {
   /**
    * Creates a HTTP request with the given contentType and body.
    */
-  HttpRequest getHttpRequest(String contentType, byte[] body);
+  HttpRequest getHttpRequest(byte[] body);
 }

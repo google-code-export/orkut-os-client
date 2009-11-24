@@ -19,10 +19,11 @@ package com.google.orkut.client.transport;
 /**
  * A {@link HttpRequestFactory} that gives out {@link OrkutHttpRequest}s.
  *
+ * @author Sachin Shenoy
  * @author Shishir Birmiwal
  */
 public class OrkutHttpRequestFactory implements HttpRequestFactory {
-  public HttpRequest getHttpRequest(String contentType, byte[] body) {
-    return new OrkutHttpRequest(body, contentType);
+  public HttpRequest getHttpRequest(byte[] body) {
+    return new OrkutHttpRequest(body);
   }
 }

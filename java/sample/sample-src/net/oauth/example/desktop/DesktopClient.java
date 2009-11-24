@@ -41,6 +41,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -99,16 +100,30 @@ public class DesktopClient {
      * @return the response from the service provider
      * @throws OAuthException
      *             the OAuth protocol didn't proceed smoothly
+     * @deprecated Use {@link #access(String,String,Collection<? extends Map.Entry>,Collection<? extends Map.Entry>,byte[])} instead
      */
     public OAuthMessage access(String httpMethod, String resourceURL,
         Collection<? extends Map.Entry> parameters, String contentType,
-        String versionHeaderName, String versionHeaderValue, byte[] body)
+        Collection<? extends Map.Entry> headers, byte[] body)
+            throws Exception {
+              return access(httpMethod, resourceURL, parameters, headers, body);
+            }
+
+    /**
+     * Access a protected resource.
+     *
+     * @return the response from the service provider
+     * @throws OAuthException
+     *             the OAuth protocol didn't proceed smoothly
+     */
+    public OAuthMessage access(String httpMethod, String resourceURL,
+        Collection<? extends Map.Entry> parameters, Collection<? extends Map.Entry> headers,
+        byte[] body)
             throws Exception {
        if (accessor.accessToken == null) {
          login();
        }
-       return invoke(accessor, httpMethod, resourceURL, parameters, contentType,
-           versionHeaderName, versionHeaderValue, body);
+       return invoke(accessor, httpMethod, resourceURL, parameters, headers, body);
     }
 
     /**
@@ -187,14 +202,14 @@ public class DesktopClient {
 
     private OAuthMessage invoke(OAuthAccessor accessor, String httpMethod,
             String url, Collection<? extends Map.Entry> parameters,
-            String contentType, String versionHeaderName, String versionHeaderValue,
-            byte[] body)
+            Collection<? extends Map.Entry> headers, byte[] body)
     throws IOException, OAuthException, URISyntaxException {
         OAuthMessage request = new PostOAuthMessage(httpMethod, url, parameters, body);
         request.addRequiredParameters(accessor);
-        request.getHeaders().add(new OAuth.Parameter(HttpMessage.CONTENT_TYPE,
-            contentType));
-        request.getHeaders().add(new OAuth.Parameter(versionHeaderName, versionHeaderValue));
+        Iterator it = headers.iterator();
+        while (it.hasNext()) {
+          request.getHeaders().add((Map.Entry)it.next());
+        }
         Object accepted = accessor.consumer.getProperty(OAuthConsumer.ACCEPT_ENCODING);
         if (accepted != null) {
             request.getHeaders().add(new OAuth.Parameter(HttpMessage.ACCEPT_ENCODING, accepted.toString()));
