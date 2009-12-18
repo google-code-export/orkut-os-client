@@ -41,10 +41,6 @@ public class ActivityTxFactory {
     return prev.getNext();
   }
 
-  public GetActivitiesTx getPrev(GetActivitiesTx last) {
-    return last.getPrev();
-  }
-
   /**
    * Posts an activity (visible to the logged in user and his/her friends).
    */

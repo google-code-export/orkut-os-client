@@ -20,6 +20,8 @@ import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.Vector;
 
 /**
@@ -58,6 +60,29 @@ public class Util {
     } catch (JSONException e) {
       throw new RuntimeException("Null key while writing into json", e);
     }
+  }
+  
+  static String getFormattedTimestamp(long timeMillis) {
+    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(Constants.UTC));
+    cal.setTimeInMillis(timeMillis);
+    StringBuilder date = new StringBuilder();
+    date.append(cal.get(Calendar.YEAR));
+    date.append(Constants.DATE_SEPARATOR);
+    date.append(padSingleDigitNum(cal.get(Calendar.MONTH) + 1));
+    date.append(Constants.DATE_SEPARATOR);
+    date.append(padSingleDigitNum(cal.get(Calendar.DATE)));
+    date.append(Constants.DATE_DELIM);
+    date.append(padSingleDigitNum(cal.get(Calendar.HOUR)));
+    date.append(Constants.TIME_SEPARATOR);
+    date.append(padSingleDigitNum(cal.get(Calendar.MINUTE)));
+    date.append(Constants.TIME_SEPARATOR);
+    date.append(padSingleDigitNum(cal.get(Calendar.SECOND)));
+    date.append(Constants.TIME_DELIM);
+    return date.toString();
+  }
+  
+  static private String padSingleDigitNum(int num) {
+    return (num < 10) ? ("0" + num) : ("" + num);
   }
 
 

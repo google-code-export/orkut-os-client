@@ -57,4 +57,5 @@ class Params {
   static final String START_INDEX = "startIndex";
   static final String TYPE = "type";
   static final String USER_ID = "userId";
+  static final String UPDATED_BEFORE = "updatedBefore";
 }

@@ -65,34 +65,16 @@ public class GetActivitiesTx extends Transaction {
     return this;
   }
 
-  public boolean hasNext() {
-    // TODO(sachins): figure out a way to find if we have reached the end.
-    // Right now clients have to fetch more, and stop when the don't receive
-    // any more activities. This check provides a max bound for hasNext to
-    // return true.
-    return request.getStartIndex() >= MAX_START_INDEX;
-  }
-
   GetActivitiesTx getNext() {
     GetActivitiesTx fetchActivityTx = new GetActivitiesTx();
-    fetchActivityTx.request
-        .setStartIndex(getNextStartIndex())
-        .setCount(request.getCount());
+    fetchActivityTx.request.addParameter(
+      Params.UPDATED_BEFORE,
+      Util.getFormattedTimestamp((((ActivityEntry) activities
+        .lastElement()).getPostedTime()) * 1000)).setCount(
+          request.getCount());
     return fetchActivityTx;
   }
-
-  public boolean hasPrev() {
-    return request.getStartIndex() > 0;
-  }
-
-  GetActivitiesTx getPrev() {
-    GetActivitiesTx fetchActivityTx = new GetActivitiesTx();
-    fetchActivityTx.request
-        .setStartIndex(getPrevStartIndex())
-        .setCount(request.getCount());
-    return fetchActivityTx;
-  }
-
+  
   protected void setResponseData(JSONObject data) {
     activities = Util.forEachItemInList(data, ResponseFields.LIST_KEY, new ActivityConverter());
   }
@@ -107,12 +89,13 @@ public class GetActivitiesTx extends Transaction {
   public ActivityEntry getActivity(int index) {
     return (ActivityEntry) activities.get(index);
   }
-
-  private int getNextStartIndex() {
-    return Math.max(MAX_START_INDEX, request.getStartIndex() + request.getCount());
+  
+  public boolean hasNext() {
+    // TODO(sachins): figure out a way to find if we have reached the end.
+    // Right now clients have to fetch more, and stop when the don't receive
+    // any more activities. This check provides a max bound for hasNext to
+    // return true.
+    return !this.activities.isEmpty();
   }
-
-  private int getPrevStartIndex() {
-    return Math.max(0, request.getStartIndex() - request.getCount());
-  }
+  
 }
