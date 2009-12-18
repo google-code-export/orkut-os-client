@@ -16,11 +16,11 @@
 
 package com.google.orkut.client.sample;
 
+import java.io.IOException;
+
 import com.google.orkut.client.api.ActivityEntry;
 import com.google.orkut.client.api.ActivityTxFactory;
 import com.google.orkut.client.api.GetActivitiesTx;
-
-import java.io.IOException;
 
 /**
  *
@@ -44,10 +44,17 @@ public class ActivityTxSample {
     GetActivitiesTx fetchActivityTx = factory.getSelfActivities();
     fetchActivityTx.alsoGetPageUrls();
     transport.add(fetchActivityTx).run();
-
-    for (int i = 0; i < fetchActivityTx.getActivityCount(); ++i) {
-      ActivityEntry entry = fetchActivityTx.getActivity(i);
-      System.out.println(entry);
+    
+    int page = 0;
+    
+    while(fetchActivityTx.hasNext()) {
+      System.out.println("getting activities on page " + ++page + "...");
+      for (int i = 0; i < fetchActivityTx.getActivityCount(); ++i) {
+        ActivityEntry entry = fetchActivityTx.getActivity(i);
+        System.out.println(entry);
+      }
+      fetchActivityTx = factory.getNext(fetchActivityTx);
+      transport.add(fetchActivityTx).run();
     }
   }
 }
