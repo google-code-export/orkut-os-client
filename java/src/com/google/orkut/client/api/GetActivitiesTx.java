@@ -68,10 +68,10 @@ public class GetActivitiesTx extends Transaction {
   GetActivitiesTx getNext() {
     GetActivitiesTx fetchActivityTx = new GetActivitiesTx();
     fetchActivityTx.request.addParameter(
-      Params.UPDATED_BEFORE,
-      Util.getFormattedTimestamp((((ActivityEntry) activities
-        .lastElement()).getPostedTime()) * 1000)).setCount(
-          request.getCount());
+        Params.UPDATED_BEFORE,
+        Util.getFormattedTimestamp(((ActivityEntry) activities
+          .lastElement()).getPostedTime() * 1000)).setCount(
+              request.getCount());
     return fetchActivityTx;
   }
   

@@ -63,21 +63,21 @@ public class Util {
   }
   
   static String getFormattedTimestamp(long timeMillis) {
-    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(Constants.UTC));
+    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(Constants.DateFormatter.UTC));
     cal.setTimeInMillis(timeMillis);
     StringBuilder date = new StringBuilder();
     date.append(cal.get(Calendar.YEAR));
-    date.append(Constants.DATE_SEPARATOR);
+    date.append(Constants.DateFormatter.DATE_SEPARATOR);
     date.append(padSingleDigitNum(cal.get(Calendar.MONTH) + 1));
-    date.append(Constants.DATE_SEPARATOR);
+    date.append(Constants.DateFormatter.DATE_SEPARATOR);
     date.append(padSingleDigitNum(cal.get(Calendar.DATE)));
-    date.append(Constants.DATE_DELIM);
+    date.append(Constants.DateFormatter.DATE_DELIM);
     date.append(padSingleDigitNum(cal.get(Calendar.HOUR)));
-    date.append(Constants.TIME_SEPARATOR);
+    date.append(Constants.DateFormatter.TIME_SEPARATOR);
     date.append(padSingleDigitNum(cal.get(Calendar.MINUTE)));
-    date.append(Constants.TIME_SEPARATOR);
+    date.append(Constants.DateFormatter.TIME_SEPARATOR);
     date.append(padSingleDigitNum(cal.get(Calendar.SECOND)));
-    date.append(Constants.TIME_DELIM);
+    date.append(Constants.DateFormatter.TIME_DELIM);
     return date.toString();
   }
   

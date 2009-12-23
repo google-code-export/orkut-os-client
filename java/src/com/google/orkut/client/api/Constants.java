@@ -56,9 +56,11 @@ public class Constants {
   public static final String USERID_ME = "@me";
   
   /**Constants for the date formatter. */
-  public static final String DATE_SEPARATOR = "-";
-  public static final String TIME_SEPARATOR = ":";
-  public static final String DATE_DELIM = "T";
-  public static final String TIME_DELIM = "Z";
-  public static final String UTC = "UTC";
+  public static class DateFormatter {
+    public static final String DATE_SEPARATOR = "-";
+    public static final String TIME_SEPARATOR = ":";
+    public static final String DATE_DELIM = "T";
+    public static final String TIME_DELIM = "Z";
+    public static final String UTC = "UTC";
+  }
 }
