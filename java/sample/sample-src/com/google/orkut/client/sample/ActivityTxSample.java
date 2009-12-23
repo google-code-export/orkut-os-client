@@ -16,11 +16,11 @@
 
 package com.google.orkut.client.sample;
 
-import java.io.IOException;
-
 import com.google.orkut.client.api.ActivityEntry;
 import com.google.orkut.client.api.ActivityTxFactory;
 import com.google.orkut.client.api.GetActivitiesTx;
+
+import java.io.IOException;
 
 /**
  *
