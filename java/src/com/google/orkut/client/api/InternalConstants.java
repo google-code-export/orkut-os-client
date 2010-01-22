@@ -29,5 +29,6 @@ class InternalConstants {
     static final String ALBUMS = "albums";
     static final String MEDIAITEMS = "mediaitems";
     static final String PUBLIC_MESSAGE = "public_message";
+    static final String APP = "@app";
   }
 }
