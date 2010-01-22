@@ -33,6 +33,6 @@ public class PostActivityTx extends Transaction {
            .addParameter(Params.ACTIVITY, activity);
     Util.putJsonValue(activity, Fields.TITLE, title);
     Util.putJsonValue(activity, Fields.BODY, body);
-    Util.putJsonValue(activity, Fields.APP_ID, InternalConstants.APP);
+    Util.putJsonValue(activity, Fields.APP_ID, InternalConstants.Values.APP);
   }
 }
