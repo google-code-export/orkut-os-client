@@ -44,6 +44,7 @@ class Fields {
   static final String ALBUM_ID = Params.ALBUM_ID;
   static final String ALBUM_TITLE = "albumTitle";
   static final String ALLOW_IM = "allowIm";
+  static final String APP_ID = "appId";
   static final String AUTHOR_ID = "authorId";
 
   static final String BODY = "body";
