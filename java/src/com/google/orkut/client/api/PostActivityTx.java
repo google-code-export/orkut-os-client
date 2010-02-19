@@ -28,11 +28,13 @@ public class PostActivityTx extends Transaction {
 
   PostActivityTx(String title, String body) {
     super(RequestIds.ACTIVITIES_CREATE, MethodNames.CREATE_ACTIVITIES);
-    request.setUserId(Constants.USERID_ME)
+    // TODO(birmiwal) change this to USERID_ME when support for this
+    // is pushed in backend
+    request.setUserId("@viewer")
            .setGroupId(Group.SELF)
-           .addParameter(Params.ACTIVITY, activity);
+           .addParameter(Params.ACTIVITY, activity)
+           .addParameter(Fields.APP_ID, InternalConstants.Values.APP);
     Util.putJsonValue(activity, Fields.TITLE, title);
     Util.putJsonValue(activity, Fields.BODY, body);
-    Util.putJsonValue(activity, Fields.APP_ID, InternalConstants.Values.APP);
   }
 }
