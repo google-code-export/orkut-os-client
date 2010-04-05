@@ -32,62 +32,62 @@ The orkut Client Library
 
 1. Requirements
 ---------------
-* ant
-  If typing ant on the command-line throws errors, try:
-  sudo apt-get install ant  # (on debian systems)
-  or get the latest version of ant from http://ant.apache.org/
-* java development kit (JDK)
-  This library has been built and run on Java 1.5 (J2SE 5.0) and
-  on Java 1.6 (JDK 6). YMMV across different Java versions. You can
-  get the latest and greatest versions of JDK from http://java.sun.com/
+	* ant
+		If typing ant on the command-line throws errors, try:
+		sudo apt-get install ant  # (on debian systems)
+		or get the latest version of ant from http://ant.apache.org/
+	* java development kit (JDK)
+		This library has been built and run on Java 1.5 (J2SE 5.0) and
+		on Java 1.6 (JDK 6). YMMV across different Java versions. You can
+		get the latest and greatest versions of JDK from http://java.sun.com/
 
 2. Steps to Build
 ------------------
-  # (Only if you don't have ant)
-  sudo apt-get install ant
-
-  cd java/
-  ant
-
-  make sure there are no build errors.
+	# (Only if you don't have ant)
+	sudo apt-get install ant
+	
+	cd java/
+	ant
+	
+	make sure there are no build errors.
 
 3. Get OAuth keys for your app 
 ------------------------------
-  Before you can start using the API or run the sample given here, you need 
-  to get OAuth consumer key and secret. Please visit the following URL for
-  instruction on registring your app and getting a oauth consumer key and
-  secret.
-
-  http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
-
-  The consumer key is usually your site url, e.g. "my.site.com", while the
-  consumer secret is a cryptographically secure random string e.g.
+	Before you can start using the API or run the sample given here, you need 
+	to get OAuth consumer key and secret. Please visit the following URL for
+	instruction on registring your app and getting a oauth consumer key and
+	secret.
+	
+	http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
+	
+	The consumer key is usually your site url, e.g. "my.site.com", while the
+	consumer secret is a cryptographically secure random string e.g.
 	"Masdsadl213mzza0Y/l"
 
 4. Install the keys for use by sample app 
 -----------------------------------------
-  The oauth related details are stored in file java/sample/oauth.properties
-
-  Edit the file and enter the consumer key and secret in there. Leave everything
-  else untouched.
-
-  consumerSecret=<your-app-consumer-secret>
-  consumerKey=<your-app-consumer-key>
-
-  to test if your keys are valid and everything is fine, run the following
-  command from your console.
-
-  cd java/
-  ant test-auth
-
-  This would open an OAuth flow, by opening a browser window. Once you are
-  through that flow, you should see this messsage on the consule.
-
-  "*** Authentication PASSED ***"
-
-  If you see the above message, then you are ready to run other samples. On the
-  other hand, if you see a stack trace, or some other error message, then
-  3-legged oauth authentication failed.
+	The oauth related details are stored in file java/sample/oauth.properties
+	
+	Edit the file and enter the consumer key and secret in there. Leave everything
+	else untouched.
+	
+	consumerSecret=<your-app-consumer-secret>
+	consumerKey=<your-app-consumer-key>
+	
+	to test if your keys are valid and everything is fine, run the following
+	command from your console.
+	
+	cd java/
+	ant test-auth
+	
+	This would open an OAuth flow, by opening a browser window. Once you are
+	through that flow, you should see this messsage on the consule.
+	
+	"*** Authentication PASSED ***"
+	
+	If you see the above message, then you are ready to run other samples. On the
+	other hand, if you see a stack trace, or some other error message, then
+	3-legged oauth authentication failed.
 
 5. Steps to run sample app
 --------------------------
