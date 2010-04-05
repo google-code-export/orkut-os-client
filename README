@@ -1,27 +1,30 @@
-Orkut Client Library
---------------------
+------------------------
+The orkut Client Library
+------------------------
 
 ----------------
 --INTRODUCTION--
 ----------------
 
-The orkut client library allows access to read and update orkut's social data.
-
-The client library is "experimental" at present and may change in the future.
-
-You can download the latest version of the client library from 
-http://code.google.com/p/orkut-os-client/
-
-Checkout the latest javadoc for this project at http://orkut-os-client.googlecode.com/hg/java/doc
-
-Please refer to the orkut Developer Terms of Service at:
-http://www.orkut.com/Main#DeveloperTerms.aspx.
-
-Please also check the orkut Branding Guidelines here:
-http://www.orkut.com/html/en-US/branding.guidelines.html.
-
-For bugs reporting or feature requests, please get in touch with us at our developer forum:
-http://groups.google.com/group/opensocial-orkut.
+	The orkut client library allows access to read and update orkut's social data.
+	
+	The client library is "experimental" at present and may change in the future.
+	
+	You can download the latest version of the client library from 
+	http://code.google.com/p/orkut-os-client/
+	
+	Checkout the latest javadoc for this project at
+	http://orkut-os-client.googlecode.com/hg/java/doc
+	
+	Please refer to the orkut Developer Terms of Service at:
+	http://www.orkut.com/Main#DeveloperTerms.aspx.
+	
+	Please also check the orkut Branding Guidelines here:
+	http://www.orkut.com/html/en-US/branding.guidelines.html.
+	
+	For bugs reporting or feature requests, please get in touch with us at our
+	developer forum:
+	http://groups.google.com/group/opensocial-orkut.
 
 ---------
 --USAGE--
@@ -58,7 +61,8 @@ http://groups.google.com/group/opensocial-orkut.
   http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
 
   The consumer key is usually your site url, e.g. "my.site.com", while the
-  consumer secret is a cryptographically secure random string e.g. "Masdsadl213mzza0Y/l"
+  consumer secret is a cryptographically secure random string e.g.
+	"Masdsadl213mzza0Y/l"
 
 4. Install the keys for use by sample app 
 -----------------------------------------
@@ -87,76 +91,86 @@ http://groups.google.com/group/opensocial-orkut.
 
 5. Steps to run sample app
 --------------------------
-  Before you can start using the sample, you need to get oauth consumer key & secret.
-  See section 3 & 4 on how to get those keys for your app and how to install it.
-
-  After you have installed the keys,
-
-  cd java/
-  ant run-sample
-
-  The sample app should open a browser window where it'll ask your permission
-  to allow access to orkut data. Following this, the sample app will request
-  and print a list of orkut friends.
+	Before you can start using the sample, you need to get oauth consumer key &
+	secret. See section 3 & 4 on how to get those keys for your app and how to
+	install it.
+	
+	After you have installed the keys,
+	
+	cd java/
+	ant run-sample
+	
+	The sample app should open a browser window where it'll ask your permission
+	to allow access to orkut data. Following this, the sample app will request
+	and print a list of orkut friends.
 
 6. More sample apps
 -------------------
-  Take a look at code in java/sample/sample-src/com/google/orkut/client/sample/
-
-Note: For the moment, you need to be whitelisted to run the sample apps.
-Go to http://code.google.com/p/orkut-os-client/ for more info. You may run the
-other samples after updating java/sample/oauth.properties by:
-  ant run-all-samples
+	Take a look at code in java/sample/sample-src/com/google/orkut/client/sample/
+	
+	Note: For the moment, you need to be whitelisted to run the sample apps.
+	Go to http://code.google.com/p/orkut-os-client/ for more info. You may run the
+	other samples after updating java/sample/oauth.properties by:
+		ant run-all-samples
 
 7. Building Documentation
 -------------------------
 
-In java/ directory, issue the command
-
-  ant javadoc
-
-Documentation will be generated in java/doc.
+	In java/ directory, issue the command
+	
+		ant javadoc
+	
+	Documentation will be generated in java/doc.
 
 8. Building the client library jar
 ----------------------------------
 
-In java/ directory, issue the command
-
-  ant dist
-
-This builds the client library in java/dist/lib/.
+	In java/ directory, issue the command
+	
+		ant dist
+	
+	This builds the client library in java/dist/lib/.
 
 
 ----------------
 --KNOWN ISSUES--
 ----------------
-1. Currently, getting and setting activity comments is not possible.
-2. Getting next friend updates (across multiple pages) still doesn't work as expected.
-3. Internationalization of profile fields is not supported.
+
+	1. Getting and setting activity comments is currently not possible.
+	
+	2. Fetching activity updates beyond the first page doesn't yet work as
+	expected and there may be a few updates missing from the list compared to that
+	visible on the website.
+	
+	3. Internationalization of profile fields is not supported.
 
 --------
 --FAQs--
 --------
-1. The following information from the user profile can be obtained:
-Name, Status, Emails, Gender,Phone Numbers, Birthday and Address.
 
-2. For a list of supported activity updates, please refer to the class ActivityEntry.
-
-3. Limits on photo uploads are the same as that on the web frontend: you can upload photos upto 10MB 
-in size. Each album can store 100 photos, and there can be up to 10,000 photos in an account. The 
-allowed file types are JPG, GIF and PNG.
-
-4. Do you wish to use this library in a commercial production environment? You can do so without 
-seeking our permission if you conform to the following
-
-a. the Developer Terms of Service (http://www.orkut.com/Main#DeveloperTerms.aspx), and 
-b. the proper usage of the logo according to the branding guidelines 
-(http://www.orkut.com/html/en-US/branding.guidelines.html). 
-
-But if you need to use the full orkut logo (instead of the 'Powered by orkut' logo) and/or you hit 
-the quota limits as defined in the Developer ToS (a. above), please get in touch with us for a 
-contract.
+	1. The following information from the user profile can be obtained:
+	Name, Status, Emails, Gender, Phone Numbers, Birthday and Address.
+	
+	2. For a list of supported activity updates, please refer to the class
+	ActivityEntry.
+	
+	3. Limits on photo uploads are the same as that on the web frontend: you can
+	upload photos upto 10MB in size. Each album can store 100 photos, and there
+	can be up to 10,000 photos in an account. The allowed file types are JPG, GIF
+	and	PNG.
+	
+	4. If you wish to use this library commercially, you 	can do so without
+	seeking our permission as long as you conform to the following:
+	
+		a. the Developer Terms of Service
+		(http://www.orkut.com/Main#DeveloperTerms.aspx), and 
+		
+		b. the proper usage of the logo according to the branding guidelines
+		(http://www.orkut.com/html/en-US/branding.guidelines.html). 
+	
+	But if you need to use the 'orkut' logo (instead of the 'Powered by orkut'
+	logo and/or you hit the quota limits as defined in the Developer ToS (see a.
+	above),	please get in touch with us for a contract.
 
 Enjoy!
 The orkut team
-
