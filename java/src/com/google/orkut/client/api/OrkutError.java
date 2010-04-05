@@ -25,6 +25,14 @@ import org.json.me.JSONObject;
  * {@link Transaction#getError()} would return an OrkutError object instance.
  * Use this object to find out what error occurred and handle it appropriately.
  * </p>
+ * 
+ * Here is a description of the error codes returned:<br><br>
+ * 400: Bad request, possibly malformed syntax or invalid signature<br>
+ * 401: Unauthorized request or OAuth token expired<br>
+ * 403: No permission or usage limits exceeded<br>
+ * 500: Server error or server not responding<br>
+ * -32000: Custom error<br>
+ * 
  *
  * <p>Below is a sample code.</p>
  *
