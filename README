@@ -1,11 +1,31 @@
 Orkut Client Library
 --------------------
 
+----------------
+--INTRODUCTION--
+----------------
+
 The orkut client library allows access to read and update orkut's social data.
+
 The client library is "experimental" at present and may change in the future.
-You can download the latest version of the client library from http://code.google.com/p/orkut-os-client/
+
+You can download the latest version of the client library from 
+http://code.google.com/p/orkut-os-client/
+
 Checkout the latest javadoc for this project at http://orkut-os-client.googlecode.com/hg/java/doc
 
+Please refer to the orkut Developer Terms of Service at:
+http://www.orkut.com/Main#DeveloperTerms.aspx.
+
+Please also check the orkut Branding Guidelines here:
+http://www.orkut.com/html/en-US/branding.guidelines.html.
+
+For bugs reporting or feature requests, please get in touch with us at our developer forum:
+http://groups.google.com/group/opensocial-orkut.
+
+---------
+--USAGE--
+---------
 
 1. Requirements
 ---------------
@@ -105,6 +125,36 @@ In java/ directory, issue the command
   ant dist
 
 This builds the client library in java/dist/lib/.
+
+
+----------------
+--KNOWN ISSUES--
+----------------
+1. Currently, getting and setting activity comments is not possible.
+2. Getting next friend updates (across multiple pages) still doesn't work as expected.
+3. Internationalization of profile fields is not supported.
+
+--------
+--FAQs--
+--------
+1. The following information from the user profile can be obtained:
+Name, Status, Emails, Gender,Phone Numbers, Birthday and Address.
+
+2. For a list of supported activity updates, please refer to the class ActivityEntry.
+
+3. Limits on photo uploads are the same as that on the web frontend: you can upload photos upto 10MB 
+in size. Each album can store 100 photos, and there can be up to 10,000 photos in an account. The 
+allowed file types are JPG, GIF and PNG.
+
+4. Do you wish to use this library in a commercial production environment? You can do so without 
+seeking our permission if
+
+a. you conform to the developer terms (http://www.orkut.com/Main#DeveloperTerms.aspx), and 
+b. to the proper usage of the logo according to the branding guidelines 
+(http://www.orkut.com/html/en-US/branding.guidelines.html). 
+
+But if you need to use the real orkut logo (instead of the 'Powered by orkut' logo) and/or you hit 
+the 200k/day user limit, please get in touch with us for a contract.
 
 Enjoy!
 The orkut team
