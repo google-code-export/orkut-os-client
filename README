@@ -37,7 +37,7 @@ The orkut Client Library
 		sudo apt-get install ant  # (on debian systems)
 		or get the latest version of ant from http://ant.apache.org/
 	* java development kit (JDK)
-		This library has been built and run on Java 1.5 (J2SE 5.0) and
+		This library has been built and runs on Java 1.5 (J2SE 5.0) and
 		on Java 1.6 (JDK 6). YMMV across different Java versions. You can
 		get the latest and greatest versions of JDK from http://java.sun.com/
 
@@ -49,13 +49,13 @@ The orkut Client Library
 	cd java/
 	ant
 	
-	make sure there are no build errors.
+	Make sure there are no build errors.
 
 3. Get OAuth keys for your app 
 ------------------------------
 	Before you can start using the API or run the sample given here, you need 
-	to get OAuth consumer key and secret. Please visit the following URL for
-	instruction on registring your app and getting a oauth consumer key and
+	to get the OAuth consumer key and secret. Please visit the following URL for
+	instructions on registering your app and getting an OAuth consumer key and
 	secret.
 	
 	http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
@@ -66,7 +66,7 @@ The orkut Client Library
 
 4. Install the keys for use by sample app 
 -----------------------------------------
-	The oauth related details are stored in file java/sample/oauth.properties
+	The OAuth related details are stored in java/sample/oauth.properties
 	
 	Edit the file and enter the consumer key and secret in there. Leave everything
 	else untouched.
@@ -74,41 +74,40 @@ The orkut Client Library
 	consumerSecret=<your-app-consumer-secret>
 	consumerKey=<your-app-consumer-key>
 	
-	to test if your keys are valid and everything is fine, run the following
+	To test if your keys are valid and everything is fine, run the following
 	command from your console.
 	
 	cd java/
 	ant test-auth
 	
 	This would open an OAuth flow, by opening a browser window. Once you are
-	through that flow, you should see this messsage on the consule.
+	through that flow, you should see this messsage on the console.
 	
 	"*** Authentication PASSED ***"
 	
 	If you see the above message, then you are ready to run other samples. On the
-	other hand, if you see a stack trace, or some other error message, then
-	3-legged oauth authentication failed.
+	other hand, if you see a stack trace or some other error message, then
+	3-legged OAuth failed.
 
 5. Steps to run sample app
 --------------------------
-	Before you can start using the sample, you need to get oauth consumer key &
+	Before you can start using the sample, you need to get the OAuth consumer key &
 	secret. See section 3 & 4 on how to get those keys for your app and how to
-	install it.
+	install them.
 	
-	After you have installed the keys,
+	After you have installed the keys, try
 	
-	cd java/
-	ant run-sample
+		cd java/
+		ant run-sample
 	
 	The sample app should open a browser window where it'll ask your permission
 	to allow access to orkut data. Following this, the sample app will request
-	and print a list of orkut friends.
+	and print a list of your orkut friends.
 
 6. More sample apps
 -------------------
 	Take a look at code in java/sample/sample-src/com/google/orkut/client/sample/
 	
-	Note: For the moment, you need to be whitelisted to run the sample apps.
 	Go to http://code.google.com/p/orkut-os-client/ for more info. You may run the
 	other samples after updating java/sample/oauth.properties by:
 		ant run-all-samples
@@ -151,7 +150,7 @@ The orkut Client Library
 	1. The following information from the user profile can be obtained:
 	Name, Status, Emails, Gender, Phone Numbers, Birthday and Address.
 	
-	2. For a list of supported activity updates, please refer to the class
+	2. For a list of supported activity updates please refer to the class
 	ActivityEntry.
 	
 	3. Limits on photo uploads are the same as that on the web frontend: you can
@@ -160,7 +159,7 @@ The orkut Client Library
 	and	PNG.
 	
 	4. If you wish to use this library commercially, you can do so without
-	seeking our permission as long as you conform to the following:
+	seeking our permission as long as you conform to
 	
 		a. the Developer Terms of Service
 		(http://www.orkut.com/Main#DeveloperTerms.aspx), and 
@@ -169,7 +168,7 @@ The orkut Client Library
 		(http://www.orkut.com/html/en-US/branding.guidelines.html). 
 	
 	But if you need to use the 'orkut' logo (instead of the 'Powered by orkut'
-	logo and/or you hit the quota limits as defined in the Developer ToS (see a.
+	logo) and/or you hit the quota limits as defined in the Developer ToS (see a.
 	above),	please get in touch with us for a contract.
 
 Enjoy!
