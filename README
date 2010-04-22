@@ -106,11 +106,14 @@ The orkut Client Library
 
 6. More sample apps
 -------------------
-	Take a look at code in java/sample/sample-src/com/google/orkut/client/sample/
+	You can try these out once the authentication has been done. Refer to build.xml in
+	java/ for the list of available samples. Take a look at the code in
+	java/sample/sample-src/com/google/orkut/client/sample/.
 	
-	Go to http://code.google.com/p/orkut-os-client/ for more info. You may run the
-	other samples after updating java/sample/oauth.properties by:
+	For example, to run all the supplied samples, type
 		ant run-all-samples
+	
+	Play around with these or try out your own!
 
 7. Building Documentation
 -------------------------
