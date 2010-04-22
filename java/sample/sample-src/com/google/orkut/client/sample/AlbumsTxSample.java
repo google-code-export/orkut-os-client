@@ -43,9 +43,7 @@ public class AlbumsTxSample {
   }
 
   public void run() throws IOException {
-    Album album = createAlbum();
-    album.setTitle("bleh bleh bleh");
-    album.setDescription("yoohoo!");
+    Album album = createAlbum("My Album", "Good times");
     updateAlbum(album);
     shareAlbum(album);
     fetchAlbum(album.getId());
@@ -91,17 +89,17 @@ public class AlbumsTxSample {
 
     if (updateAlbumTx.hasError()) {
       OrkutError err = updateAlbumTx.getError();
-      throw new RuntimeException("unable to update album." + err.toString());
+      throw new RuntimeException("unable to update album: " + err.toString());
     }
   }
 
-  private Album createAlbum() throws IOException {
-    CreateAlbumTx createAlbumTx = factory.createAlbum("a new album", "blah blah blah");
+  private Album createAlbum(String title, String desc) throws IOException {
+    CreateAlbumTx createAlbumTx = factory.createAlbum(title, desc);
     transport.add(createAlbumTx).run();
 
     if (createAlbumTx.hasError()) {
       OrkutError err = createAlbumTx.getError();
-      throw new RuntimeException("unable to create album." + err.toString());
+      throw new RuntimeException("unable to create album: " + err.toString());
     }
     Album album = createAlbumTx.getAlbum();
     printAlbum(album);
