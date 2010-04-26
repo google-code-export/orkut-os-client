@@ -54,4 +54,6 @@ class MethodNames {
 
   static final String PEOPLE_GET = "people.get";
   static final String PEOPLE_UPDATE = "people.update";
+  
+  static final String VIDEOS_GET = "videos.get";
 }

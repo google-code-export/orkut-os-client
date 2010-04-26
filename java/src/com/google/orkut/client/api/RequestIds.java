@@ -50,4 +50,6 @@ class RequestIds {
   static final String SCRAPS_DELETE = "scrp.d";
   static final String SCRAPS_GET = "scrp.g";
   static final String SCRAPS_WRITE = "scrp.c";
+  
+  static final String VIDEOS_GET = "v.g";
 }
