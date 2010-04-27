@@ -40,7 +40,7 @@ public class GetVideosTx extends Transaction {
   GetVideosTx(String userId) {
     this(userId, DEFAULT_NUM_VIDEOS);
   }
-  
+
   /**
    * @param userId the userId for whom to get the videos
    * @param count the number of videos to get in a single transaction
@@ -72,7 +72,7 @@ public class GetVideosTx extends Transaction {
   /**
    * Returns the number of videos fetched in this request.
    */
-  public int getVideosCount() {
+  public int getVideoCount() {
     return videos.size();
   }
 
@@ -84,6 +84,11 @@ public class GetVideosTx extends Transaction {
         return new Video(json);
       }
     });
+  }
+  
+  public GetVideosTx setCount(int count) {
+    request.addParameter(Params.COUNT, count);
+    return this;
   }
   
   /**
