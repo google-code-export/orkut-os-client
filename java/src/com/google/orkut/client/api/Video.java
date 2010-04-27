@@ -84,7 +84,7 @@ public class Video {
     StringBuilder videoDesc = new StringBuilder();
     videoDesc.append("title: " + getTitle());
     videoDesc.append("\nthumbnail: " + getThumbnailUrl());
-    videoDesc.append("\nduration: " + getDuration()+" seconds");
+    videoDesc.append("\nduration: " + getDuration() + " seconds");
     videoDesc.append("\ndescription: " + getDescription());
     return videoDesc.toString();
   }
