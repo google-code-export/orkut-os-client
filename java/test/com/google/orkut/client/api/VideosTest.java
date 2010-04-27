@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Integration tests for messages.
+ * Integration tests for videos.
  *
  * @author Prashant Tiwari
  */
