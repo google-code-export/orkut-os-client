@@ -40,6 +40,7 @@ public class OrkutSample {
     new ProfileTxSample(transport).run();
     new ActivityTxSample(transport).run();
     new PhotoCommentsTxSample(transport).run();
+    new VideoTxSample(transport).run();
   }
 
   public static void main(String[] args) throws Exception {

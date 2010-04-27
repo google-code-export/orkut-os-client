@@ -44,7 +44,6 @@ public class VideoTxFactory {
   public GetVideosTx getVideos(String userId) {
     return new GetVideosTx(userId);
   }
-  
 
   /**
    * Gets up to count number of videos of a given user

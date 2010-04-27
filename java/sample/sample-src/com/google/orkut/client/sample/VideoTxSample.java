@@ -46,7 +46,7 @@ public class VideoTxSample {
    * @throws IOException
    */
   private GetVideosTx fetchVideos() throws IOException {
-    GetVideosTx getVideosTx = factory.getVideos();
+    GetVideosTx getVideosTx = factory.getVideos().setCount(1);
     transport.add(getVideosTx).run();
     if (getVideosTx.hasError()) {
       System.out.println("error fetching videos");
@@ -75,7 +75,7 @@ public class VideoTxSample {
   }
   
   private void printVideos(GetVideosTx getVideosTx) {
-    for (int i = 0; i < getVideosTx.getVideosCount(); i++) {
+    for (int i = 0; i < getVideosTx.getVideoCount(); i++) {
       System.out.println(getVideosTx.getVideo(i) + "\n");
     }
   }
