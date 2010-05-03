@@ -1,5 +1,5 @@
 /* EXPERIMENTAL (really) */
-/* Copyright (c) 2009 Google Inc.
+/* Copyright (c) 2010 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@ import java.util.Vector;
  * @author Prashant Tiwari
  */
 public class GetVideosTx extends Transaction {
-  private static final int DEFAULT_NUM_VIDEOS = 5;
+  private static final int DEFAULT_NUM_VIDEOS = 10;
+  private int numVideos;
 
   Vector videos;
 
@@ -57,15 +58,16 @@ public class GetVideosTx extends Transaction {
     GetVideosTx getVideosTx = new GetVideosTx(request.getUserId());
     getVideosTx.request.addParameter(Fields.PAGE_TYPE, Params.PageType.NEXT)
       .addParameter(Params.COUNT, request.getCount())
-      .addParameter(Params.LAST_KEY, getLastMessageKey());
+      .addParameter(Params.LAST_KEY, getLastMessageKey())
+      .setStartIndex(request.getStartIndex() + videos.size());
     return getVideosTx;
   }
   
   GetVideosTx getPrev() {
     GetVideosTx getVideosTx = new GetVideosTx(request.getUserId());
     getVideosTx.request.addParameter(Fields.PAGE_TYPE, Params.PageType.PREV)
-                   .addParameter(Params.COUNT, request.getCount())
-                   .addParameter(Params.LAST_KEY, getFirstMessageKey());
+      .addParameter(Params.COUNT, request.getCount())
+      .addParameter(Params.LAST_KEY, getFirstMessageKey());
     return getVideosTx;
   }
 
@@ -78,12 +80,17 @@ public class GetVideosTx extends Transaction {
 
   @Override
   protected void setResponseData(JSONObject data) {
+    numVideos = data.optInt(Fields.TOTAL_RESULTS);
     videos = Util.forEachItemInList(data, ResponseFields.LIST_KEY, new Converter() {
       @Override    
       Object convert(JSONObject json) {
         return new Video(json);
       }
     });
+  }
+  
+  public boolean hasNext() {
+    return (numVideos - (videos.size() + request.getStartIndex())) > 0;
   }
   
   public GetVideosTx setCount(int count) {

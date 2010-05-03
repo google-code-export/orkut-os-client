@@ -1,5 +1,5 @@
 /* EXPERIMENTAL (really) */
-/* Copyright (c) 2009 Google Inc.
+/* Copyright (c) 2010 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ public class VideoTxSample {
 
   public void run() throws IOException {
     GetVideosTx videos = fetchVideos();
-    if (videos != null)
-      fetchMoreVideos(videos);
+    while (videos.hasNext())
+      videos = fetchMoreVideos(videos);
   }
   
   /**
@@ -46,7 +46,7 @@ public class VideoTxSample {
    * @throws IOException
    */
   private GetVideosTx fetchVideos() throws IOException {
-    GetVideosTx getVideosTx = factory.getVideos().setCount(1);
+    GetVideosTx getVideosTx = factory.getVideos();
     transport.add(getVideosTx).run();
     if (getVideosTx.hasError()) {
       System.out.println("error fetching videos");
