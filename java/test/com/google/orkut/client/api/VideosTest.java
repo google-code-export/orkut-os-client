@@ -1,5 +1,5 @@
 /* EXPERIMENTAL (really) */
-/* Copyright (c) 2009 Google Inc.
+/* Copyright (c) 2010 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,6 +69,16 @@ public class VideosTest extends AccountDependantTestCase {
     transport.add(getVideosTx).run();
     
     assertVideoEquals(getVideo1(), getVideosTx.getVideo(0));
+  }
+  
+  public void testHasNextVideos() throws Exception {
+    GetVideosTx getVideosTx = factory.getVideos().setCount(1);
+    transport.add(getVideosTx).run();
+    assertTrue(getVideosTx.hasNext());
+    
+    getVideosTx = factory.getNext(getVideosTx);
+    transport.add(getVideosTx).run();
+    assertTrue(!getVideosTx.hasNext());
   }
 
   private void assertVideoEquals(Video expected, Video actual) {

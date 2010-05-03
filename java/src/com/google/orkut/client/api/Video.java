@@ -1,5 +1,5 @@
 /* EXPERIMENTAL (really) */
-/* Copyright (c) 2009 Google Inc.
+/* Copyright (c) 2010 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public class Video {
   }
   
   /**
-   * @return the length of the video is seconds
+   * @return the length of the video in seconds
    */
   public long getDuration() {
     return json.optLong(Fields.VIDEO_DURATION);
@@ -49,13 +49,6 @@ public class Video {
    */
   public String getTitle() {
     return json.optString(Fields.TITLE);
-  }
-  
-  /**
-   * @return the site that hosts the original video
-   */
-  public String getContainer() {
-    return json.optString(Fields.VIDEO_CONTAINER);
   }
   
   /**
