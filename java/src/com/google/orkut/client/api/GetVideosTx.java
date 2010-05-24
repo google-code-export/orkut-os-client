@@ -28,6 +28,7 @@ import java.util.Vector;
 public class GetVideosTx extends Transaction {
   private static final int DEFAULT_NUM_VIDEOS = 10;
   private int numVideos;
+  private int currStartIndex;
 
   Vector videos;
 
@@ -58,8 +59,8 @@ public class GetVideosTx extends Transaction {
     GetVideosTx getVideosTx = new GetVideosTx(request.getUserId());
     getVideosTx.request.addParameter(Fields.PAGE_TYPE, Params.PageType.NEXT)
       .addParameter(Params.COUNT, request.getCount())
-      .addParameter(Params.LAST_KEY, getLastMessageKey())
-      .setStartIndex(request.getStartIndex() + videos.size());
+      .addParameter(Params.LAST_KEY, getLastMessageKey());
+    currStartIndex = request.getStartIndex() + videos.size();
     return getVideosTx;
   }
   
@@ -90,7 +91,7 @@ public class GetVideosTx extends Transaction {
   }
   
   public boolean hasNext() {
-    return (numVideos - (videos.size() + request.getStartIndex())) > 0;
+    return (numVideos - currStartIndex) > 0;
   }
   
   public GetVideosTx setCount(int count) {
