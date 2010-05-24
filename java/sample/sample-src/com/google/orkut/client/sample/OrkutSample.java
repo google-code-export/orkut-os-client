@@ -16,7 +16,6 @@
 
 package com.google.orkut.client.sample;
 
-import java.io.IOException;
 
 /**
  * A Sample App to show usage of orkut client library.
