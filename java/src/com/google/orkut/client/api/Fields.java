@@ -97,5 +97,5 @@ class Fields {
   static final String URL = "url";
   static final String VALUE = "value";
   static final String YOUTUBE_URL = "youtubeUrl";
-  static final String VIDEO_DURATION = "duration";
+  static final String VIDEO_DURATION = "durationInSec";
 }
