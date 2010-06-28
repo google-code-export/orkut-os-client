@@ -75,7 +75,7 @@ public class Transport {
             props.getProperty("authorizationUrl"),
             props.getProperty("accessUrl")));
     consumer.setProperty(OAuthClient.PARAMETER_STYLE, net.oauth.ParameterStyle.QUERY_STRING);
-    client = new DesktopClient(consumer);
+    client = new DesktopClient(consumer, props.getProperty("scope"));
     client.setOAuthClient(new OAuthClient(new HttpClient4()));
 
     if (props.getProperty(ACCESS_TOKEN) != null) {

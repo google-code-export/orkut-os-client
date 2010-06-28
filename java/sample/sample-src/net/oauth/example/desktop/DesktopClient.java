@@ -72,9 +72,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author John Kristian
  */
 public class DesktopClient {
+    String scope;
 
-    public DesktopClient(OAuthConsumer consumer) {
+    public DesktopClient(OAuthConsumer consumer, String scope) {
         accessor = new OAuthAccessor(consumer);
+        this.scope = scope;
     }
 
     /**
@@ -152,13 +154,13 @@ public class DesktopClient {
                             // Callbacks will be directed to this server:
                             callback = OAuth.newList(OAuth.OAUTH_CALLBACK,
                                 "http://localhost:" + callbackPort + CALLBACK_PATH,
-                                "scope", "http://sandbox.orkut.gmodules.com/social/rpc");
+                                "scope", scope);
                         }
                         OAuthMessage response = getOAuthClient().getRequestTokenResponse(accessor, null, callback);
                         String authorizationURL = OAuth.addParameters(
                                 accessor.consumer.serviceProvider.userAuthorizationURL,
                                 OAuth.OAUTH_TOKEN, accessor.requestToken,
-                                "scope", "http://sandbox.orkut.gmodules.com/social/rpc");
+                                "scope", scope);
                         if (response.getParameter(OAuth.OAUTH_CALLBACK_CONFIRMED) == null) {
                             // It appears the service provider implements OAuth 1.0, not 1.0a.
                             authorizationURL = OAuth.addParameters(authorizationURL, callback);
