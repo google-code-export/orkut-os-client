@@ -23,7 +23,7 @@ package com.google.orkut.client.api;
  */
 class InternalConstants {
   static String ORKUT_CLIENT_LIB_HEADER = "X-Orkut-Client-Lib";
-  static String VERSION_STRING = "0.1";
+  static String VERSION_STRING = "1.1";
 
   static class Values {
     static final String ALBUMS = "albums";
