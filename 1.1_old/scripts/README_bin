@@ -1,0 +1,74 @@
+--------------------------------------------------------------------------
+The orkut Client Library - Easy to Use Binary-Only JAR
+--------------------------------------------------------------------------
+Copyright (c) 2010 Google Inc.
+
+----------------
+--INTRODUCTION--
+----------------
+
+The orkut client library allows access to read and update orkut's social data.
+The client library is "experimental" at present and may change in the future.
+	
+You can download the latest version of the client library from 
+http://code.google.com/p/orkut-os-client/
+	
+Checkout the latest javadoc for this project at
+http://orkut-os-client.googlecode.com/hg/java/doc
+	
+Please refer to the orkut Developer Terms of Service at:
+http://www.orkut.com/Main#DeveloperTerms.aspx.
+	
+Please also check the orkut Branding Guidelines here:
+http://www.orkut.com/html/en-US/branding.guidelines.html.
+	
+For bugs reporting or feature requests, please get in touch with us at our
+developer forum:
+http://groups.google.com/group/opensocial-orkut.
+
+---------
+--USAGE--
+---------
+
+This release is an easy-build binary JAR that you can add directly to your
+java project and use. It is different from the regular orkut-os-client
+release, which contains source code and samples.
+
+Therefore, if you are looking for the library's source code or samples,
+this is the wrong archive: please check the project's page.
+
+To use this release, simply include the JAR file into your project.
+Check Sample.java in the samples/ directory for an example application.
+
+---------------------------------
+--OAUTH CONSUMER KEY AND SECRET--
+---------------------------------
+
+In order to use this library, you will need a Consumer Key and Secret
+from Orkut. To get them, please visit:
+
+http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html#new
+
+
+--------------------
+--TERMS OF SERVICE--
+--------------------
+		
+Usage of this library binds you to the Developer Terms of Service:
+http://www.orkut.com/Main#DeveloperTerms.aspx
+
+You must also abide by the rules regarding proper usage of the logo 
+according to the branding guidelines
+http://www.orkut.com/html/en-US/branding.guidelines.html
+
+If you wish to use this library commercially, you can do so without
+seeking our permission as long as you conform to the above documents.
+	
+But if you need to use the 'orkut' logo (instead of the 'Powered by orkut'
+logo) and/or you hit the quota limits as defined in the Developer ToS (see a.
+above),	please get in touch with us at orkutapirequests@google.com for a 
+contract.
+
+Enjoy!
+The orkut team
+
