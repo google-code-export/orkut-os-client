@@ -2,7 +2,7 @@
   <description>Orkut Client Library. </description>
 
   <property name="app.name" value="orkut-os-client"/>
-  <property name="app.version" value="2.0.01"/>
+  <property name="app.version" value="2.0.02"/>
   <property name="jar.name" value="${app.name}-${app.version}.jar"/>
   <property name="zip.bin.name" value="${app.name}-bin-${app.version}.zip"/>
   <property name="zip.full.name" value="${app.name}-full-${app.version}.zip"/>
