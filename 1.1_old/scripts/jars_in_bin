@@ -1,0 +1,11 @@
+# This file lists the JAR files that should go into our big jar file
+# (see makebin.sh)
+
+java/sample/repo/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar
+java/sample/repo/org/apache/httpcomponents/httpclient/4.0-beta2/httpclient-4.0-beta2.jar
+java/sample/repo/org/apache/httpcomponents/httpcore/4.0-beta3/httpcore-4.0-beta3.jar
+java/sample/repo/net/oauth/core/oauth/20090617/oauth-20090617.jar
+java/sample/repo/net/oauth/core/oauth-consumer/20090617/oauth-consumer-20090617.jar
+java/sample/repo/net/oauth/core/oauth-httpclient4/20090617/oauth-httpclient4-20090617.jar
+java/lib/json-me.jar
+
