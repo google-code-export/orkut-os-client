@@ -29,7 +29,6 @@ import org.json.me.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
 
 /**
  * Builds a batch request from {@link Transaction}s.
@@ -60,7 +59,6 @@ public class BatchTransaction {
    * transaction
    */
   private final HashMap transactions = new HashMap();
-  private final Vector transactionsV = new Vector();
 
   /**
    * Array of all JSON request in this batch.
@@ -108,28 +106,7 @@ public class BatchTransaction {
     }
     transactions.put(transaction.getId(), transaction);
     batch.put(transaction.getRequestAsJson());
-    transactionsV.add(transaction);
     return this;
-  }
-
-  public int getTransactionCount() { return transactionsV.size(); }
-  public Transaction getTransaction(int i) {
-     return (Transaction) transactionsV.elementAt(i);
-  }
-
-  public boolean hasErrors() {
-     int i;
-     for (i = 0; i < getTransactionCount(); i++)
-        if (getTransaction(i).hasError()) return true;
-     return false;
-  }
-
-  public String getErrorsAsString() {
-     int i;
-     StringBuilder sb = new StringBuilder();
-     for (i = 0; i < getTransactionCount(); i++)
-        if (getTransaction(i).hasError()) sb.append(getTransaction(i).getError().toString() + "\n");
-     return sb.toString();
   }
 
   public HttpRequest build() throws IOException {
