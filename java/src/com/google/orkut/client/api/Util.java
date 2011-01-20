@@ -112,6 +112,45 @@ public class Util {
     }
     return items;
   }
+   
+   private static byte[] resizeVec(byte[] b, int newSize) {
+      byte[] c = new byte[newSize];
+      System.arraycopy(b,0,c,0,b.length > newSize ? newSize : b.length);
+      return c;
+   }
+
+   public static byte[] readAllFromIS(java.io.InputStream is) 
+                        throws java.io.IOException {
+      byte[] buf = new byte[8192];
+      int i = 0;
+      int n = 0, r;
+      final int SIZE = 4096;
+
+      while (true) {
+         // invariant: buf[0..n-1] has the valid data
+         // and buffer capacity is >= n
+
+         // make sure buffer has capacity at least n + SIZE
+         while (buf.length <= n + SIZE + 1)
+            buf = resizeVec(buf, 2 * buf.length);
+
+         // read into buf
+         r = is.read(buf, n, SIZE);
+         if (r <= 0) break; // end of stream
+
+         n += r;
+      }
+
+      // resize the byte array to its correct size
+      return resizeVec(buf, n);
+   }
+
+   public static byte[] loadFile(String fileName) throws java.io.IOException {
+      java.io.FileInputStream fin = new java.io.FileInputStream(fileName);
+      byte[] b = readAllFromIS(fin);
+      fin.close();
+      return b;
+   }
 
   static class JSONUtil {
 
