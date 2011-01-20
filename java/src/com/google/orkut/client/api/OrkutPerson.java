@@ -142,9 +142,10 @@ public class OrkutPerson {
     return json.optLong(Fields.BIRTHDAY);
   }
 
-  /** Returns the address of the person */
+  /** Returns the address of the person, if any */
   public Address getAddress() {
-    return new Address(json.optJSONObject(Fields.CURRENT_LOCATION));
+    JSONObject addrObject = json.optJSONObject(Fields.CURRENT_LOCATION);
+    return addrObject == null ? null : new Address(addrObject);
   }
 
   /**
