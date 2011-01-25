@@ -119,6 +119,13 @@ public class Util {
       return c;
    }
 
+   /** Reads an input stream til EOF and returns all bytes read.
+    *  The stream will NOT be closed.
+    *
+    *  @param is The input stream to read.
+    *  @return An array of bytes that represents all bytes read
+    *  from the stream until the end-of-file is reached.
+    */
    public static byte[] readAllFrom(java.io.InputStream is) 
                         throws java.io.IOException {
       byte[] buf = new byte[8192];
@@ -145,6 +152,10 @@ public class Util {
       return resizeVec(buf, n);
    }
 
+   /** Load a file and returns its content as a byte array.
+    *
+    *  @param fileName the name of the file to load.
+    *  @return The full contents of the file as a byte array. */
    public static byte[] loadFile(String fileName) throws java.io.IOException {
       java.io.FileInputStream fin = new java.io.FileInputStream(fileName);
       byte[] b = readAllFrom(fin);

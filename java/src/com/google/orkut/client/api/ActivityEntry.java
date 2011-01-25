@@ -122,16 +122,16 @@ public abstract class ActivityEntry {
 
   @Override
   public String toString() {
-     StringBuilder b = new StringBuilder();
-     b.append("Activity Type    : " + getType() + "\n");
-     b.append("ID               : " + getId() + "\n");
-     b.append("Owner ID         : " + getOwnerId() + "\n");
-     b.append("Posted time      : " + String.valueOf(getPostedTime()) + "\n");
-     b.append("Relevant users   : " + 
-                        String.valueOf(getRelevantUserIdCount()) + "\n");
-     b.append("Relevant profiles: " + 
-                        (hasRelevantProfiles() ? "yes" : "no") + "\n");
-     return b.toString();
+     return new StringBuilder()
+       .append("Activity Type    : ").append(getType()).append("\n")
+       .append("ID               : ").append(getId()).append("\n")
+       .append("Owner ID         : ").append(getOwnerId()).append("\n")
+       .append("Posted time      : ").append(String.valueOf(getPostedTime()))
+       .append("\n")
+       .append("Relevant users   : ")
+       .append(String.valueOf(getRelevantUserIdCount())).append("\n")
+       .append("Relevant profiles: ")
+       .append(hasRelevantProfiles() ? "yes" : "no").append("\n").toString();
   }
 }
 
