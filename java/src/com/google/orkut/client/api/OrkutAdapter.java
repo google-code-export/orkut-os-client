@@ -1,328 +1,163 @@
 package com.google.orkut.client.api;
 
-import net.oauth.OAuthConsumer;
-import net.oauth.OAuthServiceProvider;
-import net.oauth.OAuthAccessor;
-import net.oauth.OAuth;
-import net.oauth.OAuthMessage;
-import net.oauth.client.OAuthClient;
-import net.oauth.client.httpclient4.HttpClient4;
+/** Encapsulates access to the orkut servers. An OrkutAdapter
+ *  is an object that can be used to make requests to the orkut
+ *  servers. It stores authentication information and has member
+ *  functions corresponding to the main operations. To use it,
+ *  instantiate it through <tt>createDefaultAdapter</tt>, 
+ *  then authenticate either with <tt>requestAuthURL</tt> +
+ *  <tt>authenticate</tt>, or with <tt>setAccessPass</tt> (if you
+ *  have an access pass saved from a previous session).<br><br>
+ *
+ *  For a full walkthrough on how to use this class and the client
+ *  library in general, please read the 
+ *  <a href='http://code.google.com/apis/orkut/docs/clientlib/intro.html'>Introduction to the orkut Client Library</a>.
+ */
+public abstract class OrkutAdapter {
+   /** Returns the factory for activity-related transactions. */
+   public abstract ActivityTxFactory getActivityTF();
+   /** Returns the factory for album-related transactions. */
+   public abstract AlbumsTxFactory   getAlbumsTF();
+   /** Returns the factory for captcha-related transactions. */
+   public abstract CaptchaTxFactory  getCaptchaTF();
+   /** Returns the factory for comments-related transactions. */
+   public abstract CommentsTxFactory getCommentsTF();
+   /** Returns the factory for friends-related transactions. */
+   public abstract FriendTxFactory   getFriendTF();
+   /** Returns the factory for photos-related transactions. */
+   public abstract PhotosTxFactory   getPhotosTF();
+   /** Returns the factory for profile-related transactions. */
+   public abstract ProfileTxFactory  getProfileTF();
+   /** Returns the factory for scrap-related transactions. */
+   public abstract ScrapTxFactory    getScrapTF();
+   /** Returns the factory for video-related transactions. */
+   public abstract VideoTxFactory    getVideoTF();
 
-import com.google.orkut.client.transport.HttpRequest;
-import com.google.orkut.client.transport.OrkutHttpRequestFactory;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.Map;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.ByteArrayInputStream;
-
-public class OrkutAdapter {
-   protected OrkutAdapterDebugListener debugListener = null;
-
-   protected String consumerKey = "";
-   protected String consumerSecret = "";
-   protected String callbackURL = "";
-   protected boolean isProduction = false;
-   protected String requestURL = "";
-
-   protected static final String OAUTH_REQUEST_URL =
-                "https://www.google.com/accounts/OAuthGetRequestToken";
-   protected static final String OAUTH_AUTHORIZATION_URL =
-                "https://www.google.com/accounts/OAuthAuthorizeToken";
-   protected static final String OAUTH_ACCESS_URL = 
-                "https://www.google.com/accounts/OAuthGetAccessToken";
-   protected static final String OAUTH_SCOPE = 
-                "http://orkut.gmodules.com/social";
-   protected static final String SERVER_URL_SANDBOX =
-                "http://sandbox.orkut.com/social/rpc";
-   protected static final String SERVER_URL_PROD =
-                "http://www.orkut.com/social/rpc";
-
-   protected OAuthConsumer consumer = null;
-   protected OAuthAccessor accessor = null;
-   protected OAuthClient client = null;
-
-   // Easy access to factories
-   public final ActivityTxFactory activityTxFactory =
-            new ActivityTxFactory();
-   public final AlbumsTxFactory   albumsTxFactory =
-            new AlbumsTxFactory();
-   public final CaptchaTxFactory  captchaTxFactory =
-            new CaptchaTxFactory();
-   public final CommentsTxFactory commentsTxFactory =
-            new CommentsTxFactory();
-   public final FriendTxFactory   friendTxFactory =
-            new FriendTxFactory();
-   public final PhotosTxFactory   photosTxFactory =
-            new PhotosTxFactory();
-   public final ProfileTxFactory  profileTxFactory =
-            new ProfileTxFactory();
-   public final ScrapTxFactory    scrapTxFactory =
-            new ScrapTxFactory();
-   public final VideoTxFactory    videoTxFactory =
-            new VideoTxFactory();
-   
-   protected void say(String s) { 
-      if (debugListener != null)
-         debugListener.printOrkutAdapterMessage("[orkut-adapter]: " + s);
+   /** Creates a default adapter. Use this function to create an
+    *  OrkutAdapter based on the default implementation. You will
+    *  need to supply your credentials and some other configuration
+    *  parameters, as described below. You will need an OAuth
+    *  consumer key and secret (see library README for more info).
+    *
+    *  @param consumerKey Your OAuth consumer key.
+    *  @param consumerSecret Your OAuth consumer secret.
+    *  @param callbackURL The URL to which the authentication page
+    *     should redirect once the authentication/authorization is
+    *     complete.
+    *  @param isProduction If <tt>true</tt>, run against orkut
+    *     production; if <tt>false</tt>, run against the sandbox.
+    *  @param l The debug listener for this adapter. This parameter
+    *     may be null. If not null, this is the listener that will
+    *     be notified every time the library wants to print a debug message.
+    */
+   public static OrkutAdapter createDefaultAdapter(
+                            String consumerKey, String consumerSecret,
+                            String callbackURL, boolean isProduction,
+                            OrkutAdapterDebugListener l) 
+                                     throws OrkutAdapterException {
+      return new DefaultOrkutAdapter(consumerKey,
+                        consumerSecret, callbackURL, isProduction, l);
    }
 
-   public OrkutAdapter(String consumerKey, String consumerSecret,
-                       String callbackURL, boolean isProduction,
-                       OrkutAdapterDebugListener l) 
-                       throws OrkutAdapterException {
+   /** Sets the listener for debug messages. Every time the adapter
+    *  wants to print a debug message, it will call this listener. 
+    *  Pass null to disable. */
+   public abstract void setDebugListener(OrkutAdapterDebugListener l);
 
-      this.consumerKey = consumerKey;
-      this.consumerSecret = consumerSecret;
-      this.callbackURL = callbackURL;
-      this.isProduction = isProduction;
-      this.debugListener = l;
-      this.requestURL = isProduction ? SERVER_URL_PROD : SERVER_URL_SANDBOX;
+   /** Request the authentication URL. This method will contact the
+    *  orkut servers and request the URL that the user should visit
+    *  in order to authenticate and authorize the application to access
+    *  his orkut data. After obtaining this URL, you must direct
+    *  the user to visit it. After authentication/authorization, the
+    *  user will be redirected to the callback URL you configured
+    *  when creating the adapter, and an <tt>oauth_verifier</tt>
+    *  parameter will be supplied. You must then supply the value
+    *  of this parameter to the {@link #authenticate} method to
+    *  finish the authentication ritual. */
+   public abstract String requestAuthURL();
 
-      say("Initting OAuth.");
-      say("Consumer key     : " + consumerKey);
-      say("Consumer secret  : " + consumerSecret);
-      say("Callback URL     : " + callbackURL);
-      say("Request URL is   : " + requestURL);
+   /** Finish the authentication ritual. You must call this function
+    *  to finish the authentication ritual when you receive the
+    *  verifier code from the orkut servers. This code will be provided
+    *  to you as the <tt>oauth_verifier</tt> parameter when the
+    *  orkut servers redirect the user to your callback URL. Only
+    *  after successfully calling this method will you be ready to
+    *  use the adapter. */
+   public abstract void authenticate(String verifier);
 
-      try {
-         say("Setting up oauth consumer.");
-         consumer = new OAuthConsumer(null,
-                   consumerKey, consumerSecret, new OAuthServiceProvider(
-                   OAUTH_REQUEST_URL, OAUTH_AUTHORIZATION_URL, 
-                   OAUTH_ACCESS_URL));
-         consumer.setProperty(OAuthClient.PARAMETER_STYLE,
-                   net.oauth.ParameterStyle.QUERY_STRING);
-         
-         say("Setting up oauth accessor and client.");
-         accessor = new OAuthAccessor(consumer);
-         client = new OAuthClient(new HttpClient4());
-      }
-      catch (Exception ex) {
-         throw new OrkutAdapterException(
-                "OrkutAdapter: Failed to initialize OAuth.", ex);
-      }
-   }
+   /** Returns the access pass for future authentication. Once you
+    *  have authenticated with {@link #requestAuthURL} and
+    *  {@link #authenticate}, you can call this function to retrieve
+    *  a string that works as an "access pass" that you can use
+    *  next time instead of performing the authentication ritual again.
+    *  In that case, instead of authenticating with 
+    *  {@link #requestAuthURL} and {@link #authenticate}, you can
+    *  simply call {@link #setAccessPass}. */
+   public abstract String getAccessPass();
 
-   public void setDebugListener(OrkutAdapterDebugListener l) {
-      debugListener = l;
-      say("Debug listener attached.");
-   }
+   /** Sets the access pass (alternative to authentication). You
+    *  can call this function to set the access pass that you obtained
+    *  from a previous session with {@link #getAccessPass}. This
+    *  completely replaces the calls to {@link #requestAuthURL} and
+    *  {@link #authenticate}. */
+   public abstract void setAccessPass(String accessPass);
 
-   public String requestAuthURL() throws OrkutAdapterException {
-      try {
-         return requestAuthURL_inner();
-      }
-      catch (Exception ex) {
-         throw new OrkutAdapterException(
-              "OrkutAdapter: Error requesting OAuth authorization URL", ex);
-      }
-   }
+   /** Creates a new transaction batch. You must use this function
+    *  rather than <tt>new BatchTransaction()</tt> (which is still possible
+    *  for backward compatibility), because this function sets the
+    *  necessary parameters on it. */
+   public abstract BatchTransaction newBatch();
 
-   private String requestAuthURL_inner() throws Exception {
-      say("Getting oauth request token.");
-      List<OAuth.Parameter> callback = OAuth.newList(
-                OAuth.OAUTH_CALLBACK, callbackURL,
-                "scope", OAUTH_SCOPE);
+   /** Submits a transaction batch. This method submits the given transaction
+    *  batch to the orkut servers. It will block until the server responds
+    *  (or an error occurs). Therefore, depending on network speed and
+    *  the size of your batch, be prepared to wait a few minutes for this
+    *  call to complete. Please notice that library or protocol errors
+    *  will be signaled via exceptions, while a server-side error will
+    *  be signaled by setting the error flag on the individual transactions,
+    *  which you can query with {@link Transaction#hasError} and
+    *  {@link Transaction#getError}. */
+   public abstract void submitBatch(BatchTransaction btx);
 
-      OAuthMessage response = 
-                client.getRequestTokenResponse(accessor,null,callback);
-      
-      say("Response obtained.");
-      String authorizationURL = OAuth.addParameters(
-                accessor.consumer.serviceProvider.userAuthorizationURL,
-                OAuth.OAUTH_TOKEN, accessor.requestToken,
-                "scope", OAUTH_SCOPE);
-      
-      if (response.getParameter(OAuth.OAUTH_CALLBACK_CONFIRMED) == null) {
-         say("No callback confirm - service provider is using 1.0, not 1.0a.");
-         say("Adding callback as bare parameter.");
-         authorizationURL = OAuth.addParameters(authorizationURL, callback);
-      }
-      else {
-         authorizationURL = OAuth.addParameters(
-                accessor.consumer.serviceProvider.userAuthorizationURL,
-                OAuth.OAUTH_TOKEN, accessor.requestToken,
-                "scope", OAUTH_SCOPE);
-      }
-      
-      say("Request token: " + accessor.requestToken);
-      say("Authorization URL: " + authorizationURL);
-      return authorizationURL;
-   }
+   /** Submits a batch of a single request. This is a convenience
+    *  method that prepares a batch that consists of a single transaction
+    *  and submits it. It returns the batch for your convenience. */
+   public abstract BatchTransaction submitSingle(Transaction tx);
 
-   public void authenticate(String verifier) throws OrkutAdapterException {
-      say("Trying to authenticate with verifier: " + verifier);
-      try {
-         authenticate_inner(verifier);
-      }
-      catch (Exception ex) {
-         throw new OrkutAdapterException(
-                "Orkut Adapter: Error authenticating.", ex);
-      }
-   }
+   /** Retrieve captcha image. This method can be called when you
+    *  receive a captcha error from a previous transaction. This type
+    *  of error indicates that you must have the user solve a captcha
+    *  in order to resubmit the transaction. This function allows
+    *  you to retrieve the captcha image as a byte array, in JPEG format.
+    *
+    *  @param er The {@link OrkutError} that was returned from the 
+    *  previous transaction.
+    *
+    *  @return The image data as a byte array, in JPEG format.
+    */
+   public abstract byte[] getCaptchaImage(OrkutError er);
 
-   private void authenticate_inner(String verifier) throws Exception {
-      say("Verifier code provided: " + verifier);
-      say("Obtaining access token...");
-      client.getAccessToken(accessor, null,
-           OAuth.newList(OAuth.OAUTH_VERIFIER, verifier));
-      say("Got access token   : " + accessor.accessToken);
-      say("Access token secret: " + accessor.tokenSecret);
-   }
+   /** Retrieve captcha image and save to file. This is a convenience
+    *  method that does the same as {@link #getCaptchaImage} but
+    *  instead of returning the data as a byte array, it will save
+    *  the image to the given file name. */
+   public abstract void saveCaptchaToFile(OrkutError er, String filePath)
+                                             throws java.io.IOException;
 
-   public String getAccessPass() {
-      return accessor.accessToken + " " + accessor.tokenSecret;
-   }
-   
-   public void setAccessPass(String accessPass) throws OrkutAdapterException {
-      say("Access pass provided: '" + accessPass + "'");
-      String[] p = accessPass.split(" ");
-      if (p.length != 2)
-         throw new OrkutAdapterException(
-           "Access pass does not have correct format (token and secret)",null);
-
-      say("Literal access token and secret supplied:");
-      say("Access token  : " + p[0]);
-      say("Token secret  : " + p[1]);
-      accessor.accessToken = p[0];
-      accessor.tokenSecret = p[1];
-   }
-
-   public BatchTransaction newBatch() throws OrkutAdapterException {
-      try {
-         return new BatchTransaction(new OrkutHttpRequestFactory(),
-           new com.google.orkut.client.config.Config() {
-              public String getRequestBaseUrl() { return requestURL; }
-           });
-       }
-       catch (Exception ex) {
-          throw new OrkutAdapterException("OrkutAdapter: error creating " +
-              "batch transaction.", ex);
-       }
-   }
-
-   public void submitBatch(BatchTransaction btx) throws OrkutAdapterException {
-      try {
-         HttpRequest req   = btx.build();
-         byte[] body       = req.getRequestBody();
-         String method     = req.getMethod();
-         String baseURL    = req.getRequestBaseUrl();
-
-         Collection reqParams = req.getParameters();
-         ArrayList<Map.Entry<String,String>> oauthParams = null;
-         if (reqParams != null && reqParams.size() > 0) {
-            oauthParams = new ArrayList<Map.Entry<String,String>>();
-            Iterator it = reqParams.iterator();
-            while (it.hasNext()) {
-               HttpRequest.Parameter parameter = 
-                                (HttpRequest.Parameter) it.next();
-               oauthParams.add(new OAuth.Parameter(parameter.getKey(),
-                   parameter.getValue()));
-            }
-         }
-
-         Collection reqHeaders = req.getHeaders();
-         ArrayList<Map.Entry<String,String>> oauthHeaders = null;
-         if (reqHeaders != null && reqHeaders.size() > 0) {
-            oauthHeaders = new ArrayList<Map.Entry<String,String>>();
-            Iterator it = reqHeaders.iterator();
-            while (it.hasNext()) {
-               HttpRequest.Header header = (HttpRequest.Header) it.next();
-               oauthHeaders.add(new OAuth.Parameter(header.getName(),
-                                        header.getValue()));
-            }
-         }
-
-         OAuthMessage msg = new PostOAuthMessage(method, baseURL, 
-                                        oauthParams, body);
-         msg.addRequiredParameters(accessor);
-         Iterator it = oauthHeaders.iterator();
-         while (it.hasNext()) msg.getHeaders().add(
-                (Map.Entry)it.next());
-
-         Object accepted = accessor.consumer.getProperty(
-                                        OAuthConsumer.ACCEPT_ENCODING);
-         if (accepted != null)
-            msg.getHeaders().add(new OAuth.Parameter(
-                net.oauth.http.HttpMessage.ACCEPT_ENCODING, 
-                accepted.toString()));
-
-         OAuthMessage resp = client.invoke(msg, 
-                                net.oauth.ParameterStyle.QUERY_STRING);
-
-         String respBody = resp.readBodyAsString();
-         btx.setResponse(respBody);
-      }
-      catch (Exception ex) {
-         throw new OrkutAdapterException("OrkutAdapter: error sending " +
-              "transaction batch.", ex);
-      }
-   }
-
-   public void submitSingle(Transaction tx) throws OrkutAdapterException {
-      BatchTransaction b = newBatch();
-      b.add(tx);
-      submitBatch(b);
-   }
-
-   public byte[] getCaptchaImage(OrkutError er) throws OrkutAdapterException {
-      try {
-         String url = "http://www.orkut.com" + er.captchaUrl();
-         OAuthMessage msg = new OAuthMessage("GET", url, null);
-         msg.addRequiredParameters(accessor);
-         OAuthMessage resp = client.invoke(msg, 
-                                net.oauth.ParameterStyle.QUERY_STRING);
-         java.io.InputStream is = resp.getBodyAsStream();
-         if (is == null)
-            throw new OrkutAdapterException("No input stream in response.",
-                                null);
-         return Util.readAllFromIS(is);
-      }
-      catch (Exception ex) {
-         throw new OrkutAdapterException("Error getting captcha image", ex);
-      }
-   }
-
-   public void saveCaptchaToFile(OrkutError er, String filePath)
-                                             throws OrkutAdapterException {
-      try {
-         byte[] b = getCaptchaImage(er);
-         java.io.FileOutputStream fos = new java.io.FileOutputStream(filePath);
-         fos.write(b);
-         fos.close();
-      }
-      catch (Exception ex) {
-         throw new OrkutAdapterException("Error saving captcha to file " +
-                        filePath, ex);
-      }
-   }
-
-
-   public void submitBatchWithCaptcha(BatchTransaction btx, 
-                                      OrkutError error, String answer)
-                                      throws OrkutAdapterException {
-      Transaction tx = 
-                captchaTxFactory.answerCaptcha(error.captchaToken(),answer);
-      btx.add(tx);
-      submitBatch(btx);
-   }
-
-   class PostOAuthMessage extends OAuthMessage {
-      private final byte[] body;
-      public PostOAuthMessage(String method, String url,
-                   Collection<? extends Map.Entry> parameters, byte[] body) {
-         super(method, url, parameters);
-         this.body = body;
-      }
-
-      public InputStream getBodyAsStream() throws IOException {
-         return (body == null) ? null : new ByteArrayInputStream(body);
-      }
-   }
+   /** Resubmit batch with captcha solution. Call this method after
+    *  you have the user solve the captcha you obtained from
+    *  {@link #getCaptchaImage} or {@link #saveCaptchaToFile}.
+    *  This will resubmit the transaction with the captcha solution,
+    *  which should hopefully carry it to completion.
+    *
+    * @param btx The original batch transaction that failed with
+    * a captcha error.
+    * @param error The captcha error you got when submitting the last
+    * transaction (<tt>btx</tt>).
+    * @param answer The solution to the captcha. This will usually
+    * be provided by the user or a highly, highly trained robot/pet.
+    */
+   public abstract void submitBatchWithCaptcha(BatchTransaction btx, 
+                                      OrkutError error, String answer);
 }
 

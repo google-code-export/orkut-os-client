@@ -29,7 +29,7 @@ import org.json.me.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Builds a batch request from {@link Transaction}s.
@@ -60,7 +60,7 @@ public class BatchTransaction {
    * transaction
    */
   private final HashMap transactions = new HashMap();
-  private final Vector transactionsV = new Vector();
+  private final ArrayList transactionsV = new ArrayList();
 
   /**
    * Array of all JSON request in this batch.
@@ -114,7 +114,7 @@ public class BatchTransaction {
 
   public int getTransactionCount() { return transactionsV.size(); }
   public Transaction getTransaction(int i) {
-     return (Transaction) transactionsV.elementAt(i);
+     return (Transaction) transactionsV.get(i);
   }
 
   public boolean hasErrors() {

@@ -33,4 +33,3 @@ public class GenericActivity extends ActivityEntry {
     return ActivityConverter.getTypeOf(json);
   }
 }
-

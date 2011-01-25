@@ -120,14 +120,18 @@ public abstract class ActivityEntry {
   public abstract String getType();
 
 
+  @Override
   public String toString() {
-     return 
-      "Activity Type    : " + getType() + "\n" +
-      "ID               : " + getId() + "\n" +
-      "Owner ID         : " + getOwnerId() + "\n" +
-      "Posted time      : " + String.valueOf(getPostedTime()) + "\n" +
-      "Relevant users   : " + String.valueOf(getRelevantUserIdCount()) + "\n" + 
-      "Relevant profiles: " + (hasRelevantProfiles() ? "yes" : "no") + "\n";
+     StringBuilder b = new StringBuilder();
+     b.append("Activity Type    : " + getType() + "\n");
+     b.append("ID               : " + getId() + "\n");
+     b.append("Owner ID         : " + getOwnerId() + "\n");
+     b.append("Posted time      : " + String.valueOf(getPostedTime()) + "\n");
+     b.append("Relevant users   : " + 
+                        String.valueOf(getRelevantUserIdCount()) + "\n");
+     b.append("Relevant profiles: " + 
+                        (hasRelevantProfiles() ? "yes" : "no") + "\n");
+     return b.toString();
   }
 }
 
