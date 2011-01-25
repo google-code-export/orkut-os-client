@@ -92,6 +92,23 @@ public class DefaultOrkutAdapter extends OrkutAdapter {
          debugListener.printOrkutAdapterMessage("[orkut-adapter]: " + s);
    }
 
+   /** Creates a default adapter. Use this function to create an
+    *  OrkutAdapter based on the default implementation. You will
+    *  need to supply your credentials and some other configuration
+    *  parameters, as described below. You will need an OAuth
+    *  consumer key and secret (see library README for more info).
+    *
+    *  @param consumerKey Your OAuth consumer key.
+    *  @param consumerSecret Your OAuth consumer secret.
+    *  @param callbackURL The URL to which the authentication page
+    *     should redirect once the authentication/authorization is
+    *     complete.
+    *  @param isProduction If <tt>true</tt>, run against orkut
+    *     production; if <tt>false</tt>, run against the sandbox.
+    *  @param l The debug listener for this adapter. This parameter
+    *     may be null. If not null, this is the listener that will
+    *     be notified every time the library wants to print a debug message.
+    */
    public DefaultOrkutAdapter(String consumerKey, String consumerSecret,
                        String callbackURL, boolean isProduction,
                        OrkutAdapterDebugListener l)  {
@@ -105,7 +122,7 @@ public class DefaultOrkutAdapter extends OrkutAdapter {
 
       say("Initting OAuth.");
       say("Consumer key     : " + consumerKey);
-      say("Consumer secret  : " + consumerSecret);
+      say("Consumer secret  : <not shown>");
       say("Callback URL     : " + callbackURL);
       say("Request URL is   : " + requestURL);
 

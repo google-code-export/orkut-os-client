@@ -6,6 +6,7 @@
  */
 
 import com.google.orkut.client.api.OrkutPerson;
+import com.google.orkut.client.api.DefaultOrkutAdapter;
 import com.google.orkut.client.api.OrkutAdapter;
 import com.google.orkut.client.api.BatchTransaction;
 import com.google.orkut.client.api.OrkutAdapterDebugListener;
@@ -74,7 +75,7 @@ public class Sample {
       say("Consumer secret: " + consumerSecret);
 
       say("Setting up adapter.");
-      OrkutAdapter orkad = OrkutAdapter.createDefaultAdapter(consumerKey,
+      OrkutAdapter orkad = new DefaultOrkutAdapter(consumerKey,
                 consumerSecret, CALLBACK_URL, false,
                 new OrkutAdapterDebugListener() {
                    public void printOrkutAdapterMessage(String s) {
@@ -197,7 +198,7 @@ public class Sample {
       say("...done.");
 
       if (profile.hasError()) {
-         say("*** Error in transaction: " + profile.getError().toString());
+         say("*** Error in transaction: " + profile.getError());
          return;
       }
 
@@ -218,7 +219,7 @@ public class Sample {
       say("...done.");
 
       if (friends.hasError()) {
-         say("*** Error in transaction: " + friends.getError().toString());
+         say("*** Error in transaction: " + friends.getError());
          return;
       }
 
@@ -246,7 +247,7 @@ public class Sample {
       say("Done.");
 
       if (tx.hasError()) {
-         say("*** Error updating profile! " + tx.getError().toString());
+         say("*** Error updating profile! " + tx.getError());
       }
    }
 
@@ -287,8 +288,9 @@ public class Sample {
       say("enter the profile ID you would like to query:");
       String id = readline();
 
-      if (id.equals("")) profile = orkad.getProfileTF().getSelfProfile();
-      else profile = orkad.getProfileTF().getProfileOf(id);
+      profile = id.equals("") ? 
+                     orkad.getProfileTF().getSelfProfile() :
+                     orkad.getProfileTF().getProfileOf(id);
 
       profile.alsoGetName();
       profile.alsoGetThumbnailUrl();
@@ -388,7 +390,7 @@ public class Sample {
       say("Done.");
 
       if (tx.hasError()) {
-         say("*** Error posting activity:" + tx.getError().toString());
+         say("*** Error posting activity:" + tx.getError());
          return;
       }
    }
@@ -404,7 +406,7 @@ public class Sample {
       say("Done.");
 
       if (tx.hasError()) {
-         say("*** Error fetching scraps:" + tx.getError().toString());
+         say("*** Error fetching scraps:" + tx.getError());
          return;
       }
 
@@ -456,7 +458,7 @@ public class Sample {
       if (tx.hasError()) {
          OrkutError error = tx.getError();
          if (error == null || !error.isCaptchaError()) {
-            say("*** Unknown error sending scrap:" + error.toString());
+            say("*** Unknown error sending scrap:" + error);
             return;
          }
          say("Captcha solving is required.");
@@ -485,7 +487,7 @@ public class Sample {
 
       if (tx.hasError()) {
          OrkutError err = tx.getError();
-         say("*** Transaction Error: " + err.toString());
+         say("*** Transaction Error: " + err);
          return;
       }
       say("Done.");
@@ -502,7 +504,7 @@ public class Sample {
 
       if (tx.hasError()) {
          OrkutError err = tx.getError();
-         say("*** Transaction error: " + err.toString());
+         say("*** Transaction error: " + err);
          return;
       }
 
@@ -535,7 +537,7 @@ public class Sample {
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
-         say("*** Failed to get album:" + tx.getError().toString());
+         say("*** Failed to get album:" + tx.getError());
          return;
       }
 
@@ -557,7 +559,7 @@ public class Sample {
       orkad.submitBatch(btx);
 
       if (utx.hasError())
-         say("*** Error updating album: " + utx.getError().toString());
+         say("*** Error updating album: " + utx.getError());
       else
          say("Success.");
    }
@@ -573,7 +575,7 @@ public class Sample {
       orkad.submitBatch(btx);
 
       if (tx.hasError()) say("*** Error deleting album: " + 
-                tx.getError().toString());
+                tx.getError());
       else say("Deleted.");
    }
 
@@ -589,7 +591,7 @@ public class Sample {
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
-         say("*** Error getting photos:" + tx.getError().toString());
+         say("*** Error getting photos:" + tx.getError());
          return;
       }
 
@@ -621,7 +623,7 @@ public class Sample {
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
-         say("*** Error uploading photo:" + tx.getError().toString());
+         say("*** Error uploading photo:" + tx.getError());
       }
       else say("Success.");
    }
