@@ -74,7 +74,7 @@ public class Sample {
       say("Consumer secret: " + consumerSecret);
 
       say("Setting up adapter.");
-      OrkutAdapter orkad = new OrkutAdapter(consumerKey,
+      OrkutAdapter orkad = OrkutAdapter.createDefaultAdapter(consumerKey,
                 consumerSecret, CALLBACK_URL, false,
                 new OrkutAdapterDebugListener() {
                    public void printOrkutAdapterMessage(String s) {
@@ -189,7 +189,7 @@ public class Sample {
 
    public static void whoAmI(OrkutAdapter orkad) throws Exception {
       BatchTransaction btx = orkad.newBatch();
-      GetProfileTx profile = orkad.profileTxFactory.getSelfProfile();
+      GetProfileTx profile = orkad.getProfileTF().getSelfProfile();
       btx.add(profile);
 
       say("Getting self profile...");
@@ -197,7 +197,7 @@ public class Sample {
       say("...done.");
 
       if (profile.hasError()) {
-         say("*** Error in transaction.");
+         say("*** Error in transaction: " + profile.getError().toString());
          return;
       }
 
@@ -209,7 +209,7 @@ public class Sample {
 
    public static void listFriends(OrkutAdapter orkad) throws Exception {
       BatchTransaction btx = orkad.newBatch();
-      GetFriendTx friends = orkad.friendTxFactory.getSelfFriends();
+      GetFriendTx friends = orkad.getFriendTF().getSelfFriends();
       friends.setCount(100); // get a maximum of 100 friends
       btx.add(friends);
 
@@ -218,7 +218,7 @@ public class Sample {
       say("...done.");
 
       if (friends.hasError()) {
-         say("*** Error in transaction.");
+         say("*** Error in transaction: " + friends.getError().toString());
          return;
       }
 
@@ -233,7 +233,7 @@ public class Sample {
    }
             
    public static void updateStatus(OrkutAdapter orkad) throws Exception {
-      UpdateProfileTx tx = orkad.profileTxFactory.updateSelfProfile();
+      UpdateProfileTx tx = orkad.getProfileTF().updateSelfProfile();
       say("What's the new status message?");
       String newStatus = readline();
       tx.setStatus(newStatus);
@@ -246,13 +246,13 @@ public class Sample {
       say("Done.");
 
       if (tx.hasError()) {
-         say("*** Error updating profile!");
+         say("*** Error updating profile! " + tx.getError().toString());
       }
    }
 
    public static void listActivities(OrkutAdapter orkad) throws Exception {
       BatchTransaction btx = orkad.newBatch();
-      GetActivitiesTx activities = orkad.activityTxFactory.getSelfActivities();
+      GetActivitiesTx activities = orkad.getActivityTF().getSelfActivities();
       btx.add(activities);
 
       say("Getting activities...");
@@ -271,7 +271,7 @@ public class Sample {
          say("Get next page [y/n]? ");
          if (!readline().toLowerCase().startsWith("y")) break;
 
-         activities = orkad.activityTxFactory.getNext(activities);
+         activities = orkad.getActivityTF().getNext(activities);
          btx = orkad.newBatch();
          btx.add(activities);
          orkad.submitBatch(btx);
@@ -287,8 +287,8 @@ public class Sample {
       say("enter the profile ID you would like to query:");
       String id = readline();
 
-      if (id.equals("")) profile = orkad.profileTxFactory.getSelfProfile();
-      else profile = orkad.profileTxFactory.getProfileOf(id);
+      if (id.equals("")) profile = orkad.getProfileTF().getSelfProfile();
+      else profile = orkad.getProfileTF().getProfileOf(id);
 
       profile.alsoGetName();
       profile.alsoGetThumbnailUrl();
@@ -353,7 +353,7 @@ public class Sample {
    public static void getBirthdayNotifications(OrkutAdapter orkad) 
                                                         throws Exception {
       BirthdayNotificationTx tx = 
-                        orkad.friendTxFactory.getBirthdayNotification();
+                        orkad.getFriendTF().getBirthdayNotification();
       BatchTransaction btx = orkad.newBatch();
       btx.add(tx);
       orkad.submitBatch(btx);
@@ -380,7 +380,7 @@ public class Sample {
       say("Enter body:");
       String body = readline();
 
-      PostActivityTx tx = orkad.activityTxFactory.postActivity(title,body);
+      PostActivityTx tx = orkad.getActivityTF().postActivity(title,body);
       BatchTransaction btx = orkad.newBatch();
       btx.add(tx);
       say("Sending...");
@@ -388,14 +388,14 @@ public class Sample {
       say("Done.");
 
       if (tx.hasError()) {
-         say("*** Error posting activity.");
+         say("*** Error posting activity:" + tx.getError().toString());
          return;
       }
    }
 
    public static void getScraps(OrkutAdapter orkad) throws Exception {
       BatchTransaction btx = orkad.newBatch();
-      GetScrapsTx tx = orkad.scrapTxFactory.getSelfScraps();
+      GetScrapsTx tx = orkad.getScrapTF().getSelfScraps();
       tx.setMessageFormat(GetScrapsTx.MessageFormat.FULL_HTML);
       tx.setCount(20);
       btx.add(tx);
@@ -404,7 +404,7 @@ public class Sample {
       say("Done.");
 
       if (tx.hasError()) {
-         say("*** Error fetching scraps.");
+         say("*** Error fetching scraps:" + tx.getError().toString());
          return;
       }
 
@@ -439,12 +439,12 @@ public class Sample {
          String scrapId = readline();
          say("Enter the reply text.");
          body = readline();
-         tx = orkad.scrapTxFactory.replyToScrap(personId,scrapId,body);
+         tx = orkad.getScrapTF().replyToScrap(personId,scrapId,body);
       }
       else {
          say("Enter the scrap text.");
          body = readline();
-         tx = orkad.scrapTxFactory.writeScrap(personId,body);
+         tx = orkad.getScrapTF().writeScrap(personId,body);
       }
 
       BatchTransaction btx = orkad.newBatch();
@@ -456,7 +456,7 @@ public class Sample {
       if (tx.hasError()) {
          OrkutError error = tx.getError();
          if (error == null || !error.isCaptchaError()) {
-            say("*** Unknown error sending scrap.");
+            say("*** Unknown error sending scrap:" + error.toString());
             return;
          }
          say("Captcha solving is required.");
@@ -478,22 +478,21 @@ public class Sample {
       String desc = readline();
 
       say("Creating...");
-      CreateAlbumTx tx = orkad.albumsTxFactory.createAlbum(title,desc);
+      CreateAlbumTx tx = orkad.getAlbumsTF().createAlbum(title,desc);
       BatchTransaction btx = orkad.newBatch();
       btx.add(tx);
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
          OrkutError err = tx.getError();
-         say("*** Transaction Error: " + (err == null ? 
-                                          "unknown" : err.toString()));
+         say("*** Transaction Error: " + err.toString());
          return;
       }
       say("Done.");
    }
 
    public static void listAlbums(OrkutAdapter orkad) throws Exception {
-      GetAlbumsTx tx = orkad.albumsTxFactory.getSelfAlbums();
+      GetAlbumsTx tx = orkad.getAlbumsTF().getSelfAlbums();
       tx.setCount(5);  // get first 5 albums
 
       BatchTransaction btx = orkad.newBatch();
@@ -503,8 +502,7 @@ public class Sample {
 
       if (tx.hasError()) {
          OrkutError err = tx.getError();
-         say("*** Transaction error: " + (err == null ? 
-                                        "unknown" : err.toString()));
+         say("*** Transaction error: " + err.toString());
          return;
       }
 
@@ -530,14 +528,14 @@ public class Sample {
       say("What's the new description?");
       String newDesc = readline();
 
-      GetAlbumsTx tx = orkad.albumsTxFactory.getSelfAlbum(albumId);
+      GetAlbumsTx tx = orkad.getAlbumsTF().getSelfAlbum(albumId);
       BatchTransaction btx = orkad.newBatch();
       btx.add(tx);
       say("Getting album...");
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
-         say("*** Failed to get album.");
+         say("*** Failed to get album:" + tx.getError().toString());
          return;
       }
 
@@ -554,13 +552,12 @@ public class Sample {
       album.setDescription(newDesc);
 
       btx = orkad.newBatch();
-      UpdateAlbumTx utx = orkad.albumsTxFactory.updateAlbum(album);
+      UpdateAlbumTx utx = orkad.getAlbumsTF().updateAlbum(album);
       btx.add(utx);
       orkad.submitBatch(btx);
 
       if (utx.hasError())
-         say("*** Error updating album: " +
-            (utx.getError() == null ? "(unknown)":utx.getError().toString()));
+         say("*** Error updating album: " + utx.getError().toString());
       else
          say("Success.");
    }
@@ -569,13 +566,14 @@ public class Sample {
       say("What's the album ID?");
       String albumId = readline();
 
-      DeleteAlbumTx tx = orkad.albumsTxFactory.deleteAlbum(albumId);
+      DeleteAlbumTx tx = orkad.getAlbumsTF().deleteAlbum(albumId);
       BatchTransaction btx = orkad.newBatch();
       btx.add(tx);
       say("Deleting...");
       orkad.submitBatch(btx);
 
-      if (tx.hasError()) say("*** Error deleting album.");
+      if (tx.hasError()) say("*** Error deleting album: " + 
+                tx.getError().toString());
       else say("Deleted.");
    }
 
@@ -583,7 +581,7 @@ public class Sample {
       say("What's the album ID?");
       String albumId = readline();
 
-      GetPhotosTx tx = orkad.photosTxFactory.getSelfPhotos(albumId);
+      GetPhotosTx tx = orkad.getPhotosTF().getSelfPhotos(albumId);
       BatchTransaction btx = orkad.newBatch();
       tx.setCount(20); // get up to 20 photos
       btx.add(tx);
@@ -591,7 +589,7 @@ public class Sample {
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
-         say("*** Error getting photos.");
+         say("*** Error getting photos:" + tx.getError().toString());
          return;
       }
 
@@ -616,15 +614,14 @@ public class Sample {
       String title = readline();
 
       UploadPhotoTx tx =
-                 orkad.photosTxFactory.uploadPhoto(albumId,filePath,title);
+                 orkad.getPhotosTF().uploadPhoto(albumId,filePath,title);
       BatchTransaction btx = orkad.newBatch();
       btx.add(tx);
       say("Submitting photo...");
       orkad.submitBatch(btx);
 
       if (tx.hasError()) {
-         say("*** Error uploading photo.");
-         if (tx.getError() != null) say("*** " + tx.getError().toString());
+         say("*** Error uploading photo:" + tx.getError().toString());
       }
       else say("Success.");
    }

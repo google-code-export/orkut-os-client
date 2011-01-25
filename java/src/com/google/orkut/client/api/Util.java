@@ -119,7 +119,7 @@ public class Util {
       return c;
    }
 
-   public static byte[] readAllFromIS(java.io.InputStream is) 
+   public static byte[] readAllFrom(java.io.InputStream is) 
                         throws java.io.IOException {
       byte[] buf = new byte[8192];
       int i = 0;
@@ -147,7 +147,7 @@ public class Util {
 
    public static byte[] loadFile(String fileName) throws java.io.IOException {
       java.io.FileInputStream fin = new java.io.FileInputStream(fileName);
-      byte[] b = readAllFromIS(fin);
+      byte[] b = readAllFrom(fin);
       fin.close();
       return b;
    }

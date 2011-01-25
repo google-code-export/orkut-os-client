@@ -70,6 +70,7 @@ public class FriendAddActivity extends ActivityEntry {
     return personBProfile;
   }
 
+  @Override
   public String toString() {
      String orig = super.toString();
      String personA = personAId;

@@ -38,7 +38,7 @@ public class AlbumsTxFactory {
 
   /** Alias to getAlbumsOf, for backward compatibility. */
   public GetAlbumsTx getAlbums(String userId) {
-    return getAlbums(userId);
+    return getAlbumsOf(userId);
   }
 
   /** Gets the albums for the user who is logged in. */
