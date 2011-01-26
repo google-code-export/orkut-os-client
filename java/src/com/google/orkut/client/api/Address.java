@@ -73,4 +73,12 @@ public class Address {
   JSONObject getJson() {
     return json;
   }
+
+  @Override
+  public String toString() { 
+     try {
+        return json.toString(3);
+     }
+     catch (org.json.me.JSONException ex) { return "???"; }
+  }
 }

@@ -1,0 +1,30 @@
+<html>
+  <body>
+    The <a href="http://orkut.com">orkut</a> client library allows access to read and update <a href="http://orkut.com">orkut</a>'s social data. The client library is "experimental" at present and may change in the future. You can download the latest version of the client library <a href="http://code.google.com/p/orkut-os-client/">here</a>.
+    
+    <p>
+    For a complete guide on how to use this library,
+    please take a look at the
+    <a href='http://code.google.com/apis/orkut/docs/clientlib/intro.html'>Orkut Client Library Developer's Guide</a>.</p>
+    It describes the library in detail and supplies several 
+    examples.
+    </p>
+
+    <p>
+    The Orkut Client Library API is broadly divided into the following classes:
+    <ul>
+      <li><b>OrkutAdapter</b>: Thee {@link com.google.orkut.client.api.OrkutAdapter} class
+      is the main point of access to the library. Applications should
+      create an instance of it and use this object to make requests.</li>
+      <li><b>Data Models</b>: These are java objects that represent content fetched from orkut. With an interface much like java-beans, they make it easy for a developer to access orkut's data.
+      eg. see {@link com.google.orkut.client.api.OrkutPerson}, which represents a person's data on orkut</li>
+      <li><b>Transactions</b>: These are individual operations which execute to produce a desired effect
+       - like fetching information about a user ({@link com.google.orkut.client.api.GetProfileTx}) or updating a user's profile ({@link com.google.orkut.client.api.UpdateProfileTx})
+      </li>
+      <li><b>Batch Transaction and common constants</b>: A {@link com.google.orkut.client.api.BatchTransaction} collates multiple transactions as one transaction are provides a single request which can be sent to the orkut server.
+        Common constants used in forming requests and understanding responses are in {@link com.google.orkut.client.api.Constants}</li>
+    </ul>
+    </p>
+
+  </body>
+</html>

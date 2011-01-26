@@ -42,6 +42,11 @@ public class PhotosTxFactory {
     return new GetPhotosTx(album.getOwnerId(), album.getId());
   }
 
+  /** Get photos on the current user's indicated album. */
+  public GetPhotosTx getSelfPhotos(String albumId) {
+    return new GetPhotosTx(Constants.USERID_ME, albumId);
+  }
+
   /**
    * Get next set of Photos, given a completed transaction of photos.
    *
@@ -101,4 +106,32 @@ public class PhotosTxFactory {
   public UploadPhotoTx uploadPhoto(Album album, byte[] image, String type, String title) {
     return new UploadPhotoTx(album.getId(), image, type, title);
   }
+
+  /**
+   * Uploads a photo to an album on orkut.
+   *
+   * @param albumId the ID of the album in which to upload the photo
+   * @param image the image bytes
+   * @param type the type of the image; one from {@link ImageType}
+   * @param title the title of the image
+   * @return a {@link UpdatePhotoTx} instance to upload the photo
+   */
+  public UploadPhotoTx uploadPhoto(String albumId, byte[] image, String type, String title) {
+    return new UploadPhotoTx(albumId, image, type, title);
+  }
+
+  /**
+   * Uploads a photo to an album on orkut.
+   *
+   * @param albumId the ID of the album in which to upload the photo
+   * @param jpegFile the path to the photo -- a local jpeg file 
+   * @param title the title of the image
+   * @return a {@link UpdatePhotoTx} instance to upload the photo
+   */
+  public UploadPhotoTx uploadPhoto(String albumId, String jpegFile, String title) 
+					throws java.io.IOException {
+    byte[] b = Util.loadFile(jpegFile);
+    return new UploadPhotoTx(albumId, b, ImageType.JPG, title);
+  }
+
 }
