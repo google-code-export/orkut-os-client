@@ -25,16 +25,31 @@ public class AlbumsTxFactory {
   public AlbumsTxFactory() {}
 
   /**
-   * Gets albums of a given user. Gets upto maxCount number
-   * of albums.
+   * Gets albums of a given user.
    *
    * @param userId the user id for whom to get albums.
    *     can be {@link Constants#USERID_ME} to fetch logged in
    *     user's albums
    * @return an {@link GetAlbumsTx} instance for this request
    */
-  public GetAlbumsTx getAlbums(String userId) {
+  public GetAlbumsTx getAlbumsOf(String userId) {
     return new GetAlbumsTx(userId, null);
+  }
+
+  /** Alias to getAlbumsOf, for backward compatibility. */
+  public GetAlbumsTx getAlbums(String userId) {
+    return getAlbumsOf(userId);
+  }
+
+  /** Gets the albums for the user who is logged in. */
+  public GetAlbumsTx getSelfAlbums() {
+    return new GetAlbumsTx(Constants.USERID_ME,null);
+  }
+
+  /** Gets an album given the album id. The album must
+      belong to the user who is currently logged in. */
+  public GetAlbumsTx getSelfAlbum(String albumId) {
+     return getAlbum(Constants.USERID_ME,albumId);
   }
 
   /**

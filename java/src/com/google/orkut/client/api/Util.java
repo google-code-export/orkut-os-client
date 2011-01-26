@@ -112,6 +112,56 @@ public class Util {
     }
     return items;
   }
+   
+   private static byte[] resizeVec(byte[] b, int newSize) {
+      byte[] c = new byte[newSize];
+      System.arraycopy(b,0,c,0,b.length > newSize ? newSize : b.length);
+      return c;
+   }
+
+   /** Reads an input stream til EOF and returns all bytes read.
+    *  The stream will NOT be closed.
+    *
+    *  @param is The input stream to read.
+    *  @return An array of bytes that represents all bytes read
+    *  from the stream until the end-of-file is reached.
+    */
+   public static byte[] readAllFrom(java.io.InputStream is) 
+                        throws java.io.IOException {
+      byte[] buf = new byte[8192];
+      int i = 0;
+      int n = 0, r;
+      final int SIZE = 4096;
+
+      while (true) {
+         // invariant: buf[0..n-1] has the valid data
+         // and buffer capacity is >= n
+
+         // make sure buffer has capacity at least n + SIZE
+         while (buf.length <= n + SIZE + 1)
+            buf = resizeVec(buf, 2 * buf.length);
+
+         // read into buf
+         r = is.read(buf, n, SIZE);
+         if (r <= 0) break; // end of stream
+
+         n += r;
+      }
+
+      // resize the byte array to its correct size
+      return resizeVec(buf, n);
+   }
+
+   /** Load a file and returns its content as a byte array.
+    *
+    *  @param fileName the name of the file to load.
+    *  @return The full contents of the file as a byte array. */
+   public static byte[] loadFile(String fileName) throws java.io.IOException {
+      java.io.FileInputStream fin = new java.io.FileInputStream(fileName);
+      byte[] b = readAllFrom(fin);
+      fin.close();
+      return b;
+   }
 
   static class JSONUtil {
 

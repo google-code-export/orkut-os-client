@@ -81,4 +81,10 @@ public class ScrapTxFactory {
   public WriteScrapTx replyToScrap(ScrapEntry scrapEntry, String body) {
     return new WriteScrapTx(scrapEntry.getFromUserId(), body, scrapEntry.getId());
   }
+  /**
+   * Get a {@link WriteScrapTx} to reply to a scrap message.
+   */
+  public WriteScrapTx replyToScrap(String userId, String scrapId, String body) {
+    return new WriteScrapTx(userId, body, scrapId);
+  }
 }

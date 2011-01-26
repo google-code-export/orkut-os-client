@@ -118,4 +118,20 @@ public abstract class ActivityEntry {
 
   /** Type of the activity one from the {@link ActivityEntry.ActivityType}. */
   public abstract String getType();
+
+
+  @Override
+  public String toString() {
+     return new StringBuilder()
+       .append("Activity Type    : ").append(getType()).append("\n")
+       .append("ID               : ").append(getId()).append("\n")
+       .append("Owner ID         : ").append(getOwnerId()).append("\n")
+       .append("Posted time      : ").append(String.valueOf(getPostedTime()))
+       .append("\n")
+       .append("Relevant users   : ")
+       .append(String.valueOf(getRelevantUserIdCount())).append("\n")
+       .append("Relevant profiles: ")
+       .append(hasRelevantProfiles() ? "yes" : "no").append("\n").toString();
+  }
 }
+

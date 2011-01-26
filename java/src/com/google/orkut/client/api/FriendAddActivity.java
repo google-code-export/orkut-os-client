@@ -69,4 +69,22 @@ public class FriendAddActivity extends ActivityEntry {
   public OrkutPerson getPersonBProfile() {
     return personBProfile;
   }
+
+  @Override
+  public String toString() {
+     String orig = super.toString();
+     String personA = personAId;
+     String personB = personBId;
+
+     if (personAProfile != null)
+        personA += " (" + personAProfile.getGivenName() + " " + 
+                        personAProfile.getFamilyName() + ")";
+     if (personBProfile != null)
+        personB = " (" + personBProfile.getGivenName() + " " + 
+                        personBProfile.getFamilyName() + ")";
+
+     return orig + "\nPerson " + personA + " added " +
+                personB + " as a friend";
+  }
 }
+
